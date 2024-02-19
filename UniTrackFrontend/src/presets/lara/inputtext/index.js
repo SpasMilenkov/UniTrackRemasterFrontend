@@ -16,7 +16,7 @@ export default {
             },
 
             // Shape
-            { 'rounded-full': parent.instance.$name !== 'InputGroup' },
+            { 'rounded-lg': parent.instance.$name !== 'InputGroup' },
             { 'first:rounded-l-md rounded-none last:rounded-r-md': parent.instance.$name == 'InputGroup' },
             { 'border-0 border-y border-l last:border-r': parent.instance.$name == 'InputGroup' },
             { 'first:ml-0 ml-[-1px]': parent.instance.$name == 'InputGroup' && !props.showButtons },
