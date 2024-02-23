@@ -11,11 +11,15 @@ export default {
             'p-2',
 
             // Shape
-            'rounded-md',
+            '',
 
             // Color
             'bg-surface-50 dark:bg-surface-700',
-            'border border-surface-200 dark:border-surface-700'
+            'border border-surface-200 dark:border-surface-700',
+
+            //Misc
+            'sticky',
+            'top-0'
         ]
     },
     menu: ({ props }) => ({
