@@ -8,7 +8,7 @@
         <!-- <Button label="Back to home" @click="navigate(1)"></Button> -->
     </div>
     <div class="card flex justify-center">
-        <Stepper orientation="vertical">
+        <Stepper orientation="vertical" linear>
             <StepperPanel header="Personal Information">
                 <template #content="{ nextCallback }">
                     <form class="flex flex-col" @submit.prevent="">
@@ -26,7 +26,7 @@
                                         <InputText v-model="firstName" v-bind="firstNameAttrs" id="first-name"
                                             aria-describedby="first-name-help" />
                                         <small id="first-name-help">Enter your first name.</small>
-                                        <pre>{{ errors.firstName }}</pre>
+                                        <pre>{{ errorsPersonal.firstName }}</pre>
                                     </div>
                                     <div class="flex flex-col text-surface-200 gap-2 max-lg:w-full">
                                         <label for="last-name">Last name</label>
@@ -72,7 +72,7 @@
                             </div>
                             <div class="flex justify-end content-start w-full">
                                 <Button label="Next" icon="pi pi-arrow-right" iconPos="right"
-                                    @click="personalInfoValidation(nextCallback)" />
+                                    @click="navigate(nextCallback, 1)" />
                             </div>
                         </div>
                     </form>
@@ -103,6 +103,7 @@
                                         <InputText v-model="orgName" v-bind="orgNameAttrs" id="organization-name"
                                             aria-describedby="organization-help" />
                                         <small id="organization-name-help">Enter the organization name</small>
+                                        <pre>{{ errorsAcademical.orgName }}</pre>
                                     </div>
 
                                 </div>
@@ -119,9 +120,9 @@
                             </div>
                             <div class="flex pt-4 justify-between w-full">
                                 <Button label="Back" severity="secondary" icon="pi pi-arrow-left"
-                                    @click="prevCallback" />
+                                    @click="navigate(prevCallback, 1)" />
                                 <Button label="Next" icon="pi pi-arrow-right" iconPos="right"
-                                    @click="academicInfoValidation(nextCallback)" />
+                                    @click="navigate(nextCallback, 2)" />
                             </div>
                         </div>
                     </form>
@@ -152,7 +153,7 @@
                             </div>
                             <div class="flex w-full pt-4 justify-between">
                                 <Button label="Back" severity="secondary" icon="pi pi-arrow-left"
-                                    @click="prevCallback" />
+                                    @click="navigate(prevCallback, 2)" />
                                 <Button label="Next" icon="pi pi-arrow-right" iconPos="right" @click="formSubmit" />
                             </div>
                         </div>
@@ -198,48 +199,42 @@ const schemas = [
         orgRole: yup.string().required()
     })
 ];
-let activeSchema = schemas[0]
-
-const { errors, defineField, validate } = useForm({ validationSchema: activeSchema });
+const { errors: errorsPersonal, defineField: defineFieldPersonal, validate: validatePersonal } = useForm({ validationSchema: schemas[0] });
+const { errors: errorsAcademical, defineField: defineFieldAcademical, validate: validateAcademical } = useForm({ validationSchema: schemas[1] });
 const formSubmit = () => {
     console.log('Placeholder')
     activePage.value = 4
 }
-const personalInfoValidation = async (callback: Function) => {
-    try {
-        console.log('HERE I AM')
-        await validate();
-        // console.log(errors)
-        console.log(errors.value.firstName)
-        callback()
-        activeSchema = schemas[1]
-    } catch (error) {
-        console.log(errors.value)
-        console.log(errors.value.firstName)
 
-        console.log(error)
+const navigate = async (callback: Function, stepIndex: number) => {
+    try {
+        console.log(stepIndex)
+        let validation = false;
+        if (stepIndex - 1 === 0) {
+            validation = await validatePersonal().then((result) => result.valid)
+            console.log(validation)
+        }
+        if (stepIndex - 1 === 1) {
+            validation = await validateAcademical().then((result) => result.valid)
+        }
+        if (!validation) {
+            return
+        }
+        callback()
+    } catch (error) {
+        console.error(error)
     }
 }
 
-const academicInfoValidation = async (callback: Function) => {
-    try {
-        await validate();
-        callback()
-
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const [firstName, firstNameAttrs] = defineField('firstName')
-const [lastName, lastNameAttrs] = defineField('lastName')
-const [email, emailAttrs] = defineField('email')
-const [phoneNumber, phoneNumberAttrs] = defineField('phoneNumber')
-const [password, passwordAttrs] = defineField('password')
-const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword')
-const [orgType, orgTypeAttrs] = defineField('orgType')
-const [orgName, orgNameAttrs] = defineField('orgName')
-const [orgRole, orgRoleAttrs] = defineField('orgRole')
+const [firstName, firstNameAttrs] = defineFieldPersonal('firstName')
+const [lastName, lastNameAttrs] = defineFieldPersonal('lastName')
+const [email, emailAttrs] = defineFieldPersonal('email')
+const [phoneNumber, phoneNumberAttrs] = defineFieldPersonal('phoneNumber')
+const [password, passwordAttrs] = defineFieldPersonal('password')
+const [confirmPassword, confirmPasswordAttrs] = defineFieldPersonal('confirmPassword')
+const [orgType, orgTypeAttrs] = defineFieldAcademical('orgType')
+const [orgName, orgNameAttrs] = defineFieldAcademical('orgName')
+const [orgRole, orgRoleAttrs] = defineFieldAcademical('orgRole')
 
 
 </script>
