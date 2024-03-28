@@ -78,7 +78,8 @@ import tree from './tree';
 import treeselect from './treeselect';
 import treetable from './treetable';
 import tristatecheckbox from './tristatecheckbox';
-
+import stepper from './stepper';
+import floatlabel from './floatlabel';
 export default {
     global,
     directives: {
@@ -113,6 +114,8 @@ export default {
     tristatecheckbox,
     textarea,
     password,
+    stepper,
+    floatlabel,
 
     //buttons
     button,
