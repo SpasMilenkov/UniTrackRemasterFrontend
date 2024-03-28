@@ -34,7 +34,7 @@ import Password from 'primevue/password';
 import Button from 'primevue/button';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import router from '../router';
+import router from '../../router';
 
 // const email = ref('')
 // const password = ref('')

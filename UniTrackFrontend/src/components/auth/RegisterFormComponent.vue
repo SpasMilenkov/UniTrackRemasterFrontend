@@ -217,9 +217,9 @@ const navigate = async (callback: Function, stepIndex: number) => {
         if (stepIndex - 1 === 1) {
             validation = await validateAcademical().then((result) => result.valid)
         }
-        if (!validation) {
+        if (!validation)
             return
-        }
+        
         callback()
     } catch (error) {
         console.error(error)
