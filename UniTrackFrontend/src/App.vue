@@ -45,7 +45,7 @@ const items = ref([
       </a>
     </template>
   </Menubar>
-  <div class="dark:bg-gray-900 min-h-screen min-w-screen flex items-center justify-center gap-5 p-2">
+  <div>
     <router-view></router-view>
   </div>
 </template>
