@@ -1,13 +1,13 @@
 <template>
-    <div class=" flex items-center justify-between bg-surface:100 dark:bg-surface-950 w-full min-h-[31rem]">
-        <div class="flex flex-col content-between gap-20 w-2/3 p-24 h-full">
-            <h1 class=" text-surface-950 dark:text-surface-200 text-8xl">UniTrack</h1>
-            <div class="flex content-between gap-16">
-                <Button label="Log in"></Button>
+    <div
+        class=" flex items-center justify-center bg-surface-100 dark:bg-surface-950 w-full min-h-[31rem] max-md:flex-col max-md:items-center max-md:justify-center max-md:gap-4">
+        <div class="flex flex-col content-between gap-10 p-24 h-full max-md:p-4 max-md:gap-10 max-md:content-center">
+            <h1 class="text-surface-700 dark:text-surface-200 text-8xl max-sm:text-6xl">UniTrack</h1>
+            <div class="flex items-center gap-4 pl-2 pr-2 flex-wrap justify-between">
+                <Button label="Get started"></Button>
                 <Button outlined label="Documentation"></Button>
             </div>
         </div>
-        <div class="flex w-1/3 bg-surface-100 dark:bg-surface-900 self-stretch">aaaaa</div>
     </div>
 </template>
 <script setup lang='ts'>
