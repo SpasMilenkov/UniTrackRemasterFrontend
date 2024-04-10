@@ -16,6 +16,8 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@iconify/tailwind": "^0.1.4",
+    "@iconify/vue": "^4.1.1",
     "@vitejs/plugin-vue": "^5.0.3",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",

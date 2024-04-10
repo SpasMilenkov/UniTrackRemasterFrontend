@@ -1,4 +1,4 @@
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/landing/HomeView.vue'
 import LoginView from '../views/auth/LoginView.vue'
 import RegisterView from '../views/auth/RegisterView.vue'
 const routes = [

@@ -1,8 +1,8 @@
 <template>
     <div class=" lg:w-[40rem] overflow-hidden flex flex-col items-center justify-center
              gap-8 p-4 border border-surface-300 dark:border-surface-600 rounded-lg backdrop" v-if="activePage === 4">
-        <h1 class=" text-surface-200 text-2xl self-start px-8">Request submitted successfully!</h1>
-        <h2 class=" text-surface-200 text-lg self-start px-8">When the request is approved you can
+        <h1 class=" dark:text-surface-200 text-2xl self-start px-8">Request submitted successfully!</h1>
+        <h2 class=" dark:text-surface-200 text-lg self-start px-8">When the request is approved you can
             start using your
             account</h2>
         <!-- <Button label="Back to home" @click="navigate(1)"></Button> -->
@@ -15,20 +15,20 @@
                         <div class="lg:w-[40rem] overflow-hidden flex flex-col items-center justify-center
              gap-8 p-4 border border-surface-300 dark:border-surface-600 rounded-lg backdrop">
 
-                            <h1 class=" text-surface-200 text-2xl self-start px-8">Register</h1>
+                            <h1 class=" dark:dark:text-surface-200 text-2xl self-start px-8">Register</h1>
                             <div
                                 class="flex flex-col items-center justify-center border border-surface-300 dark:border-surface-600 w-11/12 p-4 rounded-lg gap-4">
-                                <h2 class="text-surface-200 self-start text-lg">Personal information</h2>
+                                <h2 class="dark:text-surface-200 self-start text-lg">Personal information</h2>
 
                                 <div class="flex items-center justify-start w-full gap-4 flex-wrap">
-                                    <div class="flex flex-col text-surface-200 gap-2 max-lg:w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 max-lg:w-full">
                                         <label for="first-name">First name</label>
                                         <InputText v-model="firstName" v-bind="firstNameAttrs" id="first-name"
                                             aria-describedby="first-name-help" />
                                         <small id="first-name-help">Enter your first name.</small>
-                                        <pre>{{ errorsPersonal.firstName }}</pre>
+                                        <pre class="text-red-500 text-sm">{{ errorsPersonal.firstName }}</pre>
                                     </div>
-                                    <div class="flex flex-col text-surface-200 gap-2 max-lg:w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 max-lg:w-full">
                                         <label for="last-name">Last name</label>
                                         <InputText v-model="lastName" v-bind="lastNameAttrs" id="last-name"
                                             aria-describedby="username-help" />
@@ -37,13 +37,13 @@
 
                                 </div>
                                 <div class="flex items-center justify-start w-full gap-4 flex-wrap">
-                                    <div class="flex flex-col text-surface-200 gap-2 max-lg:w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 max-lg:w-full">
                                         <label for="email">Email</label>
                                         <InputText v-model="email" v-bind="emailAttrs" type="email" id="first-name"
                                             aria-describedby="email-help" />
                                         <small id="email-help">Enter your email.</small>
                                     </div>
-                                    <div class="flex flex-col text-surface-200 gap-2 max-lg:w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 max-lg:w-full">
                                         <label for="phone-number">Phone number</label>
                                         <InputNumber v-model="phoneNumber" v-bind="phoneNumberAttrs" id="phone-number"
                                             aria-describedby="phone-number-help" />
@@ -53,15 +53,15 @@
                             </div>
                             <div class="flex flex-col items-center justify-center border border-surface-300 dark:border-surface-600
                  w-11/12 p-4 rounded-lg gap-4">
-                                <h2 class="text-surface-200 self-start text-lg">Password</h2>
+                                <h2 class="dark:text-surface-200 self-start text-lg">Password</h2>
                                 <div class="flex items-center justify-start w-full gap-4 flex-wrap">
-                                    <div class="flex flex-col text-surface-200 gap-2 max-lg:w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 max-lg:w-full">
                                         <label for="password">Password</label>
                                         <InputPassword v-model="password" v-bind="passwordAttrs" id="password"
                                             aria-describedby="password-help" toggleMask />
                                         <small id="password-help">Enter your password</small>
                                     </div>
-                                    <div class="flex flex-col text-surface-200 gap-2 max-lg:w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 max-lg:w-full">
                                         <label for="username">Confirm password</label>
                                         <InputPassword v-model="confirmPassword" v-bind="confirmPasswordAttrs"
                                             id="confirm-password" aria-describedby="confirm-password-help" toggleMask />
@@ -85,20 +85,20 @@
                         <div class=" lg:w-[40rem] overflow-hidden flex flex-col items-center justify-center
              gap-8 p-4 border border-surface-300 dark:border-surface-600 rounded-lg backdrop">
 
-                            <h1 class=" text-surface-200 text-2xl self-start px-8">Register-2</h1>
+                            <h1 class=" dark:text-surface-200 text-2xl self-start px-8">Register-2</h1>
                             <div
                                 class="flex flex-col items-center justify-center border border-surface-300 dark:border-surface-600 w-11/12 p-4 rounded-lg gap-4">
-                                <h2 class="text-surface-200 self-start text-lg">Academical information</h2>
+                                <h2 class="dark:text-surface-200 self-start text-lg">Academical information</h2>
 
                                 <div class="flex items-center justify-start w-full gap-4 flex-wrap">
-                                    <div class="flex flex-col text-surface-200 gap-2 w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 w-full">
                                         <label for="organization">Organization type</label>
                                         <Dropdown v-model="orgType" v-bind="orgTypeAttrs" id="organization"
                                             aria-describedby="organization-help" />
                                         <small id="organization-help">Select the type of organization you are
                                             attending</small>
                                     </div>
-                                    <div class="flex flex-col text-surface-200 gap-2 w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 w-full">
                                         <label for="organization-name">Organization name</label>
                                         <InputText v-model="orgName" v-bind="orgNameAttrs" id="organization-name"
                                             aria-describedby="organization-help" />
@@ -108,7 +108,7 @@
 
                                 </div>
                                 <div class="flex items-center justify-start w-full gap-4 flex-wrap">
-                                    <div class="flex flex-col text-surface-200 gap-2 w-full">
+                                    <div class="flex flex-col dark:text-surface-200 gap-2 w-full">
                                         <label for="role">Role</label>
                                         <Dropdown v-model="orgRole" v-bind="orgRoleAttrs" id="role"
                                             aria-describedby="role-help" />
@@ -135,12 +135,12 @@
                         <div class=" lg:w-[40rem] overflow-hidden flex flex-col items-center justify-center
              gap-8 p-4 border border-surface-300 dark:border-surface-600 rounded-lg backdrop">
 
-                            <h1 class=" text-surface-200 text-2xl self-start px-8">Information Preview</h1>
+                            <h1 class=" dark:text-surface-200 text-2xl self-start px-8">Information Preview</h1>
                             <div
                                 class="flex flex-col items-center justify-center border border-surface-300 dark:border-surface-600 w-11/12 p-4 rounded-lg gap-4">
-                                <h2 class="text-surface-200 self-start text-lg">Account information</h2>
+                                <h2 class="dark:text-surface-200 self-start text-lg">Account information</h2>
                                 <div
-                                    class="flex flex-col items-start justify-center text-surface-200 w-full gap-4 text-base">
+                                    class="flex flex-col items-start justify-center dark:text-surface-200 w-full gap-4 text-base">
                                     <h2>First name: {{ firstName }}</h2>
                                     <h2>Last name: {{ lastName }}</h2>
 

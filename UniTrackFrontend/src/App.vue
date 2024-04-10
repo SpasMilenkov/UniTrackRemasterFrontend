@@ -5,11 +5,14 @@
 import Menubar from 'primevue/menubar';
 import { ref } from "vue";
 import router from './router';
-
+import Footer from "./components/FooterComponent.vue"
 const items = ref([
   {
     label: 'Home',
-    icon: 'pi pi-home'
+    icon: 'pi pi-home',
+    command: () => {
+      router.push('/')
+    }
   },
   {
     label: 'Login',
@@ -45,9 +48,10 @@ const items = ref([
       </a>
     </template>
   </Menubar>
-  <div class="dark:bg-gray-900 min-h-screen min-w-screen flex items-center justify-center gap-5 p-2">
+  <div>
     <router-view></router-view>
   </div>
+  <Footer></Footer>
 </template>
 
 <style scoped></style>
