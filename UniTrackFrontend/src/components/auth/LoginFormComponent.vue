@@ -3,22 +3,22 @@
              gap-8 p-8 border border-surface-300 dark:border-surface-600 rounded-lg backdrop">
 
 
-        <h1 class="text-surface-200 text-2xl self-start">Login</h1>
+        <h1 class="dark:text-surface-200 text-2xl self-start">Login</h1>
         <div class="flex flex-col items-start justify-start w-full gap-4 flex-wrap">
-            <div class="flex flex-col text-surface-200 gap-2 w-full">
+            <div class="flex flex-col dark:text-surface-200 gap-2 w-full">
                 <label for="email">Email</label>
                 <InputText name="email" v-model="email" v-bind="emailAttrs" id="email" aria-describedby="email-help" />
                 <small v-if="!errors.email" id="email-help">Enter your email</small>
                 <p class="text-red-500 text-sm">{{ errors.email }}</p>
             </div>
-            <div class="flex flex-col text-surface-200 gap-2 w-full">
+            <div class="flex flex-col dark:text-surface-200 gap-2 w-full">
                 <label for="last-name">Password</label>
                 <Password name="password" v-model="password" v-bind="passwordAttrs" id="password"
                     aria-describedby="password-help" />
                 <small id="password-help">Enter your password</small>
                 <p class="text-red-500 text-sm">{{ errors.password }}</p>
             </div>
-            <a class=" text-surface-200 self-start underline" href="#">Forgot your password?</a>
+            <a class=" dark:text-surface-200 self-start underline" href="#">Forgot your password?</a>
         </div>
         <div class="flex items-center justify-between w-full">
             <Button label="Register" outlined @click="toRegister" />
