@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// import SystemComponent from './components/SystemComponent.vue';
-// import LoginRegisterView from './views/login/LoginRegisterView.vue';
-
 import Menubar from 'primevue/menubar';
 import { ref } from "vue";
 import router from './router';
