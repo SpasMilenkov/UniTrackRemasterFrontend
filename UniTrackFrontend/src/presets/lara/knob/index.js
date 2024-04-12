@@ -38,7 +38,7 @@ export default {
             'text-center text-xl',
 
             // Color
-            'fill-surface-600 dark:fill-surface-200'
+            'fill-surface-100 dark:fill-surface-200'
         ]
     }
 };
