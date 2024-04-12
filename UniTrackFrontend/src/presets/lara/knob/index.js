@@ -26,7 +26,7 @@ export default {
             'animate-dash-frame',
 
             // Color
-            'stroke-primary-500 dark:stroke-primary-400',
+            'stroke-primary-600 dark:stroke-primary-400',
 
             // Fill
             'fill-none'
@@ -38,7 +38,7 @@ export default {
             'text-center text-xl',
 
             // Color
-            'fill-surface-600 dark:fill-surface-200'
+            'fill-surface-100 dark:fill-surface-200'
         ]
     }
 };
