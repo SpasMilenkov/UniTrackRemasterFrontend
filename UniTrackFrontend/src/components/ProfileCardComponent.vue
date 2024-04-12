@@ -1,6 +1,7 @@
 <template>
 
-    <div class="flex items-center p-8 w-full max-w-[40rem] gap-4 bg-surface-300 dark:bg-surface-800 rounded-md">
+    <div
+        class="flex items-center p-8 w-full max-w-[40rem] gap-4 bg-surface-300 dark:bg-surface-800 rounded-md h-[18rem]">
         <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?t=st=1712954468~exp=1712955068~hmac=da92343d76f5932ca194e9397f89d23a778ca974bfd4c30654509c3ae1b25764"
             alt="profile-picture" class="rounded-full w-44">
         <div class="flex flex-col">
