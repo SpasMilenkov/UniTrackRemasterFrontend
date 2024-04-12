@@ -15,14 +15,14 @@
                 <template #body="slotProps">
                     <div class="flex gap-2">
                         <Tag v-for="(mark, i ) in slotProps.data.firstTerm" :key="i" :value="mark.value"
-                            :severity="calculateSeverity(mark.value)"></Tag>
+                            :severity="useCalculateSeverity(mark.value)"></Tag>
                     </div>
                 </template>
             </Column>
             <Column field="termGradeOne" header="Term Grade I">
                 <template #body="slotProps">
                     <Tag :value="slotProps.data.firstTermGrade"
-                        :severity="calculateSeverity(slotProps.data.firstTermGrade)">{{ slotProps.data.firstTermGrade }}
+                        :severity="useCalculateSeverity(slotProps.data.firstTermGrade)">{{ slotProps.data.firstTermGrade }}
                     </Tag>
                 </template>
             </Column>
@@ -30,14 +30,14 @@
                 <template #body="slotProps">
                     <div class="flex gap-2">
                         <Tag v-for="(mark, i ) in slotProps.data.secondTerm" :key="i" :value="mark.value"
-                            :severity="calculateSeverity(mark.value)"></Tag>
+                            :severity="useCalculateSeverity(mark.value)"></Tag>
                     </div>
                 </template>
             </Column>
             <Column field="termGradeTwo" header="Term Grade II">
                 <template #body="slotProps">
                     <Tag :value="slotProps.data.secondTermGrade"
-                        :severity="calculateSeverity(slotProps.data.secondTermGrade)"></Tag>
+                        :severity="useCalculateSeverity(slotProps.data.secondTermGrade)"></Tag>
                 </template>
             </Column>
             <Column field="yearlyGrade" header="Yearly Grade">
@@ -54,6 +54,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Mark from '../../interfaces/Mark'
 import Tag from 'primevue/tag';
+import {useCalculateSeverity} from '../../composables/calculateSeverity'
 import { ref } from 'vue'
 interface MarkGridItem {
     subject: string,
@@ -62,22 +63,6 @@ interface MarkGridItem {
     firstTermGrade: number,
     secondTermGrade: number,
     yearlyGrade: number
-}
-
-const calculateSeverity = (mark: number) => {
-    switch (mark) {
-        case 2:
-            return 'danger'
-        case 3:
-            return 'warning'
-        case 4:
-            return 'normal'
-        case 5:
-            return 'info'
-        case 6:
-            return 'success'
-    }
-
 }
 
 const marks = ref<MarkGridItem[]>([
