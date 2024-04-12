@@ -5,10 +5,10 @@
             :class="cardContent.knobStrokeColor, cardContent.knobStrokeColor" :max="cardContent.knobMaxValue"
             :valueColor="cardContent.knobStrokeColor" :rangeColor="cardContent.knobEmptyColor" :size="125"></Knob>
         <div class="flex flex-col gap-2">
-            <h2 class="text-surface-950 dark:text-surface-200 text-3xl mb-8">{{ cardContent.cardTitle }}</h2>
-            <h3 class="text-surface-950 dark:text-surface-200 text-xl">{{ cardContent.cardDataMain }}</h3>
-            <h3 class="text-surface-950 dark:text-surface-200 text-xl">{{ cardContent.cardDataSecondary }}</h3>
-            <h3 class="text-surface-950 dark:text-surface-200 text-xl">{{ cardContent.cardDataTertiary }}</h3>
+            <h2 class="text-surface-100 dark:text-surface-200 text-3xl mb-8">{{ cardContent.cardTitle }}</h2>
+            <h3 class="text-surface-100 dark:text-surface-200 text-xl">{{ cardContent.cardDataMain }}</h3>
+            <h3 class="text-surface-100 dark:text-surface-200 text-xl">{{ cardContent.cardDataSecondary }}</h3>
+            <h3 class="text-surface-100 dark:text-surface-200 text-xl">{{ cardContent.cardDataTertiary }}</h3>
 
         </div>
     </div>
