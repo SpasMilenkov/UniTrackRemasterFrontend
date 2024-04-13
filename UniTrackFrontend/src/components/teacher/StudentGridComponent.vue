@@ -1,6 +1,6 @@
 <template>
-    <DataTable :value="students" v-model:filters="filters" :globalFilterFields="['name', 'id', 'grade']" paginator
-        :rows="10" dataKey="id" :loading="loading">
+    <DataTable :value="students" v-model:filters="filters" :globalFilterFields="['name', 'id', 'grade']" dataKey="id"
+        scrollable scrollHeight="30rem" :loading="loading">
         <template #header>
             <div class="flex justify-content-end">
                 <InputText v-model="filters['global'].value" placeholder="Search student" />
@@ -74,7 +74,16 @@ const students = [
     { name: 'Student 9', id: '1009', grade: 'A' },
     { name: 'Student 10', id: '1010', grade: 'C' },
     { name: 'Student 11', id: '1011', grade: 'B' },
-    { name: 'Student 12', id: '1012', grade: 'A' }
+    { name: 'Student 12', id: '1012', grade: 'A' },
+    { name: 'Student 9', id: '1009', grade: 'A' },
+    { name: 'Student 10', id: '1010', grade: 'C' },
+    { name: 'Student 11', id: '1011', grade: 'B' },
+    { name: 'Student 9', id: '1009', grade: 'A' },
+    { name: 'Student 10', id: '1010', grade: 'C' },
+    { name: 'Student 11', id: '1011', grade: 'B' },
+    { name: 'Student 9', id: '1009', grade: 'A' },
+    { name: 'Student 10', id: '1010', grade: 'C' },
+    { name: 'Student 11', id: '1011', grade: 'B' },
 ];
 
 const visible = ref(false)
