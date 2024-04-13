@@ -30,7 +30,7 @@ const items = ref([
 </script>
 
 <template>
-  <Menubar :model="items">
+  <Menubar :model="items" class="z-50">
     <template #item="{ item, props, hasSubmenu }">
       <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
         <a v-ripple :href="href" v-bind="props.action" @click="navigate">
