@@ -1,5 +1,6 @@
 <template>
-    <div class="flex flex-col gap-4 p-8 w-full max-w-[40rem]  bg-surface-300 dark:bg-surface-800 rounded-md h-[18rem]">
+    <div
+        class="flex flex-col gap-4 p-8 w-full max-w-[40rem] shadow-lg dark:shadow-none bg-surface-200 dark:bg-surface-800 rounded-md h-[18rem]">
         <h1 class="text-surface-700 dark:text-surface-100 text-3xl pl-2">Events</h1>
         <div class="flex gap-4 items-center justify-center">
             <img src="/images/star.png" alt="profile-picture"
