@@ -438,6 +438,7 @@ export default {
             'flex',
             'items-center',
             'flex-col',
+            'text-surface-700 dark:text-surface-100',
 
             // Spacing
             'px-2'
@@ -449,6 +450,7 @@ export default {
             'flex',
             'items-center',
             'flex-col',
+            'text-surface-700 dark:text-surface-100',
 
             // Spacing
             'px-2'
@@ -460,6 +462,7 @@ export default {
             'flex',
             'items-center',
             'flex-col',
+            'text-surface-700 dark:text-surface-100',
 
             // Spacing
             'px-2'
@@ -471,6 +474,7 @@ export default {
             'flex',
             'items-center',
             'flex-col',
+            'text-surface-700 dark:text-surface-100',
 
             // Spacing
             'px-2'
