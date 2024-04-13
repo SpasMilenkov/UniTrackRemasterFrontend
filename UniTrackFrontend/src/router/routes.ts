@@ -3,6 +3,7 @@ import LoginView from '../views/auth/LoginView.vue'
 import RegisterView from '../views/auth/RegisterView.vue'
 import StudentDashboardView from '../views/student/StudentDashboardView.vue'
 import TeacherDashboardView from '../views/teacher/TeacherDashboardView.vue'
+import AdminDashboardView from '../views/admin/AdminDashboardView.vue'
 const routes = [
     {
         path: '/',
@@ -22,13 +23,18 @@ const routes = [
     {
         path: '/student',
         name: 'studentDashboard',
-        component: StudentDashboardView
+        component: StudentDashboardView,
     },
     {
         path: '/teacher',
         name: 'teacherDashboard',
-        component: TeacherDashboardView
-    }
+        component: TeacherDashboardView,
+    },
+    {
+        path: '/admin',
+        name: 'adminDashboard',
+        component: AdminDashboardView,
+    },
 ]
 
 export default routes
