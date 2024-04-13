@@ -80,6 +80,7 @@ import treetable from './treetable';
 import tristatecheckbox from './tristatecheckbox';
 import stepper from './stepper';
 import floatlabel from './floatlabel';
+import fileupload from './fileupload';
 export default {
     global,
     directives: {
@@ -116,6 +117,9 @@ export default {
     password,
     stepper,
     floatlabel,
+
+    //upload
+    fileupload,
 
     //buttons
     button,
