@@ -1,5 +1,5 @@
 <template>
-    <form @submit="onSubmit" class="lg:w-[32rem] overflow-hidden flex flex-col items-center justify-center
+    <form @submit.prevent="" class="lg:w-[32rem] overflow-hidden flex flex-col items-center justify-center
              gap-8 p-8 border border-surface-300 dark:border-surface-600 rounded-lg backdrop">
 
 
@@ -35,12 +35,11 @@ import Button from 'primevue/button';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import router from '../../router';
+import { login } from '../../api/authService'
+import LoginDto from '../../interfaces/requests/LoginDto';
+import LoginResponseDto from '../../interfaces/responses/LoginResponse'
 
-// const email = ref('')
-// const password = ref('')
-
-
-const { handleSubmit, errors, defineField } = useForm({
+const { validate, errors, defineField } = useForm({
 
     validationSchema: yup.object({
         email: yup.string()
@@ -52,13 +51,37 @@ const { handleSubmit, errors, defineField } = useForm({
     })
 })
 
-const onSubmit = () => {
-    console.log('validation goes here')
+const onSubmit = async () => {
+    const check = await validate().then((result) => result.valid)
+    if (!check)
+        return;
+    console.log('We are making request with this one')
+    const loginDto: LoginDto = {
+        email: email.value,
+        password: password.value
+    }
+    const result = await login(loginDto)
 
-    handleSubmit(values => {
-        alert(JSON.stringify(values, null, 2));
-    })
+    if (result.status === 200) {
+        const data: LoginResponseDto = result.data
+
+        switch (data.userRole) {
+            case 'GUEST':
+                router.push('/student')
+                return;
+            case 'ADMIN':
+                router.push('/admin')
+                return;
+            case 'STUDENT':
+                router.push('/student')
+                return;
+            case 'TEACHER':
+                router.push('/teacher')
+                return;
+        }
+    }
 };
+
 const toRegister = () => {
     router.push('/register')
 }
