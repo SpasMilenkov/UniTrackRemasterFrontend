@@ -38,6 +38,7 @@ import router from '../../router';
 import { login } from '../../api/authService'
 import LoginDto from '../../interfaces/requests/LoginDto';
 import LoginResponseDto from '../../interfaces/responses/LoginResponse'
+import { useUserStore } from '../../stores/userStore';
 
 const { validate, errors, defineField } = useForm({
 
@@ -64,7 +65,9 @@ const onSubmit = async () => {
 
     if (result.status === 200) {
         const data: LoginResponseDto = result.data
-
+        const userStore = useUserStore()
+        userStore.authenticateUser()
+        userStore.setRole(data.userRole)
         switch (data.userRole) {
             case 'GUEST':
                 router.push('/student')
