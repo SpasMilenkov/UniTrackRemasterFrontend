@@ -16,4 +16,4 @@ const logout = async () => {
     const result = await axiosInstance.post('Auth/logout')
     return result
 }
-export {login, register}
+export {login, register, logout}
