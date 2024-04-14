@@ -20,6 +20,7 @@
     "@iconify/vue": "^4.1.1",
     "@vitejs/plugin-vue": "^5.0.3",
     "autoprefixer": "^10.4.17",
+    "axios": "^1.6.8",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
