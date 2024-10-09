@@ -17,8 +17,8 @@
                         {{ useConvertDateObject(slotProps.item.subtitle) }}
                     </template>
                     <template #content>
-                        <Tag :value="slotProps.item.markValue" :severity="useCalculateSeverity(slotProps.item.markValue)"
-                            rounded class=" text-3xl"></Tag>
+                        <Tag :value="slotProps.item.markValue"
+                            :severity="useCalculateSeverity(slotProps.item.markValue)" rounded class=" text-3xl"></Tag>
                         <p>{{ slotProps.item.content }}</p>
                     </template>
                 </Card>
@@ -30,12 +30,12 @@
 <script setup lang='ts'>
 import Timeline from 'primevue/timeline';
 import Card from 'primevue/card';
-import {MarkTimeline} from '../../interfaces/Timeline'
+import { MarkTimeline } from '../../interfaces/Timeline'
 import Tag from 'primevue/tag';
 import { useCalculateSeverity } from '../../composables/calculateSeverity'
 import { useConvertDateObject } from '../../composables/convertDate'
 
-defineProps<{events: MarkTimeline[]}>()
+defineProps<{ events: MarkTimeline[] }>()
 
 </script>
 <style scoped></style>
