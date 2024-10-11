@@ -1,46 +1,71 @@
 <template>
-    <Menubar :model="items" class="z-50">
-        <template #item="{ item, props, hasSubmenu }">
-            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                    <span :class="item.icon" />
-                    <span class="ml-2">{{ item.label }}</span>
-                </a>
-            </router-link>
-            <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-                <span :class="item.icon" />
-                <span class="ml-2">{{ item.label }}</span>
-                <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
-            </a>
-        </template>
-    </Menubar>
-    <div>
-        <router-view></router-view>
-    </div>
+    <n-layout>
+        <n-layout-header>
+            <n-menu mode="horizontal" :options="menuOptions" />
+        </n-layout-header>
+        <n-layout-content class="min-h-screen">
+            <slot />
+        </n-layout-content>
+    </n-layout>
 </template>
-<script setup lang='ts'>
-const items = ref([
+
+<script setup lang="ts">
+import { h, ref } from 'vue'
+import { NIcon, NLayout, NLayoutHeader, NLayoutContent, NMenu } from 'naive-ui'
+import { HomeOutline, LogInOutline, PersonAddOutline } from '@vicons/ionicons5'
+
+// Menu options
+//Nuxt Icons has issues with render functions so with those We rely on naive icons and vicons
+const menuOptions = ref([
     {
-        label: 'Home',
-        icon: 'pi pi-home',
-        command: async () => {
-            await navigateTo({ path: '/' })
-        }
+        label: () =>
+            h(
+                'a',
+                {
+                    href: '/',
+                    class: 'flex items-center',
+                },
+                [
+                    h(NIcon, { size: 24 }, { default: () => h(HomeOutline) }),
+                    h('span', { class: 'ml-2' }, 'Home')
+                ]
+            ),
+        key: 'home',
     },
     {
-        label: 'Login',
-        icon: 'pi pi-star',
-        command: async () => {
-            await navigateTo('login')
-        }
+        label: () =>
+            h(
+                'a',
+                {
+                    href: '/login',
+                    class: 'flex items-center',
+                },
+                [
+                    h(NIcon, { size: 24 }, { default: () => h(LogInOutline) }),
+                    h('span', { class: 'ml-2' }, 'Login')
+                ]
+            ),
+        key: 'login',
     },
     {
-        label: 'Register',
-        icon: 'pi pi-search',
-        command: async () => {
-            await navigateTo('register')
-        }
+        label: () =>
+            h(
+                'a',
+                {
+                    href: '/register',
+                    class: 'flex items-center',
+                },
+                [
+                    h(NIcon, { size: 24 }, { default: () => h(PersonAddOutline) }),
+                    h('span', { class: 'ml-2' }, 'Register')
+                ]
+            ),
+        key: 'register',
     },
-]);
+])
+
 </script>
-<style scoped></style>
+
+<style scoped>
+/* Add any additional custom styles here if needed */
+</style>
