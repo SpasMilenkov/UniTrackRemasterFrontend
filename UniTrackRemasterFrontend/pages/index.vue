@@ -1,10 +1,8 @@
 <template>
-    <div class="min-h-screen">
-    </div>
+    <div class="min-h-screen"/>
 </template>
 
 <script setup lang="ts">
 </script>
 
-<style>
-</style>
+<style></style>
