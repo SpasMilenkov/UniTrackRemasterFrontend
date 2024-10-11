@@ -1,14 +1,18 @@
-import Aura from '@primevue/themes/aura';
-
 export default defineNuxtConfig({
   modules: [
-    '@primevue/nuxt-module',
     '@nuxtjs/tailwindcss',
+    '@vee-validate/nuxt',
+    '@nuxt/icon',
+    '@pinia/nuxt',
+    '@bg-dev/nuxt-naiveui',
+    '@nuxt/eslint',
   ],
-  primevue: {
-    options: {
-      theme: {
-        preset: Aura,
+  icon: {
+    clientBundle: {
+      scan: {
+        // note that when you specify those values, the default behavior will be overridden
+        globInclude: ['components/**/*.vue' /* ... */],
+        globExclude: ['node_modules', 'dist' /* ... */],
       },
     },
   },
