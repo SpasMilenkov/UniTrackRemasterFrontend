@@ -1,11 +1,15 @@
 <template>
     <n-config-provider :theme="darkTheme">
-        <NuxtLayout>
-            <NuxtPage />
-        </NuxtLayout>
+        <n-notification-provider>
+            <n-message-provider>
+                <NuxtLayout>
+                    <NuxtPage />
+                </NuxtLayout>
+            </n-message-provider>
+        </n-notification-provider>
     </n-config-provider>
 </template>
 
 <script setup lang="ts">
-import { darkTheme, NConfigProvider } from 'naive-ui'
+import { darkTheme, NConfigProvider, NMessageProvider, NNotificationProvider } from 'naive-ui'
 </script>
