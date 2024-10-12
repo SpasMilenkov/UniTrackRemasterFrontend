@@ -20,13 +20,14 @@
     "libphonenumber-js": "^1.11.11",
     "naive-ui": "^2.40.1",
     "nuxt": "^3.13.0",
+    "nuxtjs-naive-ui": "^1.0.2",
     "pinia": "^2.2.4",
-    "unplugin-auto-import": "^0.17.1",
+    "unplugin-auto-import": "^0.18.3",
     "vue": "latest",
     "vue-router": "latest",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@bg-dev/nuxt-naiveui": "^2.0.0-rc.1"
+    "unplugin-vue-components": "^0.27.4"
   }
 }

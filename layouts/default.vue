@@ -1,9 +1,22 @@
 <template>
     <n-layout>
-        <n-layout-header>
-            <n-menu mode="horizontal" :options="menuOptions" />
+        <n-layout-header class="md:p-0 p-2">
+            <n-menu mode="horizontal" :options="menuOptions" class="desktop-menu" />
+            <n-button class="mobile-menu-toggle" @click="toggleMobileMenu">
+                <template #icon>
+                    <n-icon>
+                        <menu-outline v-if="!isMobileMenuOpen" />
+                        <close-outline v-else />
+                    </n-icon>
+                </template>
+            </n-button>
+            <n-drawer v-model:show="isMobileMenuOpen" :width="240" placement="left">
+                <n-drawer-content>
+                    <n-menu :options="menuOptions" />
+                </n-drawer-content>
+            </n-drawer>
         </n-layout-header>
-        <n-layout-content class="min-h-screen">
+        <n-layout-content>
             <slot />
         </n-layout-content>
     </n-layout>
@@ -11,12 +24,16 @@
 
 <script setup lang="ts">
 import { h, ref } from 'vue'
-import { NIcon, NLayout, NLayoutHeader, NLayoutContent, NMenu } from 'naive-ui'
-import { HomeOutline, LogInOutline, PersonAddOutline } from '@vicons/ionicons5'
+import { NIcon, NLayout, NLayoutHeader, NLayoutContent, NMenu, NDrawer, NDrawerContent, NButton } from 'naive-ui'
+import { HomeOutline, LogInOutline, PersonAddOutline, MenuOutline, CloseOutline } from '@vicons/ionicons5'
 
-// Menu options
-//Nuxt Icons has issues with render functions so with those We rely on naive icons and vicons
-const menuOptions = ref([
+const isMobileMenuOpen = ref(false)
+
+const toggleMobileMenu = () => {
+    isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
+
+const menuOptions = [
     {
         label: () =>
             h(
@@ -62,10 +79,21 @@ const menuOptions = ref([
             ),
         key: 'register',
     },
-])
-
+]
 </script>
 
 <style scoped>
-/* Add any additional custom styles here if needed */
+.desktop-menu {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .desktop-menu {
+        display: flex;
+    }
+
+    .mobile-menu-toggle {
+        display: none;
+    }
+}
 </style>
