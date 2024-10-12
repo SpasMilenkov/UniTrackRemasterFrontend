@@ -1,21 +1,24 @@
 <template>
-    <n-card title="Login" size="large" class="max-w-3xl mx-auto p-4">
-        <n-form @submit.prevent="onSubmit">
-            <n-space vertical>
-                <n-form-item label="Email" v-bind="emailProps" path="email">
-                    <n-input v-model:value="email" />
-                </n-form-item>
-                <n-form-item label="Password" v-bind="passwordProps" path="password">
-                    <n-input v-model:value="password" type="password" />
-                </n-form-item>
-            </n-space>
+    <div class="min-h-screen flex items-center justify-center">
+        <n-card title="Login" size="huge" class="max-w-xl mx-auto p-4">
+            <n-form class="sm:min-w-72" @submit.prevent="onSubmit">
+                <n-space vertical>
+                    <n-form-item label="Email" v-bind="emailProps" path="email">
+                        <n-input v-model:value="email" />
+                    </n-form-item>
+                    <n-form-item label="Password" v-bind="passwordProps" path="password">
+                        <n-input v-model:value="password" type="password" />
+                    </n-form-item>
+                </n-space>
 
-            <!-- Submit Button -->
-            <n-space justify="center">
-                <n-button type="primary" attr-type="submit" size="large">Login</n-button>
-            </n-space>
-        </n-form>
-    </n-card>
+                <!-- Submit Button -->
+                <n-space justify="center">
+                    <n-button type="primary" attr-type="submit" size="large">Login</n-button>
+                </n-space>
+            </n-form>
+        </n-card>
+    </div>
+
 </template>
 
 <script setup lang="ts">
