@@ -7,10 +7,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    NConfigProvider: typeof import('naive-ui')['NConfigProvider']
-    NLayoutContent: typeof import('naive-ui')['NLayoutContent']
-    NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
-    NMenu: typeof import('naive-ui')['NMenu']
+    NDataTable: typeof import('naive-ui')['NDataTable']
+    NIcon: typeof import('naive-ui')['NIcon']
+    NSpace: typeof import('naive-ui')['NSpace']
+    NStatistic: typeof import('naive-ui')['NStatistic']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
