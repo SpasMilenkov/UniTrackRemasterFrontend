@@ -19,6 +19,9 @@
         <n-layout-content>
             <slot />
         </n-layout-content>
+        <n-layout-footer bordered>
+            <FooterComponent />
+        </n-layout-footer>
     </n-layout>
 </template>
 
