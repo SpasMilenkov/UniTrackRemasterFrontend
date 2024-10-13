@@ -1,6 +1,6 @@
 // A somewhat hacky solution to fix the delay in CSS load when using naive.
 // Apparently this issue was caused in a not so recent update to Nuxt...
-// Without this plugin css loads considerable slower when refreshing the page
+// Without this plugin css loads considerably slower when refreshing the page
 // This behavior is witnessed in both dev and preview modes
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
