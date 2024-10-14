@@ -20,6 +20,7 @@ export default defineNuxtConfig({
               'useMessage',
               'useNotification',
               'useLoadingBar',
+              'NCard',
             ],
           },
         ],
