@@ -7,10 +7,27 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    NButton: typeof import('naive-ui')['NButton']
+    NCard: typeof import('naive-ui')['NCard']
+    NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDataTable: typeof import('naive-ui')['NDataTable']
+    NDivider: typeof import('naive-ui')['NDivider']
+    NDrawer: typeof import('naive-ui')['NDrawer']
+    NDrawerContent: typeof import('naive-ui')['NDrawerContent']
+    NForm: typeof import('naive-ui')['NForm']
+    'NForm-': typeof import('naive-ui')['NForm-']
+    NFormItem: typeof import('naive-ui')['NFormItem']
     NIcon: typeof import('naive-ui')['NIcon']
+    NInput: typeof import('naive-ui')['NInput']
+    NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
+    NLayoutSider: typeof import('naive-ui')['NLayoutSider']
+    NMenu: typeof import('naive-ui')['NMenu']
+    NPagination: typeof import('naive-ui')['NPagination']
+    NSelect: typeof import('naive-ui')['NSelect']
     NSpace: typeof import('naive-ui')['NSpace']
     NStatistic: typeof import('naive-ui')['NStatistic']
+    NTime: typeof import('naive-ui')['NTime']
+    NTooltip: typeof import('naive-ui')['NTooltip']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
