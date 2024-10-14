@@ -1,9 +1,9 @@
 <template>
-    <n-space vertical :size="12" class="min-h-screen md:px-16 px-2 py-4">
+    <n-space vertical :size="12" class="min-h-screen md:px-6 px-2 py-4">
         <h1 class="md:px-0 text-3xl text-center lg:text-left">Good evening, Mihail</h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-8 px-8 md:px-0">
             <n-statistic label="Your average marks" :value="99"
-                class=" hover:scale-[1.02] bg-gradient-to-r  dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
+                class=" dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
                     <Icon name="material-symbols:school-outline" class=" text-rose-600" size="56" />
                 </template>
@@ -12,7 +12,7 @@
                 </template>
             </n-statistic>
             <n-statistic label="Class average marks" :value="99"
-                class=" hover:scale-[1.02] bg-gradient-to-r  dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
+                class=" dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
                     <Icon name="ph:student" class=" text-rose-600" size="56" />
                 </template>
@@ -21,7 +21,7 @@
                 </template>
             </n-statistic>
             <n-statistic label="School average marks" :value="99"
-                class=" hover:scale-[1.02] bg-gradient-to-r  dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
+                class=" dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
                     <Icon name="bx:bxs-school" class=" text-rose-600" size="56" />
                 </template>
@@ -30,7 +30,7 @@
                 </template>
             </n-statistic>
             <n-statistic label="Your absence count" :value="99"
-                class="hover:scale-[1.02] bg-gradient-to-r  dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
+                class=" dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
                     <Icon name="ph:calendar-x" class=" text-rose-600" size="56" />
                 </template>
@@ -39,7 +39,7 @@
                 </template>
             </n-statistic>
             <n-statistic label="Class Average absence" :value="99"
-                class=" hover:scale-[1.02] bg-gradient-to-r  dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
+                class="dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
                     <Icon name="ph:calendar-x" class=" text-rose-600" size="56" />
                 </template>
@@ -48,7 +48,7 @@
                 </template>
             </n-statistic>
             <n-statistic label="School Average absence" :value="99"
-                class=" hover:scale-[1.02] bg-gradient-to-r  dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
+                class="dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
                     <Icon name="ph:calendar-x" class=" text-rose-600" size="56" />
                 </template>
@@ -61,12 +61,18 @@
         <client-only>
             <n-data-table :bordered="false" :single-line="false" :columns="columns" :data="data" size="large" />
         </client-only>
+
     </n-space>
 </template>
 
 <script lang="ts" setup>
-import { NTag, type DataTableColumns } from 'naive-ui'
+import type { DataTableColumns } from 'naive-ui'
 
+const { createTags } = useTags()
+
+definePageMeta({
+    layout: 'dashboard-layout'
+})
 interface RowData {
     key: string
     subject: string
@@ -77,95 +83,7 @@ interface RowData {
     yearlyGrade: number
 }
 
-interface TagColor {
-    color: string;
-    textColor: string;
-    borderColor: string;
-}
-
 //Methods
-const generateTagStyling = (tagKey: number): TagColor => {
-    switch (tagKey) {
-        case 2:
-            return {
-                color: 'rgba(220, 38, 38, 0.2)',
-                textColor: '#f87171',
-                borderColor: '#ef4444',
-            }
-        case 3:
-            return {
-                color: 'rgba(234, 88, 12, 0.2)',
-                textColor: '#f97316',
-                borderColor: 'orange'
-            }
-        case 4:
-            return {
-                color: 'rgba(202, 138, 4, 0.2)',
-                textColor: '#eab308',
-                borderColor: '#facc15',
-            }
-        case 5:
-            return {
-                color: 'rgb(37, 99, 235, 0.2)',
-                textColor: '#60a5fa',
-                borderColor: '#60a5fa',
-            }
-        case 6:
-            return {
-                color: 'rgba(5, 150, 105, 0.2)',
-                textColor: '#10b981',
-                borderColor: '#10b981',
-            }
-        default:
-            return {
-                color: 'green',
-                textColor: 'white',
-                borderColor: 'green',
-            }
-    }
-}
-
-const createTags = (data: number[] | number) => {
-    if (typeof data === 'number') {
-        const colorStyles = generateTagStyling(data)
-        return h(
-            NTag,
-            {
-                style: {
-                    marginRight: '6px',
-                    padding: '1rem 0.5rem',
-                    fontSize: '1.125rem',
-                    fontWeight: '600'
-                },
-                color: colorStyles,
-                bordered: true
-            },
-            {
-                default: () => data
-            }
-        )
-    }
-    return data.map((tagKey) => {
-        const colorStyles = generateTagStyling(tagKey)
-        return h(
-            NTag,
-            {
-                style: {
-                    marginRight: '1rem',
-                    padding: '1rem 0.5rem',
-                    fontSize: '1.125rem',
-                    fontWeight: '600'
-                },
-                color: colorStyles,
-                bordered: true
-            },
-            {
-                default: () => tagKey
-            }
-        )
-    })
-}
-
 
 const createColumns = (): DataTableColumns<RowData> => {
     return [
