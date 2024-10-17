@@ -5,7 +5,7 @@
             <n-statistic label="Your average marks" :value="99"
                 class=" dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
-                    <Icon name="material-symbols:school-outline" class=" text-rose-600" size="56" />
+                    <Icon name="material-symbols:school-outline" class="text-primary" size="56" />
                 </template>
                 <template #suffix>
                     / 100
@@ -14,7 +14,7 @@
             <n-statistic label="Class average marks" :value="99"
                 class=" dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
-                    <Icon name="ph:student" class=" text-rose-600" size="56" />
+                    <Icon name="ph:student" class="text-primary" size="56" />
                 </template>
                 <template #suffix>
                     / 100
@@ -23,7 +23,7 @@
             <n-statistic label="School average marks" :value="99"
                 class=" dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
-                    <Icon name="bx:bxs-school" class=" text-rose-600" size="56" />
+                    <Icon name="bx:bxs-school" class="text-primary" size="56" />
                 </template>
                 <template #suffix>
                     / 100
@@ -32,7 +32,7 @@
             <n-statistic label="Your absence count" :value="99"
                 class=" dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
-                    <Icon name="ph:calendar-x" class=" text-rose-600" size="56" />
+                    <Icon name="ph:calendar-x" class="text-primary" size="56" />
                 </template>
                 <template #suffix>
                     / 100
@@ -41,7 +41,7 @@
             <n-statistic label="Class Average absence" :value="99"
                 class="dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
-                    <Icon name="ph:calendar-x" class=" text-rose-600" size="56" />
+                    <Icon name="ph:calendar-x" class="text-primary" size="56" />
                 </template>
                 <template #suffix>
                     / 100
@@ -50,7 +50,7 @@
             <n-statistic label="School Average absence" :value="99"
                 class="dark:hover:bg-[hsl(240,8%,13%)] duration-150 px-6 py-8 dark:bg-[#18181c] dark:text-white rounded min-h-32 flex flex-col justify-center">
                 <template #prefix>
-                    <Icon name="ph:calendar-x" class=" text-rose-600" size="56" />
+                    <Icon name="ph:calendar-x" class="text-primary" size="56" />
                 </template>
                 <template #suffix>
                     / 100
