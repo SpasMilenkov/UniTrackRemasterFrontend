@@ -98,6 +98,7 @@ const menuOptions = [
     createMenuOption('Register', '/register', PersonAddOutline),
 ]
 
+//TODO: Add different options for each user role
 const sidebarOptions: MenuOption[] = [
     createMenuOption('Timetable', '/timetable', BookIcon),
     createMenuOption('Plan Examination', '/exams', DocumentTextOutline),
