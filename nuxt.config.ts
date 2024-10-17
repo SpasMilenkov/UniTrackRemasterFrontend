@@ -33,6 +33,14 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vueuc'],
   },
+   tailwindcss: {
+    configPath: 'tailwind.config',
+    exposeConfig: {
+      level: 2
+    },
+    config: {},
+    viewer: true,
+  },
   icon: {
     clientBundle: {
       scan: {
