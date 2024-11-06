@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
 export type School = {
+  id: string;
   name: string;
   motto: string;
   shortDescription: string;
@@ -8,42 +9,26 @@ export type School = {
 };
 
 export const useSchoolStore = defineStore('school', {
-  state: () => ({
+  state: (): {
+    isLoading: boolean;
+    schools: School[] | null;
+  } => ({
     isLoading: true,
+    schools: null,
   }),
   actions: {
-    async fetchSchools(): Promise<School[]> {
-      this.isLoading = false;
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve([
-            {
-              name: 'Greenfield High',
-              motto: 'Excellence and Integrity',
-              shortDescription:
-                'Greenfield High is dedicated to academic excellence and nurturing well-rounded individuals.',
-              image: '/img/UniTrack.png',
-            },
-            {
-              name: 'Greenfield High2',
-              motto: 'Excellence and Integrity',
-              shortDescription:
-                'Greenfield High is dedicated to academic excellence and nurturing well-rounded individuals.',
-              image: '/img/UniTrack.png',
-            },
-            {
-              name: 'Greenfield High3',
-              motto: 'Excellence and Integrity',
-              shortDescription:
-                'Greenfield High is dedicated to academic excellence and nurturing well-rounded individuals.',
-              image: '/img/UniTrack.png',
-            },
-          ]);
-        }, 3000);
-      }).then((resolve) => {
-        this.isLoading = true;
-        return resolve as School[];
-      });
+    async getSchools(page = 1, pageSize = 10) {
+      try {
+        const { $api } = useNuxtApp();
+        const response = await $api.get<School[]>(`/School/list`, {
+          page,
+          pageSize,
+        });
+        this.schools = response;
+      } catch (err) {
+        console.error('Failed to fetch school list:', err);
+        throw err;
+      }
     },
   },
 });

@@ -11,7 +11,7 @@
             <n-divider>
                 <h2
                     class="text-2xl font-semibold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text">
-                    Login
+                    Login with Code
                 </h2>
             </n-divider>
 
@@ -24,18 +24,27 @@
                         <n-input v-model:value="email" class="bg-[#262629] text-white placeholder-gray-500" />
                     </n-form-item>
 
-                    <!-- Password Field -->
-                    <n-form-item label="Password" v-bind="passwordProps" path="password"
-                        label-style="text-gray-300 font-semibold">
-                        <n-input v-model:value="password" type="password"
-                            class="bg-[#262629] text-white placeholder-gray-500" />
+                    <!-- Code Field with Tooltip -->
+                    <n-form-item label="Code" v-bind="codeProps" path="code" label-style="text-gray-300 font-semibold">
+                        <div class="flex items-center gap-2 w-full">
+                            <n-input v-model:value="code" type="text" placeholder="Enter your code"
+                                class="bg-[#262629] text-white placeholder-gray-500 w-full grow-1 flex" />
+                            <!-- Tooltip with "?" Icon -->
+                            <n-tooltip trigger="hover" placement="top">
+                                <template #trigger>
+                                    <Icon name="ph:question" size="40" class="text-emerald-400" />
+                                </template>
+                                <span>The code should have been sent via email</span>
+                            </n-tooltip>
+                        </div>
                     </n-form-item>
                 </n-space>
 
                 <!-- Login Button -->
                 <n-space justify="center" class="mt-6">
-                    <n-button n-button type="primary" attr-type="submit" color="#4ade80" class=" px-8 py-3">
-                        Login
+                    <n-button type="primary" native-type="submit" attr-type="submit" size="large" color="#4ade80"
+                        class=" emerald-400 px-8 py-3">
+                        Submit Code
                     </n-button>
                 </n-space>
             </n-form>
@@ -44,32 +53,28 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from 'vee-validate'
-import { NButton, NForm, NInput, NSpace, NCard, NFormItem, NDivider } from 'naive-ui'
-import { loginSchema } from '~/schemas/login.schema'
-import { useAuthStore } from '@/stores/auth'
+import { codeAuthSchema } from '~/schemas/code-auth.schema';
+import { useSchoolOnboardingStore } from '#imports';
 
-// Stores
-const authStore = useAuthStore()
+//Stores
+const schoolOnboardingStore = useSchoolOnboardingStore();
 
-// Form Handling
+// Form
 const { handleSubmit, defineField } = useForm({
-    validationSchema: toTypedSchema(loginSchema),
+    validationSchema: toTypedSchema(codeAuthSchema)
 })
 
-// Correct destructuring for each field
+// Fields 
 const [email, emailProps] = defineField('email', naiveUiFormsConfig)
-const [password, passwordProps] = defineField('password', naiveUiFormsConfig)
+const [code, codeProps] = defineField('code', naiveUiFormsConfig)
 
-// Submit Handler
-const onSubmit = handleSubmit((values) => {
-    console.log(values)
-    authStore.login(values)
+const onSubmit = handleSubmit(async (values) => {
+    console.log('submitting')
+    await schoolOnboardingStore.authenticateViaCode(values)
 })
 </script>
 
 <style scoped>
-/* Scoped styles to enhance the card and form fields */
 .bg-cover {
     position: relative;
     z-index: 0;

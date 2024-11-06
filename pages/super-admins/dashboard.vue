@@ -1,36 +1,109 @@
 <template>
-    <n-space vertical :size="12" class="min-h-screen md:px-6 px-2 py-4">
-        <h1 class="md:px-0 text-3xl text-center lg:text-left">Good evening, Mihail's super admin</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 py-8 px-8 md:px-0">
-            <AdminActionCardComponent v-for="(action, i) in adminActions" :key="i" :data="action" />
-        </div>
-        <div>
-            <h1 class="md:px-0 text-3xl text-center lg:text-left">Analytics</h1>
-            <n-divider />
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 overflow-hidden">
-            <div class="bg-white rounded-lg shadow-lg p-6 max-h-[30rem] max-w-4xl">
-                <h2 class="text-2xl font-semibold mb-4 text-gray-700">Monthly Active Users</h2>
-                <Bar :data="barChartData" :options="barChartOptions" class="h-80" />
-            </div>
-            <div class="bg-white rounded-lg shadow-lg p-6 max-h-[30rem] max-w-4xl">
-                <h2 class="text-2xl font-semibold mb-4 text-gray-700">New Signups Trend</h2>
-                <Line :data="lineChartData" :options="lineChartOptions" class="h-80" />
-            </div>
-            <div class="bg-white rounded-lg shadow-lg p-6 max-h-[30rem] max-w-4xl">
-                <h2 class="text-2xl font-semibold mb-4 text-gray-700">Session Duration Distribution</h2>
-                <Bar :data="histogramData" :options="histogramOptions" class="h-80" />
-            </div>
-            <div class="bg-white rounded-lg shadow-lg p-6 max-h-[30rem] max-w-4xl">
-                <h2 class="text-2xl font-semibold mb-4 text-gray-700">User Device Distribution</h2>
-                <Doughnut :data="donutChartData" :options="donutChartOptions" class="h-80" />
+    <div class="min-h-screen bg-[#101014] text-white">
+        <!-- Header Section with Gradient Background -->
+         <TitleComponent title="Hello Misho's admin"/>
+
+        <!-- Quick Stats Cards -->
+        <div class="mx-auto px-6 lg:px-8 py-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <n-card class="bg-[#262629] hover:border-emerald-400/50 transition-all duration-300">
+                    <template #header>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-emerald-400/10 p-2 rounded-lg">
+                                <Icon name="ph:users-bold" class="text-emerald-400 text-xl" />
+                            </div>
+                            <span class="text-gray-400">Total Users</span>
+                        </div>
+                    </template>
+                    <div class="text-2xl font-bold">24,521</div>
+                    <div class="text-sm text-emerald-400">↑ 12% from last month</div>
+                </n-card>
+
+                <!-- Repeat for other quick stats -->
+                <!-- You can add more stat cards here -->
             </div>
         </div>
-    </n-space>
+
+        <!-- Action Cards -->
+        <div class="mx-auto px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Loop through adminActions array -->
+                <n-card v-for="action in adminActions" :key="action.title"
+                    class="bg-[#262629] hover:border-emerald-400/50 transition-all duration-300 group">
+                    <div class="flex flex-col h-full">
+                        <div class="w-12 h-12 bg-emerald-400/10 rounded-full flex items-center justify-center mb-4 
+                    group-hover:bg-emerald-400/20 transition-all duration-300">
+                            <Icon :name="action.icon" class="text-emerald-400 text-xl" />
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">{{ action.title }}</h3>
+                        <p class="text-gray-400 mb-4 flex-grow">{{ action.description }}</p>
+                        <n-button type="primary" color="#4ade80" class="w-full" @click="action.primaryAction">
+                            {{ action.primaryButtonContent }}
+                        </n-button>
+                        <n-button v-if="action.hasSecondary" secondary class="w-full mt-2">
+                            {{ action.secondaryButtonButtonContent }}
+                        </n-button>
+                    </div>
+                </n-card>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="mx-auto  px-6 lg:px-8 py-8">
+            <h2
+                class="text-2xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text">
+                Analytics Overview
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Charts -->
+                <n-card class="bg-[#262629] hover:border-emerald-400/50 transition-all duration-300">
+                    <template #header>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold">Monthly Active Users</h3>
+                            <n-select v-model:value="timeRange" :options="timeRangeOptions" size="small" />
+                        </div>
+                    </template>
+                    <div class="h-80">
+                        <Bar :data="barChartData" :options="barChartOptions" />
+                    </div>
+                </n-card>
+
+                <n-card class="bg-[#262629] hover:border-emerald-400/50 transition-all duration-300">
+                    <template #header>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold">New Signups Trend</h3>
+                            <n-select v-model:value="timeRange" :options="timeRangeOptions" size="small" />
+                        </div>
+                    </template>
+                    <div class="h-80">
+                        <Line :data="lineChartData" :options="lineChartOptions" />
+                    </div>
+                </n-card>
+
+                <n-card class="bg-[#262629] hover:border-emerald-400/50 transition-all duration-300">
+                    <template #header>
+                        <h3 class="text-lg font-semibold">Session Duration Distribution</h3>
+                    </template>
+                    <div class="h-80">
+                        <Bar :data="histogramData" :options="histogramOptions" />
+                    </div>
+                </n-card>
+
+                <n-card class="bg-[#262629] hover:border-emerald-400/50 transition-all duration-300">
+                    <template #header>
+                        <h3 class="text-lg font-semibold">User Device Distribution</h3>
+                    </template>
+                    <div class="h-80">
+                        <Doughnut :data="donutChartData" :options="donutChartOptions" />
+                    </div>
+                </n-card>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup lang='ts'>
-import type { AdminActionCard } from '~/types/adminActionCard';
+import type { AdminActionCard } from '~/types/admin-action-card.props';
 import { ref, computed } from 'vue'
 import { Bar, Line, Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, ArcElement } from 'chart.js'
@@ -39,6 +112,41 @@ import type { ChartData, ChartOptions } from 'chart.js'
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, ArcElement)
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+
+// Time range selector
+const timeRange = ref('7d')
+const timeRangeOptions = [
+    { label: 'Last 7 days', value: '7d' },
+    { label: 'Last 30 days', value: '30d' },
+    { label: 'Last 90 days', value: '90d' }
+]
+
+
+const adminActions: AdminActionCard[] = [
+    {
+        title: 'Manage School Applications',
+        icon: 'bx:bxs-school',
+        primaryButtonContent: 'Manage',
+        secondaryButtonButtonContent: 'Load from CSV',
+        hasSecondary: false,
+        description: 'Setup a new school for enrollment',
+        primaryAction: () => navigateTo('/super-admins/school-applications')
+    },
+    {
+        title: 'Manage University Applications',
+        icon: 'hugeicons:university',
+        primaryButtonContent: 'Add',
+        hasSecondary: false,
+        description: 'Setup a new university for enrollment'
+    },
+    {
+        title: 'Manage Accounts',
+        icon: 'eos-icons:admin',
+        primaryButtonContent: 'Add',
+        description: 'Create, read update or delete users on the platform',
+        hasSecondary: false
+    },
+]
 
 const createGradient = (ctx: CanvasRenderingContext2D, color: string) => {
     const gradient = ctx.createLinearGradient(0, 0, 0, 400)
@@ -191,30 +299,6 @@ definePageMeta({
     layout: 'dashboard-layout'
 })
 
-const adminActions: AdminActionCard[] = [
-    {
-        title: 'Add School',
-        icon: 'bx:bxs-school',
-        primaryButtonContent: 'Add',
-        secondaryButtonButtonContent: 'Load from CSV',
-        hasSecondary: false,
-        description: 'Setup a new school for enrollment'
-    },
-    {
-        title: 'Add University',
-        icon: 'hugeicons:university',
-        primaryButtonContent: 'Add',
-        hasSecondary: false,
-        description: 'Setup a new university for enrollment'
-    },
-    {
-        title: 'Manage Accounts',
-        icon: 'eos-icons:admin',
-        primaryButtonContent: 'Add',
-        description: 'Create, read update or delete users on the platform',
-        hasSecondary: false
-    },
-]
 
 </script>
 <style scoped></style>
