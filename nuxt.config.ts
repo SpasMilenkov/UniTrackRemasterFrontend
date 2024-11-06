@@ -2,6 +2,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 export default defineNuxtConfig({
+  css: ['~/assets/css/main.css'],
   modules: [
     '@nuxtjs/tailwindcss',
     '@vee-validate/nuxt',
@@ -30,13 +31,18 @@ export default defineNuxtConfig({
       }),
     ],
   },
+  router: {
+    options: {
+      scrollBehaviorType: 'smooth',
+    },
+  },
   build: {
     transpile: ['vueuc'],
   },
-   tailwindcss: {
+  tailwindcss: {
     configPath: 'tailwind.config',
     exposeConfig: {
-      level: 2
+      level: 2,
     },
     config: {},
     viewer: true,
@@ -48,6 +54,11 @@ export default defineNuxtConfig({
         globInclude: ['components/**/*.vue' /* ... */],
         globExclude: ['node_modules', 'dist' /* ... */],
       },
+    },
+  },
+  runtimeConfig: {
+    public: {
+      apiBaseURL: process.env.API_BASE_URL,
     },
   },
   compatibilityDate: '2024-04-03',
