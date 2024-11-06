@@ -1,6 +1,7 @@
 <template>
-    <div class="p-8">
-        <n-card title="Register" size="large" class="max-w-xl mx-auto p-4 flex">
+    <div class="p-8 bg-[url('/img/blue-blobs.svg')] bg-no-repeat bg-cover">
+        <n-card size="large" class="max-w-xl mx-auto p-4 flex">
+            <h1 class="md:px-0 text-center text-3xl">Register</h1>
             <n-form @submit.prevent="onSubmit">
                 <!-- Personal Information Section -->
                 <n-divider>Personal Information</n-divider>
@@ -38,11 +39,8 @@
                 <!-- Organization Information Section -->
                 <n-divider>Organization Information</n-divider>
                 <n-space vertical>
-                    <n-form-item label="Organization Type" v-bind="orgTypeProps" path="orgType">
-                        <n-select v-model="orgType" :options="orgTypes" />
-                    </n-form-item>
-                    <n-form-item label="Organization ID" v-bind="orgIdProps" path="orgId">
-                        <n-input v-model:value="orgId" />
+                    <n-form-item label="Organization" v-bind="orgIdProps" path="orgId">
+                        <n-select v-model:value="orgId" :options="schools" />
                     </n-form-item>
                     <n-form-item label="Organization Role" v-bind="orgRoleProps" path="orgRole">
                         <n-select v-model:value="orgRole" :options="orgRoles" />
@@ -60,51 +58,20 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import { NButton, NForm, NInput, NSelect, NDivider, NSpace, NCard, NFormItem } from 'naive-ui';
+import { NButton, NForm, NInput, NSelect, NDivider, NSpace, NCard, NFormItem, type SelectOption } from 'naive-ui';
 import { naiveUiFormsConfig } from '~/utils/naive-ui-forms.config';
-import * as z from 'zod';
-import { isPossiblePhoneNumber } from 'libphonenumber-js';
-import { validatePassword } from '~/utils/password.util';
+import { registerSchema } from '~/schemas/register.schema';
 
+// Store
+const authStore = useAuthStore()
+const schoolStore = useSchoolStore()
 // Variables
-const orgTypes = [
-    { label: 'Corporation', value: 'corporation' },
-    { label: 'Non-Profit', value: 'non-profit' },
-    { label: 'Government', value: 'government' },
-];
-
-const orgRoles = [
-    { label: 'Admin', value: 'admin' },
-    { label: 'User', value: 'user' },
-    { label: 'Manager', value: 'manager' },
-];
-
-// Form Schema
-const zodSchema = z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string().email(),
-    phoneNumber: z.string().refine((number) => {
-        return isPossiblePhoneNumber(number, 'BG')
-    }, { message: 'Invalid phone number format' }),
-    password: z.string().min(10, { message: 'The password cannot be less than 10 characters long' }).refine((pass) => {
-        return validatePassword(pass)
-    }, { message: 'Password must contain at least one upper case letter, one lower case letter, one number and one special character' }),
-    confirmPassword: z.string().min(10, { message: 'The password cannot be less than 10 characters long' }).refine((pass) => {
-
-        return validatePassword(pass)
-    }, { message: 'Password must contain at least one upper case letter, one lower case letter, one number and one special character' }),
-    orgType: z.string(),
-    orgId: z.string(),
-    orgRole: z.string()
-}).refine((ctx) => {
-    return ctx.password === ctx.confirmPassword
-}, { message: "Password should match confirm Password", path: ["confirmPassword"] })
-
+const orgRoles: Ref<SelectOption[] | undefined> = ref()
+const schools: Ref<SelectOption[] | undefined> = ref()
 
 // Form Handling
-const { handleSubmit, defineField } = useForm({
-    validationSchema: toTypedSchema(zodSchema),
+const { handleSubmit, defineField, setFieldValue } = useForm({
+    validationSchema: toTypedSchema(registerSchema),
 })
 
 // Form fields
@@ -114,13 +81,23 @@ const [email, emailProps] = defineField('email', naiveUiFormsConfig);
 const [phoneNumber, phoneNumberProps] = defineField('phoneNumber', naiveUiFormsConfig);
 const [password, passwordProps] = defineField('password', naiveUiFormsConfig);
 const [confirmPassword, confirmPasswordProps] = defineField('confirmPassword', naiveUiFormsConfig);
-const [orgType, orgTypeProps] = defineField('orgType', naiveUiFormsConfig);
 const [orgId, orgIdProps] = defineField('orgId', naiveUiFormsConfig);
 const [orgRole, orgRoleProps] = defineField('orgRole', naiveUiFormsConfig);
-
-
+//Placeholder because the backend currently accepts schools only
+setFieldValue('orgType', 0)
+// const [orgType, orgTypeProps] = defineField('orgType', naiveUiFormsConfig);
 //Methods
 const onSubmit = handleSubmit((values) => {
-    console.log('Form Submitted:', values);
+
+    console.log(values)
+    authStore.register(values)
 });
+
+// Lifecycle
+onMounted(async () => {
+    await authStore.getRoles()
+    await schoolStore.getSchools()
+    orgRoles.value = authStore.roles?.map(r => ({ label: r.name, value: r.id }))
+    schools.value = schoolStore.schools?.map(s => ({ label: s.name, value: s.id }))
+})
 </script>
