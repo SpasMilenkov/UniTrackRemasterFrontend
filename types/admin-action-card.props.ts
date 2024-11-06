@@ -5,5 +5,5 @@ export interface AdminActionCard {
   primaryButtonContent: string;
   hasSecondary: boolean;
   secondaryButtonButtonContent?: string;
-  url?: string;
+  primaryAction?: () => void;
 }
