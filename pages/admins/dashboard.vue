@@ -7,7 +7,7 @@
     </n-space>
 </template>
 <script setup lang='ts'>
-import type { AdminActionCard } from '~/types/adminActionCard';
+import type { AdminActionCard } from '~/types/admin-action-card.props';
 
 definePageMeta({
     layout: 'dashboard-layout'
