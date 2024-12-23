@@ -21,7 +21,7 @@
     "chart.js": "^4.4.5",
     "libphonenumber-js": "^1.11.11",
     "naive-ui": "^2.40.1",
-    "nuxt": "^3.13.0",
+    "nuxt": "^3.14.1592",
     "nuxtjs-naive-ui": "^1.0.2",
     "ol": "^10.2.1",
     "pinia": "^2.2.4",
