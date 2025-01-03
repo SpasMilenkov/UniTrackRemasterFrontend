@@ -1,4 +1,4 @@
-export type Address = {
+export interface Address {
   country: string;
   settlement: string;
   postalCode: string;
@@ -6,7 +6,7 @@ export type Address = {
   schoolId: string;
 }
 
-export type ApplicationResponseDto = {
+export interface ApplicationResponseDto {
   id: string;
   schoolId: string;
   schoolName: string;

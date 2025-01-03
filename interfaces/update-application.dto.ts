@@ -1,14 +1,14 @@
-export type UpdateSchoolApplicationDto = {
+export interface UpdateSchoolApplicationDto {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   schoolName: string;
-  schoolId: string; // Added this field
+  schoolId: string;
   address: {
     country: string;
     settlement: string;
     street: string;
     postalCode: string;
   };
-};
+}

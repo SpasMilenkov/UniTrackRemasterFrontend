@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import type { z } from 'zod';
 import type { initSchoolApplicationSchema } from '~/schemas/init-school-application.schema';
-import type { ApplicationResponseDto } from '~/types/application-response.dto';
+import type { ApplicationResponseDto } from '~/interfaces/application-response.dto';
 import type { codeAuthSchema } from '~/schemas/code-auth.schema';
 
 export const useSchoolOnboardingStore = defineStore('schoolOnboardingStore', {
