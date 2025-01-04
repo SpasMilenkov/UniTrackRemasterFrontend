@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import type { z } from 'zod';
 import type { loginSchema } from '~/schemas/login.schema';
 import type { registerSchema } from '~/schemas/register.schema';
-import type { LoginResponseDto } from '~/types/login-response.dto';
+import type { LoginResponseDto } from '~/interfaces/login-response.dto';
 
 type LoginPayload = z.infer<typeof loginSchema>;
 type RegisterPayload = z.infer<typeof registerSchema>;

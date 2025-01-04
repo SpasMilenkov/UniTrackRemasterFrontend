@@ -1,4 +1,4 @@
-import type { TagColor } from "~/types/tags";
+import type { TagColor } from '~/interfaces/tags';
 
 export const generateTagStyling = (tagKey: number): TagColor => {
   switch (tagKey) {

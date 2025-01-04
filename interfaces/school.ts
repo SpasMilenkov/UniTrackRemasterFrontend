@@ -3,7 +3,7 @@ export enum IntegrationStatus {
   NOT_INTEGRATED = 'NOT_INTEGRATED',
   PENDING_INTEGRATION = 'PENDING_INTEGRATION',
 }
-export interface SchoolInput {
+export type SchoolInput = {
   name: string;
   integrated: IntegrationStatus;
   images: string[];

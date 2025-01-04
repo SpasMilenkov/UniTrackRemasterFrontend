@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/eslint',
     'nuxtjs-naive-ui',
+    '@nuxtjs/i18n',
   ],
   vite: {
     plugins: [
@@ -55,6 +56,14 @@ export default defineNuxtConfig({
         globExclude: ['node_modules', 'dist' /* ... */],
       },
     },
+  },
+  i18n: {
+    vueI18n: './i18n.config.ts',
+    locales: [
+      { code: 'en', language: 'en-US' },
+      { code: 'bg', language: 'bg' },
+    ],
+    defaultLocale: 'en',
   },
   runtimeConfig: {
     public: {
