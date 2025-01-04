@@ -24,6 +24,7 @@ export default defineI18nConfig(() => ({
         profileLinked: 'Profile Linked',
         profileNotLinked: 'Profile Not Linked',
         viewInstitutions: 'View Linked Institutions',
+        noInstitutions: 'No Linked Institutions',
       },
       quickActions: {
         academicTools: {
@@ -58,6 +59,15 @@ export default defineI18nConfig(() => ({
           buttonText: 'Open Settings',
         },
       },
+      activityList: {
+        title: 'Recent Activity',
+        actionButton: 'View All',
+        emptyState: {
+          message: 'No Recent Activity',
+          description:
+            "When you perform actions, they'll appear here. Check back later to see your activity history.",
+        },
+      },
     },
     bg: {
       welcome: 'Добре дошли',
@@ -73,6 +83,7 @@ export default defineI18nConfig(() => ({
         profileLinked: 'Профилът е свързан',
         profileNotLinked: 'Профилът не е свързан',
         viewInstitutions: 'Вижте свързани институции',
+        noInstitutions: 'Няма свързани институции',
       },
       quickActions: {
         academicTools: {
@@ -108,6 +119,15 @@ export default defineI18nConfig(() => ({
           description:
             'Персонализирайте своя профил и предпочитания за приложение',
           buttonText: 'Отворете настройките',
+        },
+      },
+      activityList: {
+        title: 'Скорошна активност',
+        actionButton: 'Виж всички',
+        emptyState: {
+          message: 'Няма скорошна активност',
+          description:
+            'Когато извършвате действия, те ще се появяват тук. Проверете отново по-късно, за да видите историята на действията си.',
         },
       },
     },

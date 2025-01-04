@@ -15,7 +15,7 @@
         <h2
           class="text-2xl font-semibold bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"
         >
-          Recent Activity
+          {{ t('activityList.title') }}
         </h2>
         <n-button
           v-if="recentActivities.length > 0"
@@ -24,7 +24,7 @@
           color="#4ade80"
           class="text-base font-medium hover:text-emerald-300 transition-colors duration-300"
         >
-          View All
+          {{ t('activityList.actionButton') }}
           <template #icon>
             <Icon
               name="ph:arrow-right-bold"
@@ -46,11 +46,10 @@
           />
         </div>
         <h3 class="text-xl font-medium text-gray-400 mb-2">
-          No Recent Activity
+          {{ t('activityList.emptyState.title') }}
         </h3>
         <p class="text-gray-500 max-w-sm">
-          When you perform actions, they'll appear here. Check back later to see
-          your activity history.
+          {{ t('activityList.emptyState.description') }}
         </p>
       </div>
 
@@ -111,6 +110,8 @@
 
 <script setup lang="ts">
 import type { UserActivity } from '~/interfaces/user/recent-activity.props';
+
+const { t } = useI18n();
 
 defineProps<{
   recentActivities: UserActivity[];
