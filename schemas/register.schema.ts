@@ -42,7 +42,7 @@ export const registerSchema = z
       ),
     orgId: z.string(),
     orgRole: z.string(),
-    orgType: z.number()
+    orgType: z.number(),
   })
   .refine(
     (ctx) => {

@@ -3,7 +3,6 @@
 // Without this plugin css loads considerably slower when refreshing the page
 // This behavior is witnessed in both dev and preview modes
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { setup } from '@css-render/vue3-ssr';
 export default defineNuxtPlugin((nuxtApp) => {
   if (import.meta.server) {

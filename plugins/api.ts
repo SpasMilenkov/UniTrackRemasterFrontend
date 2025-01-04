@@ -60,7 +60,7 @@ const createApi = () => {
       makeRequest<T>(endpoint, {
         method: 'POST',
         body: data,
-        params
+        params,
       }),
 
     put: <T>(

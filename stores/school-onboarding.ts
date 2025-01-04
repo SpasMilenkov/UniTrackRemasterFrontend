@@ -62,9 +62,8 @@ export const useSchoolOnboardingStore = defineStore('schoolOnboardingStore', {
     async getSchoolApplications() {
       try {
         const { $api } = useNuxtApp();
-        this.applications = await $api.get<ApplicationResponseDto[]>(
-          '/Application'
-        );
+        this.applications =
+          await $api.get<ApplicationResponseDto[]>('/Application');
       } catch (err) {
         this.error = err;
         console.error('Error fetching applications:', err);
