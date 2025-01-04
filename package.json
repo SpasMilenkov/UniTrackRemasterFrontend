@@ -7,7 +7,11 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:write": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@nuxt/eslint": "^0.5.7",
@@ -39,6 +43,7 @@
     "@iconify-json/ion": "^1.2.1",
     "@iconify-json/material-symbols": "^1.2.6",
     "@iconify-json/ph": "^1.2.1",
+    "prettier": "^3.4.2",
     "unplugin-vue-components": "^0.27.4"
   }
 }
