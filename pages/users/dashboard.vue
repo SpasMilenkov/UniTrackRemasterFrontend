@@ -1,77 +1,116 @@
 <template>
   <n-space vertical :size="12" class="min-h-screen md:px-6 px-2 py-4">
-
-
+    <UserBanner :user="user" />
     <!-- Refined Quick Actions Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-8">
-      
+      <UserQuickActionCard
+        v-for="action in quickActions"
+        :key="action.title"
+        :action="action"
+      />
     </div>
 
-    <ActivityListComponent />
+    <ActivityList :recent-activities="recentActivities" />
   </n-space>
 </template>
 
 <script setup lang="ts">
-import ActivityListComponent from '~/components/user/ActivityListComponent.vue';
+import ActivityList from '~/components/user/ActivityListComponent.vue';
+import UserQuickActionCard from '~/components/user/UserQuickActionCard.vue';
+import UserBanner from '~/components/user/UserBannerComponent.vue';
+import type { UserQuickAction } from '~/interfaces/user/quick-action.props';
+import type { User } from '~/interfaces/user/user';
+
 definePageMeta({
   layout: 'dashboard-layout',
 });
 
-const user = {
+const recentActivities = [
+  {
+    id: 1,
+    title: 'Profile linked with University of Example',
+    description:
+      'Successfully connected your profile with the university system.',
+    timestamp: '2 hours ago',
+    icon: 'ph:link-bold',
+    type: 'emerald',
+  },
+  {
+    id: 2,
+    title: 'Updated academic records',
+    description: 'New grades and attendance records have been synchronized.',
+    timestamp: '1 day ago',
+    icon: 'ph:notebook-bold',
+    type: 'blue',
+  },
+  {
+    id: 3,
+    title: 'New document uploaded',
+    description: 'Added "Final Project Submission" to your document center.',
+    timestamp: '2 days ago',
+    icon: 'ph:file-plus-bold',
+    type: 'purple',
+  },
+  {
+    id: 4,
+    title: 'Calendar sync completed',
+    description: 'Your academic calendar has been updated with latest events.',
+    timestamp: '3 days ago',
+    icon: 'ph:calendar-check-bold',
+    type: 'indigo',
+  },
+];
+
+const user: User = {
   name: 'John Doe',
   email: 'john.doe@example.com',
   isLinked: true,
 };
 
-const quickActions = [
+const quickActions: UserQuickAction[] = [
   {
-    title: 'Academic Tools',
-    description:
-      'Access grade calculators, attendance trackers, and study planners',
+    title: 'quickActions.academicTools.title',
+    description: 'quickActions.academicTools.description',
+    buttonText: 'quickActions.academicTools.buttonText',
     icon: 'ph:graduation-cap',
     link: '/tools/academic',
-    buttonText: 'Access Tools',
   },
   {
-    title: 'Institution Manager',
-    description: 'Manage your institutional connections and permissions',
+    title: 'quickActions.institutionManager.title',
+    description: 'quickActions.institutionManager.description',
+    buttonText: 'quickActions.institutionManager.buttonText',
     icon: 'ph:buildings',
     link: '/institutions',
-    buttonText: 'Manage Institutions',
   },
   {
-    title: 'Performance Analytics',
-    description: 'View detailed insights about your academic performance',
+    title: 'quickActions.performanceAnalytics.title',
+    description: 'quickActions.performanceAnalytics.description',
+    buttonText: 'quickActions.performanceAnalytics.buttonText',
     icon: 'ph:chart-line',
     link: '/analytics',
-    buttonText: 'View Analytics',
   },
   {
-    title: 'Calendar',
-    description: 'Track important dates, assignments, and schedules',
+    title: 'quickActions.calendar.title',
+    description: 'quickActions.calendar.description',
+    buttonText: 'quickActions.calendar.buttonText',
     icon: 'ph:calendar',
     link: '/calendar',
-    buttonText: 'Open Calendar',
   },
   {
-    title: 'Document Center',
-    description: 'Access and manage your academic documents',
+    title: 'quickActions.documentCenter.title',
+    description: 'quickActions.documentCenter.description',
+    buttonText: 'quickActions.documentCenter.buttonText',
     icon: 'ph:files',
     link: '/documents',
-    buttonText: 'View Documents',
   },
   {
-    title: 'Settings',
-    description: 'Customize your profile and application preferences',
+    title: 'quickActions.settings.title',
+    description: 'quickActions.settings.description',
+    buttonText: 'quickActions.settings.buttonText',
     icon: 'ph:gear',
     link: '/settings',
-    buttonText: 'Open Settings',
   },
 ];
-
-const navigateToInstitutions = () => {
-  navigateTo('/institutions');
-};
 </script>
 
 <style scoped>
