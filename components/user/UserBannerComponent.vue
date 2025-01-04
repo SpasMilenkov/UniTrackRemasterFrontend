@@ -46,19 +46,33 @@
                 }}
               </span>
               <span class="text-gray-400 flex items-center gap-2">
-                <Icon name="ph:envelope" class="text-gray-500" />
+                <Icon
+                  name="material-symbols:mail-outline"
+                  class="text-gray-500"
+                />
                 {{ user.email }}
               </span>
             </div>
           </div>
         </div>
         <n-button
-          type="primary"
-          color="#4ade80"
+          :secondary="!user.isLinked"
+          :type="user.isLinked ? 'primary' : 'warning'"
+          :disabled="!user.isLinked"
+          :class="[
+            'px-6 h-12 text-base font-medium',
+            !user.isLinked
+              ? 'cursor-not-allowed opacity-50'
+              : 'hover:shadow-lg bg-primary hover:shadow-emerald-400/20 transition-all duration-300',
+          ]"
           class="px-6 h-12 text-base font-medium hover:shadow-lg hover:shadow-emerald-400/20 transition-all duration-300"
           @click="navigateTo('/institutions')"
         >
-          {{ $t('userBanner.viewInstitutions') }}
+          {{
+            user.isLinked
+              ? $t('userBanner.viewInstitutions')
+              : $t('userBanner.noInstitutions')
+          }}
           <template #icon>
             <Icon name="ph:buildings-bold" />
           </template>
