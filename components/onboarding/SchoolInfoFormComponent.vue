@@ -13,22 +13,28 @@
               <h1
                 class="text-2xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
               >
-                School Information
+                {{ t('onboarding.schoolForm.title') }}
               </h1>
             </div>
-
             <n-form @submit.prevent="onSubmit">
               <!-- School Name -->
-              <n-form-item v-bind="nameProps" label="School name">
+              <n-form-item
+                v-bind="nameProps"
+                :label="t('onboarding.schoolForm.fields.name.label')"
+              >
                 <n-input
                   v-model:value="name"
                   class="dark"
-                  placeholder="Enter school name"
+                  :placeholder="
+                    t('onboarding.schoolForm.fields.name.placeholder')
+                  "
                 />
               </n-form-item>
 
               <!-- Pictures -->
-              <n-form-item label="Pictures">
+              <n-form-item
+                :label="t('onboarding.schoolForm.fields.pictures.label')"
+              >
                 <n-upload
                   action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
                   :default-file-list="fileList"
@@ -39,13 +45,18 @@
                     class="flex flex-col items-center justify-center text-gray-400"
                   >
                     <Icon name="ph:upload-simple-bold" class="text-2xl mb-2" />
-                    <span>Click to Upload</span>
+                    <span>{{
+                      t('onboarding.schoolForm.fields.pictures.uploadText')
+                    }}</span>
                   </div>
                 </n-upload>
               </n-form-item>
 
               <!-- Founded Date -->
-              <n-form-item v-bind="foundedProps" label="Founded at">
+              <n-form-item
+                v-bind="foundedProps"
+                :label="t('onboarding.schoolForm.fields.founded.label')"
+              >
                 <n-date-picker
                   v-model:value="founded"
                   type="date"
@@ -54,34 +65,49 @@
               </n-form-item>
 
               <!-- School Type -->
-              <n-form-item v-bind="typeProps" label="Type">
+              <n-form-item
+                v-bind="typeProps"
+                :label="t('onboarding.schoolForm.fields.type.label')"
+              >
                 <n-input
                   v-model:value="type"
                   class="dark"
-                  placeholder="Enter school type"
+                  :placeholder="
+                    t('onboarding.schoolForm.fields.type.placeholder')
+                  "
                 />
               </n-form-item>
 
               <!-- Description -->
-              <n-form-item v-bind="descriptionProps" label="Description">
+              <n-form-item
+                v-bind="descriptionProps"
+                :label="t('onboarding.schoolForm.fields.description.label')"
+              >
                 <n-input
                   v-model:value="description"
                   type="textarea"
                   class="dark"
-                  placeholder="Enter school description"
+                  :placeholder="
+                    t('onboarding.schoolForm.fields.description.placeholder')
+                  "
                   :rows="4"
                 />
               </n-form-item>
 
               <!-- Programs -->
-              <n-form-item label="Programs" v-bind="programsProps">
+              <n-form-item
+                :label="t('onboarding.schoolForm.fields.programs.label')"
+                v-bind="programsProps"
+              >
                 <n-select
                   v-model:value="programs"
                   multiple
                   filterable
                   tag
                   :consistent-menu-width="false"
-                  placeholder="Select or add programs"
+                  :placeholder="
+                    t('onboarding.schoolForm.fields.programs.placeholder')
+                  "
                   class="dark"
                 />
               </n-form-item>
@@ -94,7 +120,7 @@
                   color="#4ade80"
                   class="text-lg px-8"
                 >
-                  Submit
+                  {{ t('onboarding.schoolForm.submit') }}
                   <template #icon>
                     <Icon name="ph:arrow-right-bold" />
                   </template>
@@ -112,6 +138,8 @@
 import * as z from 'zod';
 import type { UploadFileInfo } from 'naive-ui';
 import { ref } from 'vue';
+
+const { t } = useI18n();
 
 // File list for uploads
 const fileList = ref<UploadFileInfo[]>([]);

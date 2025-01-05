@@ -3,75 +3,141 @@
     class="flex-col w-full items-center mx-auto gap-4 bg-[hsl(240,8%,10%)] py-8 px-16 rounded"
     @submit.prevent="onSubmit"
   >
-    <VanillaTitle title="Initial Data" size="medium" />
+    <VanillaTitle
+      :title="t('onboarding.initialForm.titles.main')"
+      size="medium"
+    />
     <n-divider />
-    <VanillaTitle title="Contact Information" size="small" />
+    <VanillaTitle
+      :title="t('onboarding.initialForm.titles.contact')"
+      size="small"
+    />
     <p class="mt-2">
-      Give us your contact information so we can initiate the integr ation of
-      your institution on our platform.
+      {{ t('onboarding.initialForm.descriptions.contact') }}
     </p>
     <div
       class="flex flex-wrap justify-center md:justify-start w-full max-w-[45rem] max-h-fit md:max-h-80 gap-8 py-4"
     >
-      <n-form-item label="First name" class="w-80" v-bind="firstNameProps">
+      <n-form-item
+        :label="t('onboarding.initialForm.fields.firstName.label')"
+        class="w-80"
+        v-bind="firstNameProps"
+      >
         <n-input
           v-model:value="firstName"
-          placeholder="First name"
+          :placeholder="
+            t('onboarding.initialForm.fields.firstName.placeholder')
+          "
           class="mb-3"
         />
       </n-form-item>
-      <n-form-item label="Last name" class="w-80" v-bind="lastNameProps">
+      <n-form-item
+        :label="t('onboarding.initialForm.fields.lastName.label')"
+        class="w-80"
+        v-bind="lastNameProps"
+      >
         <n-input
           v-model:value="lastName"
-          placeholder="Last name"
+          :placeholder="t('onboarding.initialForm.fields.lastName.placeholder')"
           class="mb-3"
         />
       </n-form-item>
-      <n-form-item label="Email" class="w-80" v-bind="emailProps">
-        <n-input v-model:value="email" placeholder="Email" class="mb-3" />
+      <n-form-item
+        :label="t('onboarding.initialForm.fields.email.label')"
+        class="w-80"
+        v-bind="emailProps"
+      >
+        <n-input
+          v-model:value="email"
+          :placeholder="t('onboarding.initialForm.fields.email.placeholder')"
+          class="mb-3"
+        />
       </n-form-item>
-      <n-form-item label="Phone number" class="w-80" v-bind="phoneNumberProps">
+      <n-form-item
+        :label="t('onboarding.initialForm.fields.phone.label')"
+        class="w-80"
+        v-bind="phoneNumberProps"
+      >
         <n-input
           v-model:value="phoneNumber"
           class="w-full mb-3"
-          placeholder="Phone"
+          :placeholder="t('onboarding.initialForm.fields.phone.placeholder')"
         />
       </n-form-item>
     </div>
-
     <n-divider />
-    <VanillaTitle title="Geographic Data" size="small" />
-    <p class="mt-2">Give us the geog,raphical data of your institution.</p>
+    <VanillaTitle
+      :title="t('onboarding.initialForm.titles.geographic')"
+      size="small"
+    />
+    <p class="mt-2">
+      {{ t('onboarding.initialForm.descriptions.geographic') }}
+    </p>
     <div class="flex flex-col items-center mx-auto gap-8 py-4 md:flex-row">
       <div class="min-w-80">
-        <n-form-item label="School name" v-bind="schoolNameProps">
+        <n-form-item
+          :label="t('onboarding.initialForm.fields.schoolName.label')"
+          v-bind="schoolNameProps"
+        >
           <n-input
             v-model:value="schoolName"
-            placeholder="School name"
+            :placeholder="
+              t('onboarding.initialForm.fields.schoolName.placeholder')
+            "
             class="mb-3"
           />
         </n-form-item>
-        <n-form-item label="Country" v-bind="countryProps">
-          <n-input v-model:value="country" placeholder="Country" class="mb-3" />
+        <n-form-item
+          :label="t('onboarding.initialForm.fields.country.label')"
+          v-bind="countryProps"
+        >
+          <n-input
+            v-model:value="country"
+            :placeholder="
+              t('onboarding.initialForm.fields.country.placeholder')
+            "
+            class="mb-3"
+          />
         </n-form-item>
-        <n-form-item label="City" v-bind="cityProps">
-          <n-input v-model:value="city" placeholder="City" class="mb-3" />
+        <n-form-item
+          :label="t('onboarding.initialForm.fields.city.label')"
+          v-bind="cityProps"
+        >
+          <n-input
+            v-model:value="city"
+            :placeholder="t('onboarding.initialForm.fields.city.placeholder')"
+            class="mb-3"
+          />
         </n-form-item>
-        <n-form-item label="Postcode" v-bind="postcodeProps">
+        <n-form-item
+          :label="t('onboarding.initialForm.fields.postcode.label')"
+          v-bind="postcodeProps"
+        >
           <n-input
             v-model:value="postcode"
             :show-button="false"
-            placeholder="Postcode"
+            :placeholder="
+              t('onboarding.initialForm.fields.postcode.placeholder')
+            "
             class="mb-3 w-full"
           />
         </n-form-item>
-        <n-form-item label="Street" v-bind="streetProps">
-          <n-input v-model:value="street" placeholder="Street" class="mb-3" />
+        <n-form-item
+          :label="t('onboarding.initialForm.fields.street.label')"
+          v-bind="streetProps"
+        >
+          <n-input
+            v-model:value="street"
+            :placeholder="t('onboarding.initialForm.fields.street.placeholder')"
+            class="mb-3"
+          />
         </n-form-item>
       </div>
       <div id="map" class="h-[23rem] w-full rounded" />
     </div>
-    <n-button type="primary" @click="onSubmit">Submit</n-button>
+    <n-button type="primary" @click="onSubmit">{{
+      t('onboarding.initialForm.submit')
+    }}</n-button>
   </n-form>
 </template>
 
@@ -90,8 +156,12 @@ import { Vector as VectorSource } from 'ol/source';
 import { Style, Icon } from 'ol/style';
 import { useSchoolOnboardingStore } from '~/stores/school-onboarding';
 import { initSchoolApplicationSchema } from '~/schemas/init-school-application.schema';
-//Stores
 
+// Localization
+
+const { t } = useI18n();
+
+//Stores
 const onboardingStore = useSchoolOnboardingStore();
 
 //variables
