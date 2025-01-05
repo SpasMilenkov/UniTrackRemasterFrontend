@@ -22,11 +22,10 @@
             <h1
               class="text-4xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text mb-6"
             >
-              Get Started with UniTrack
+              {{ t('getStartedPage.title') }}
             </h1>
             <p class="text-gray-400 max-w-2xl mx-auto">
-              Choose your path to begin your journey with UniTrack's educational
-              management platform
+              {{ t('getStartedPage.description') }}
             </p>
           </div>
         </div>
@@ -36,152 +35,46 @@
       <div class="py-12">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <div class="grid md:grid-cols-2 gap-8">
-            <!-- Student/User Card -->
-            <div
-              class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-8 group hover:border-emerald-400/50 transition-all duration-300"
-            >
-              <div class="flex flex-col h-full">
-                <!-- Icon -->
-                <div class="mb-6">
-                  <div
-                    class="w-16 h-16 bg-emerald-400/10 rounded-full flex items-center justify-center group-hover:bg-emerald-400/20 transition-all duration-300"
-                  >
-                    <Icon
-                      name="ph:student-bold"
-                      class="text-emerald-400 text-3xl"
-                    />
-                  </div>
-                </div>
-
-                <!-- Title -->
-                <h2
-                  class="text-2xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-                >
-                  Join Your Institution
-                </h2>
-
-                <!-- Description -->
-                <p class="text-gray-400 mb-6 flex-grow">
-                  Already a student or faculty member at an institution using
-                  UniTrack? Get started with your educational journey by
-                  accessing your institution's portal.
-                </p>
-
-                <!-- Features List -->
-                <ul class="space-y-3 mb-8">
-                  <li class="flex items-center text-gray-300">
-                    <Icon
-                      name="ph:check-circle-fill"
-                      class="text-emerald-400 mr-2"
-                    />
-                    Access your academic records
-                  </li>
-                  <li class="flex items-center text-gray-300">
-                    <Icon
-                      name="ph:check-circle-fill"
-                      class="text-emerald-400 mr-2"
-                    />
-                    Track your progress in real-time
-                  </li>
-                  <li class="flex items-center text-gray-300">
-                    <Icon
-                      name="ph:check-circle-fill"
-                      class="text-emerald-400 mr-2"
-                    />
-                    Communicate with faculty
-                  </li>
-                </ul>
-
-                <!-- Button -->
-                <n-button
-                  type="primary"
-                  color="#4ade80"
-                  class="text-lg w-full"
-                  @click="navigateTo('/login')"
-                >
-                  Access Portal
-                  <template #icon>
-                    <Icon name="ph:arrow-right-bold" />
-                  </template>
-                </n-button>
-              </div>
-            </div>
-
-            <!-- Institution Card -->
-            <div
-              class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-8 group hover:border-emerald-400/50 transition-all duration-300"
-            >
-              <div class="flex flex-col h-full">
-                <!-- Icon -->
-                <div class="mb-6">
-                  <div
-                    class="w-16 h-16 bg-emerald-400/10 rounded-full flex items-center justify-center group-hover:bg-emerald-400/20 transition-all duration-300"
-                  >
-                    <Icon
-                      name="ph:buildings-bold"
-                      class="text-emerald-400 text-3xl"
-                    />
-                  </div>
-                </div>
-
-                <!-- Title -->
-                <h2
-                  class="text-2xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-                >
-                  Integrate Your Institution
-                </h2>
-
-                <!-- Description -->
-                <p class="text-gray-400 mb-6 flex-grow">
-                  Ready to transform your educational institution's management?
-                  Start the integration process to unlock the full potential of
-                  UniTrack.
-                </p>
-
-                <!-- Features List -->
-                <ul class="space-y-3 mb-8">
-                  <li class="flex items-center text-gray-300">
-                    <Icon
-                      name="ph:check-circle-fill"
-                      class="text-emerald-400 mr-2"
-                    />
-                    Streamline administrative processes
-                  </li>
-                  <li class="flex items-center text-gray-300">
-                    <Icon
-                      name="ph:check-circle-fill"
-                      class="text-emerald-400 mr-2"
-                    />
-                    Enhanced data management
-                  </li>
-                  <li class="flex items-center text-gray-300">
-                    <Icon
-                      name="ph:check-circle-fill"
-                      class="text-emerald-400 mr-2"
-                    />
-                    24/7 implementation support
-                  </li>
-                </ul>
-
-                <!-- Button -->
-                <n-button
-                  type="primary"
-                  color="#4ade80"
-                  class="text-lg w-full"
-                  @click="navigateTo('/onboarding/options')"
-                >
-                  Start Integration
-                  <template #icon>
-                    <Icon name="ph:arrow-right-bold" />
-                  </template>
-                </n-button>
-              </div>
-            </div>
+            <InfoCard v-for="card in cards" :key="t(card.title)" :card="card" />
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import InfoCard from '~/components/get-started/InfoCardComponent.vue';
+
+// Localization
+const { t } = useI18n();
+
+const cards = [
+  {
+    icon: 'ph:student-bold',
+    title: 'getStartedPage.cards.joinCard.title',
+    description:
+      "getStartedPage.cards.joinCard.description",
+    features: [
+      'getStartedPage.cards.joinCard.features.records',
+      'getStartedPage.cards.joinCard.features.progress',
+      'getStartedPage.cards.joinCard.features.communication',
+    ],
+    buttonText: 'getStartedPage.cards.joinCard.buttonText',
+    buttonRoute: '/login',
+  },
+  {
+    icon: 'ph:buildings-bold',
+    title: 'getStartedPage.cards.integrationCard.title',
+    description:
+      "getStartedPage.cards.integrationCard.description",
+    features: [
+      'getStartedPage.cards.integrationCard.features.streamline',
+      'getStartedPage.cards.integrationCard.features.dataManagement',
+      'getStartedPage.cards.integrationCard.features.support',
+    ],
+    buttonText: 'getStartedPage.cards.integrationCard.buttonText',
+    buttonRoute: '/onboarding/options',
+  },
+];
+</script>
 <style scoped></style>
