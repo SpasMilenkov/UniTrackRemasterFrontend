@@ -14,19 +14,18 @@
           <h1
             class="text-6xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text mb-6"
           >
-            UniTrack
+            {{ t('indexPage.title') }}
           </h1>
           <p class="text-xl text-gray-300 mb-8">
-            Revolutionizing education management with powerful analytics and
-            insights
+            {{ t('indexPage.subtitle') }}
           </p>
           <n-button
             type="primary"
             class="text-lg"
             color="#4ade80"
-            @click="navigateTo('/get-started')"
+            @click="navigateTo(localePath('/get-started'))"
           >
-            Get Started
+            {{ t('indexPage.getStarted') }}
             <template #icon>
               <Icon name="ph:arrow-right-bold" />
             </template>
@@ -52,11 +51,10 @@
           <h2
             class="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
           >
-            Powerful Features
+            {{ t('indexPage.featuresTitle') }}
           </h2>
           <p class="text-gray-400 max-w-2xl mx-auto">
-            Everything you need to manage your educational institution
-            effectively
+            {{ t('indexPage.featuresSubtitle') }}
           </p>
         </div>
 
@@ -64,7 +62,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           <n-card
             v-for="feature in features"
-            :key="feature.title"
+            :key="t(feature.title)"
             class="feature-card bg-[#262629] hover:transform hover:scale-105 transition-all duration-300 hover:shadow-xl pt-4"
             :class="feature.activeClass"
           >
@@ -89,14 +87,14 @@
               <div class="relative">
                 <!-- Title -->
                 <div class="text-xl font-semibold text-center mb-2">
-                  {{ feature.title }}
+                  {{ t(feature.title) }}
                 </div>
                 <!-- Badge -->
                 <div v-if="feature.badge" class="absolute -top-12 right-0">
                   <span
                     class="px-3 py-1 text-sm rounded-full bg-emerald-400/10 text-emerald-400"
                   >
-                    {{ feature.badge }}
+                    {{ t(feature.badge) }}
                   </span>
                 </div>
               </div>
@@ -104,7 +102,7 @@
 
             <!-- Description -->
             <div class="text-gray-400 text-center mb-4">
-              {{ feature.description }}
+              {{ t(feature.description) }}
             </div>
 
             <!-- Feature List -->
@@ -119,7 +117,7 @@
                   class="text-emerald-400 mr-2"
                   size="16"
                 />
-                {{ subFeature }}
+                {{ t(subFeature) }}
               </div>
             </div>
           </n-card>
@@ -144,10 +142,10 @@
           <h2
             class="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
           >
-            Our Roadmap
+            {{ t('indexPage.roadmap.title') }}
           </h2>
           <p class="text-gray-400 max-w-2xl mx-auto">
-            Follow our journey as we build the future of education management
+            {{ t('indexPage.roadmap.subtitle') }}
           </p>
         </div>
 
@@ -157,9 +155,9 @@
             <n-timeline>
               <n-timeline-item
                 v-for="(step, index) in roadmapSteps"
-                :key="step.title"
-                :title="step.title"
-                :content="step.description"
+                :key="t(step.title)"
+                :title="t(step.title)"
+                :content="t(step.description)"
                 color="#4ade80"
                 :class="[
                   'cursor-pointer transform transition-all duration-300',
@@ -179,7 +177,7 @@
                     <Icon
                       :name="step.icon"
                       :class="[
-                        'text-2xl transition-all duration-300',
+                        'text-2xl transition-all duration-30е 0',
                         hoveredStep === index
                           ? 'text-emerald-400'
                           : 'text-emerald-400/70',
@@ -197,12 +195,12 @@
                           : 'text-white',
                       ]"
                     >
-                      {{ step.title }}
+                      {{ t(step.title) }}
                     </span>
                     <span
                       class="text-sm font-medium px-2 py-1 rounded-full bg-emerald-400/10 text-emerald-400"
                     >
-                      {{ step.status }}
+                      {{ t(step.status) }}
                     </span>
                   </div>
                 </template>
@@ -229,19 +227,19 @@
                     <h3
                       class="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
                     >
-                      {{ roadmapSteps[hoveredStep].heading }}
+                      {{ t(roadmapSteps[hoveredStep].heading) }}
                     </h3>
                   </div>
                   <p class="text-gray-400 mb-6">
-                    {{ roadmapSteps[hoveredStep].details }}
+                    {{ t(roadmapSteps[hoveredStep].details) }}
                   </p>
                   <div class="flex flex-wrap gap-3">
                     <span
                       v-for="feature in roadmapSteps[hoveredStep].keyFeatures"
-                      :key="feature"
+                      :key="t(feature)"
                       class="px-3 py-1 rounded-full text-sm bg-emerald-400/10 text-emerald-400"
                     >
-                      {{ feature }}
+                      {{ t(feature) }}
                     </span>
                   </div>
                 </div>
@@ -269,11 +267,10 @@
             <h2
               class="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
             >
-              Get in Touch
+              {{ t('indexPage.contacts.title') }}
             </h2>
             <p class="text-gray-400 max-w-2xl mx-auto">
-              Have questions about UniTrack? We'd love to hear from you. Send us
-              a message and we'll respond as soon as possible.
+              {{ t('indexPage.contacts.subtitle') }}
             </p>
           </div>
 
@@ -284,23 +281,23 @@
               :key="index"
               class="bg-[#262629] p-6 rounded-xl border border-gray-700 hover:border-emerald-400/50 transition-all duration-300 group"
             >
-              <div class="flex flex-col items-center">
+              <div class="flex flex-col items-center justify-between h-full">
                 <div
                   class="w-16 h-16 bg-emerald-400/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-emerald-400/20 transition-all duration-300"
                 >
                   <Icon :name="card.icon" class="text-emerald-400 text-2xl" />
                 </div>
-                <h3 class="text-xl font-semibold mb-2">{{ card.title }}</h3>
+                <h3 class="text-xl font-semibold mb-2">{{ t(card.title) }}</h3>
                 <p class="text-gray-400 text-center mb-4">
-                  {{ card.description }}
+                  {{ t(card.description) }}
                 </p>
                 <n-button
                   type="primary"
                   color="#4ade80"
                   class="w-full"
-                  @click="navigateTo(card.link)"
+                  @click="navigateTo(localePath(card.link))"
                 >
-                  {{ card.buttonText }}
+                  {{ t(card.buttonText) }}
                 </n-button>
               </div>
             </div>
@@ -312,123 +309,117 @@
 </template>
 
 <script setup lang="ts">
-const hoveredStep = ref(null);
+const hoveredStep = ref<number | null>(null);
 
+const { t } = useI18n();
+const localePath = useLocalePath();
 const features = [
   {
-    title: 'Grade Tracking',
-    description:
-      'Monitor academic performance with detailed insights and comparisons',
+    title: 'indexPage.features[0].title',
+    description: 'indexPage.features[0].description',
+    badge: 'indexPage.features[0].badge',
     icon: 'ph:medal-bold',
-    badge: 'Most Popular',
-    activeClass: 'border-emerald-400/50',
+    activeClass: 'border-emerald-400/30',
     subFeatures: [
-      'Real-time grade updates',
-      'Performance analytics',
-      'Custom grading scales',
-      'Progress reports',
+      'indexPage.features[0].subFeatures[0]',
+      'indexPage.features[0].subFeatures[1]',
+      'indexPage.features[0].subFeatures[2]',
+      'indexPage.features[0].subFeatures[3]',
     ],
   },
   {
-    title: 'Attendance Management',
-    description:
-      'Track and analyze attendance patterns for better academic planning',
+    title: 'indexPage.features[1].title',
+    description: 'indexPage.features[1].description',
     icon: 'ph:calendar-bold',
     activeClass: 'border-emerald-400/30',
     subFeatures: [
-      'Automated tracking',
-      'Absence notifications',
-      'Attendance reports',
-      'Pattern analysis',
+      'indexPage.features[1].subFeatures[0]',
+      'indexPage.features[1].subFeatures[1]',
+      'indexPage.features[1].subFeatures[2]',
+      'indexPage.features[1].subFeatures[3]',
     ],
   },
   {
-    title: 'School Analytics',
-    description:
-      'Comprehensive analytics and insights for educational institutions',
+    title: 'indexPage.features[2].title',
+    description: 'indexPage.features[2].description',
+    badge: 'indexPage.features[2].badge',
+    activeClass: 'border-emerald-400/30',
     icon: 'ph:chart-line-up-bold',
-    badge: 'New',
-    activeClass: 'border-emerald-400/30',
     subFeatures: [
-      'Performance metrics',
-      'Trend analysis',
-      'Custom dashboards',
-      'Data visualization',
+      'indexPage.features[2].subFeatures[0]',
+      'indexPage.features[2].subFeatures[1]',
+      'indexPage.features[2].subFeatures[2]',
+      'indexPage.features[2].subFeatures[3]',
     ],
   },
   {
-    title: 'Multi-Institution Support',
-    description: 'Seamlessly manage multiple schools and universities',
+    title: 'indexPage.features[3].title',
+    description: 'indexPage.features[3].description',
     icon: 'ph:buildings-bold',
-    activeClass: 'border-emerald-400/30',
     subFeatures: [
-      'Centralized management',
-      'Role-based access',
-      'Cross-campus insights',
-      'Unified reporting',
+      'indexPage.features[3].subFeatures[0]',
+      'indexPage.features[3].subFeatures[1]',
+      'indexPage.features[3].subFeatures[2]',
+      'indexPage.features[3].subFeatures[3]',
     ],
   },
 ];
 
 const roadmapSteps = [
   {
-    title: 'Q2 2025',
-    description: 'Mobile App Launch',
+    title: 'indexPage.roadmap.roadmapSteps[0].title',
+    description: 'indexPage.roadmap.roadmapSteps[0].description',
     icon: 'ph:rocket-launch-bold',
-    heading: 'Mobile First Approach',
-    details:
-      'Launch Android app with offline capabilities, real-time synchronization, and push notifications for important updates.',
-    status: 'In Progress',
+    heading: 'indexPage.roadmap.roadmapSteps[0].heading',
+    details: 'indexPage.roadmap.roadmapSteps[0].details',
+    status: 'indexPage.roadmap.roadmapSteps[0].status',
     keyFeatures: [
-      'Native Apps',
-      'Offline Mode',
-      'Push Notifications',
-      'Real-time Sync',
+      'indexPage.roadmap.roadmapSteps[0].keyFeatures[0]',
+      'indexPage.roadmap.roadmapSteps[0].keyFeatures[1]',
+      'indexPage.roadmap.roadmapSteps[0].keyFeatures[2]',
+      'indexPage.roadmap.roadmapSteps[0].keyFeatures[3]',
     ],
   },
   {
-    title: 'Q3 2025',
-    description: 'AI-Powered Insights',
+    title: 'indexPage.roadmap.roadmapSteps[1].title',
+    description: 'indexPage.roadmap.roadmapSteps[1].description',
     icon: 'ph:brain-bold',
-    heading: 'Intelligent Analytics',
-    details:
-      'Implement machine learning algorithms to provide predictive analytics, personalized learning paths, and early warning systems for academic performance.',
-    status: 'Planning',
+    heading: 'indexPage.roadmap.roadmapSteps[1].heading',
+    details: 'indexPage.roadmap.roadmapSteps[1].details',
+    status: 'indexPage.roadmap.roadmapSteps[1].status',
     keyFeatures: [
-      'ML Algorithms',
-      'Predictive Analytics',
-      'Learning Paths',
-      'Early Warnings',
+      'indexPage.roadmap.roadmapSteps[1].keyFeatures[0]',
+      'indexPage.roadmap.roadmapSteps[1].keyFeatures[1]',
+      'indexPage.roadmap.roadmapSteps[1].keyFeatures[2]',
+      'indexPage.roadmap.roadmapSteps[1].keyFeatures[3]',
     ],
   },
   {
-    title: 'Q4 2025',
-    description: 'Parent Portal',
+    title: 'indexPage.roadmap.roadmapSteps[2].title',
+    description: 'indexPage.roadmap.roadmapSteps[2].description',
     icon: 'ph:users-bold',
-    heading: 'Enhanced Parent Engagement',
-    details:
-      'Dedicated portal for parents with real-time updates, direct communication channels, and comprehensive progress tracking.',
-    status: 'Upcoming',
+    heading: 'indexPage.roadmap.roadmapSteps[2].heading',
+    details: 'indexPage.roadmap.roadmapSteps[2].details',
+    status: 'indexPage.roadmap.roadmapSteps[2].status',
     keyFeatures: [
-      'Real-time Updates',
-      'Direct Messaging',
-      'Progress Tracking',
-      'Mobile Access',
+      'indexPage.roadmap.roadmapSteps[2].keyFeatures[0]',
+      'indexPage.roadmap.roadmapSteps[2].keyFeatures[1]',
+      'indexPage.roadmap.roadmapSteps[2].keyFeatures[2]',
+      'indexPage.roadmap.roadmapSteps[2].keyFeatures[3]',
     ],
   },
   {
-    title: 'Q1 2026',
-    description: 'International Expansion',
+    title: 'indexPage.roadmap.roadmapSteps[3].title',
+    description: 'indexPage.roadmap.roadmapSteps[3].description',
     icon: 'ph:globe-bold',
-    heading: 'Global Education Network',
-    details:
-      'Multi-language support, region-specific compliance features, and integration with international education standards.',
-    status: 'Planned',
+    heading: 'indexPage.roadmap.roadmapSteps[3].heading',
+    details: 'indexPage.roadmap.roadmapSteps[3].details',
+    status: 'indexPage.roadmap.roadmapSteps[3].status',
     keyFeatures: [
-      'Multi-language',
-      'Compliance',
-      'Integration',
-      'Global Standards',
+      'indexPage.roadmap.roadmapSteps[3].keyFeatures[0]',
+      'indexPage.roadmap.roadmapSteps[3].keyFeatures[1]',
+      'indexPage.roadmap.roadmapSteps[3].keyFeatures[2]',
+      'indexPage.roadmap.roadmapSteps[3].keyFeatures[3]',
     ],
   },
 ];
@@ -436,24 +427,24 @@ const roadmapSteps = [
 const cards = [
   {
     icon: 'ph:headset-bold',
-    title: 'Support',
-    description: '24/7 support for all your technical needs',
-    buttonText: 'Contact Support',
-    link: '/support',
+    title: t('indexPage.contacts.cards[0].title'),
+    description: t('indexPage.contacts.cards[0].description'),
+    buttonText: t('indexPage.contacts.cards[0].buttonText'),
+    link: localePath('/support'),
   },
   {
     icon: 'ph:currency-circle-dollar-bold',
-    title: 'Sales',
-    description: 'Learn about pricing and enterprise solutions',
-    buttonText: 'Talk to Sales',
-    link: '/sales',
+    title: t('indexPage.contacts.cards[1].title'),
+    description: t('indexPage.contacts.cards[1].description'),
+    buttonText: t('indexPage.contacts.cards[1].buttonText'),
+    link: localePath('/sales'),
   },
   {
     icon: 'ph:handshake-bold',
-    title: 'Partnerships',
-    description: 'Explore collaboration opportunities',
-    buttonText: 'Partner with Us',
-    link: '/partnerships',
+    title: t('indexPage.contacts.cards[2].title'),
+    description: t('indexPage.contacts.cards[2].description'),
+    buttonText: t('indexPage.contacts.cards[2].buttonText'),
+    link: localePath('/partnerships'),
   },
 ];
 </script>
