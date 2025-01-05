@@ -144,8 +144,11 @@
       size="huge"
       @mask-click="showModal = false"
     >
-      //TODO: Add missing imports
-      <GradeFormComponent />
+      <GradeFormComponent
+        form-type="create"
+        @submit-grade="(grade) => console.log(grade)"
+        @close-grade-form="showModal = false"
+      />
     </n-modal>
   </n-space>
 </template>
