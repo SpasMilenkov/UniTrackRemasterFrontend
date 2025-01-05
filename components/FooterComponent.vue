@@ -10,59 +10,62 @@
             class="h-12 w-auto mb-4"
           />
           <n-text class="text-gray-400">
-            Empowering educational institutions with next-generation analytics
-            and management tools.
+            {{ t('footer.companyInfo.description') }}
           </n-text>
         </div>
 
         <!-- Quick Links -->
         <div>
-          <n-text class="text-white font-semibold block mb-4"
-            >Quick Links</n-text
-          >
+          <n-text class="text-white font-semibold block mb-4">
+            {{ t('footer.quickLinks.title') }}
+          </n-text>
           <n-space vertical>
             <n-button
               text
               class="text-gray-400 hover:text-emerald-400"
               @click="navigateTo('/#features')"
             >
-              Features
+              {{ t('footer.quickLinks.features') }}
             </n-button>
             <n-button
               text
               class="text-gray-400 hover:text-emerald-400"
               @click="navigateTo('/#roadmap')"
             >
-              Roadmap
+              {{ t('footer.quickLinks.roadmap') }}
             </n-button>
             <n-button
               text
               class="text-gray-400 hover:text-emerald-400"
               @click="navigateTo('/documentation')"
             >
-              Documentation
+              {{ t('footer.quickLinks.documentation') }}
             </n-button>
           </n-space>
         </div>
 
         <!-- Contact -->
         <div>
-          <n-text class="text-white font-semibold block mb-4">Contact</n-text>
+          <n-text class="text-white font-semibold block mb-4">
+            {{ t('footer.contact.title') }}
+          </n-text>
           <n-space vertical>
             <n-text class="text-gray-400">
               <Icon name="ph:envelope-simple" class="mr-2" />
-              contact@unitrack.edu
+              {{ t('footer.contact.email') }}
             </n-text>
             <n-text class="text-gray-400">
               <Icon name="ph:phone" class="mr-2" />
-              +1 (555) 123-4567
+              {{ t('footer.contact.phone') }}
             </n-text>
           </n-space>
         </div>
 
         <!-- Social -->
         <div>
-          <n-text class="text-white font-semibold block mb-4">Follow Us</n-text>
+          <n-text class="text-white font-semibold block mb-4">
+            {{ t('footer.social.title') }}
+          </n-text>
           <n-space>
             <n-button circle secondary class="hover:text-emerald-400">
               <template #icon>
@@ -89,7 +92,11 @@
           class="flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <n-text class="text-gray-400 text-sm">
-            &copy; {{ new Date().getFullYear() }} UniTrack. All rights reserved.
+            {{
+              t('footer.bottomBar.copyright', {
+                year: new Date().getFullYear(),
+              })
+            }}
           </n-text>
           <n-space>
             <n-button
@@ -98,7 +105,7 @@
               class="text-gray-400 hover:text-emerald-400"
               @click="navigateTo('/privacy-policy')"
             >
-              Privacy Policy
+              {{ t('footer.bottomBar.privacyPolicy') }}
             </n-button>
             <n-button
               text
@@ -106,7 +113,7 @@
               class="text-gray-400 hover:text-emerald-400"
               @click="navigateTo('/terms-of-service')"
             >
-              Terms of Service
+              {{ t('footer.bottomBar.termsOfService') }}
             </n-button>
             <n-button
               text
@@ -114,7 +121,7 @@
               class="text-gray-400 hover:text-emerald-400"
               @click="navigateTo('/cookie-policy')"
             >
-              Cookie Policy
+              {{ t('footer.bottomBar.cookiePolicy') }}
             </n-button>
           </n-space>
         </div>
@@ -123,8 +130,10 @@
   </n-layout-footer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { NLayoutFooter, NSpace, NText, NButton } from 'naive-ui';
+
+const { t } = useI18n();
 </script>
 
 <style scoped>
