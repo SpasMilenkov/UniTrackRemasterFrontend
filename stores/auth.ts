@@ -74,9 +74,10 @@ export const useAuthStore = defineStore('auth', {
     },
     async getRoles() {
       try {
-        this.roles = await useNuxtApp().$api.get<
-          { id: string; name: string }[]
-        >('/User/public');
+        this.roles =
+          await useNuxtApp().$api.get<{ id: string; name: string }[]>(
+            '/User/public'
+          );
         console.log(this.roles);
       } catch (error: any) {
         console.error('Forgot password failed:', error);

@@ -11,4 +11,4 @@ export type SchoolInput = {
   type: string;
   description: string;
   programs: string[];
-} 
+};
