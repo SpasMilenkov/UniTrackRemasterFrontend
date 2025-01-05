@@ -93,12 +93,12 @@
           >
             <n-select
               v-model:value="orgId"
-              :placeholder="t('registerPage.orgRolePlaceholder')"
+              :placeholder="t('registrationPage.orgRolePlaceholder')"
               :options="schools"
             />
           </n-form-item>
           <n-form-item
-            :label="t('registrationPage.orgRolePlaceholder')"
+            :label="t('registrationPage.orgRoleLabel')"
             v-bind="orgRoleProps"
             path="orgRole"
           >
@@ -139,7 +139,6 @@ import { registerSchema } from '~/schemas/register.schema';
 
 // Localization
 const { t } = useI18n();
-
 // Store
 const authStore = useAuthStore();
 const schoolStore = useSchoolStore();
@@ -148,8 +147,10 @@ const orgRoles: Ref<SelectOption[] | undefined> = ref();
 const schools: Ref<SelectOption[] | undefined> = ref();
 
 // Form Handling
+const schema = registerSchema();
+
 const { handleSubmit, defineField, setFieldValue } = useForm({
-  validationSchema: toTypedSchema(registerSchema),
+  validationSchema: toTypedSchema(schema),
 });
 
 // Form fields
