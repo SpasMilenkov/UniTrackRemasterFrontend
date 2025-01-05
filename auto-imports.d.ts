@@ -6,9 +6,9 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const NCard: (typeof import('naive-ui'))['NCard'];
-  const useDialog: (typeof import('naive-ui'))['useDialog'];
-  const useLoadingBar: (typeof import('naive-ui'))['useLoadingBar'];
-  const useMessage: (typeof import('naive-ui'))['useMessage'];
-  const useNotification: (typeof import('naive-ui'))['useNotification'];
+  const NCard: typeof import('naive-ui')['NCard']
+  const useDialog: typeof import('naive-ui')['useDialog']
+  const useLoadingBar: typeof import('naive-ui')['useLoadingBar']
+  const useMessage: typeof import('naive-ui')['useMessage']
+  const useNotification: typeof import('naive-ui')['useNotification']
 }
