@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="darkTheme" :theme-overrides="themeOverrides">
     <n-notification-provider>
       <n-message-provider>
         <NuxtLayout>
@@ -17,4 +17,5 @@ import {
   NMessageProvider,
   NNotificationProvider,
 } from 'naive-ui';
+import { themeOverrides } from '~/utils/theme-overrides';
 </script>
