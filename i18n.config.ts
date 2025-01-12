@@ -144,7 +144,7 @@ export default defineI18nConfig(() => ({
 
         contacts: {
           title: 'Get in Touch',
-          message:
+          subtitle:
             "Have questions about UniTrack? We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
           cards: [
             {
@@ -518,7 +518,7 @@ export default defineI18nConfig(() => ({
         },
         contact: {
           title: 'Contact',
-          email: 'contact@unitrack.edu',
+          email: "{'contact@unitrack.edu'}",
           phone: '+1 (555) 123-4567',
         },
         social: {
@@ -665,7 +665,7 @@ export default defineI18nConfig(() => ({
         },
         contacts: {
           title: 'Свържете се с нас',
-          message:
+          subtitle:
             'Имате въпроси за UniTrack? Ще се радваме да ни отговорите. Изпратете ни съобщение и ние ще ви отговорим възможно най-скоро.',
           cards: [
             {
@@ -1043,7 +1043,7 @@ export default defineI18nConfig(() => ({
         },
         contact: {
           title: 'Контакт',
-          email: 'contact@unitrack.edu',
+          email: "{'contact@unitrack.edu'}",
           phone: '+1 (555) 123-4567',
         },
         social: {
