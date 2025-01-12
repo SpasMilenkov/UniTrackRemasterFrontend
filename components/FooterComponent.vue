@@ -137,16 +137,5 @@ const { t } = useI18n();
 </script>
 
 <style scoped>
-:deep(.n-button.n-button--secondary-type) {
-  background-color: #262629 !important;
-  border-color: #374151 !important;
-}
 
-:deep(.n-button.n-button--secondary-type:hover) {
-  border-color: #4ade80 !important;
-}
-
-:deep(.n-layout-footer) {
-  padding: 0 !important;
-}
 </style>

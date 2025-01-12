@@ -25,7 +25,7 @@ export default defineI18nConfig(() => ({
           'Revolutionizing education management with powerful analytics and insights',
         getStarted: 'Get Started',
         featuresTitle: 'Powerful Features',
-        featuresSubTitle:
+        featuresSubtitle:
           'Everything you need to manage your educational institution effectively',
         features: [
           {
@@ -144,7 +144,7 @@ export default defineI18nConfig(() => ({
 
         contacts: {
           title: 'Get in Touch',
-          message:
+          subtitle:
             "Have questions about UniTrack? We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
           cards: [
             {
@@ -321,7 +321,6 @@ export default defineI18nConfig(() => ({
         },
         finalStep: {
           title: 'Final Step',
-          // Add any specific messages for finalStep component
         },
         approval: {
           status: {
@@ -519,14 +518,14 @@ export default defineI18nConfig(() => ({
         },
         contact: {
           title: 'Contact',
-          email: 'contact@unitrack.edu',
+          email: "{'contact@unitrack.edu'}",
           phone: '+1 (555) 123-4567',
         },
         social: {
           title: 'Follow Us',
         },
         bottomBar: {
-          copyright: '&copy; {year} UniTrack. All rights reserved.',
+          copyright: '©; {year} UniTrack. All rights reserved.',
           privacyPolicy: 'Privacy Policy',
           termsOfService: 'Terms of Service',
           cookiePolicy: 'Cookie Policy',
@@ -666,7 +665,7 @@ export default defineI18nConfig(() => ({
         },
         contacts: {
           title: 'Свържете се с нас',
-          message:
+          subtitle:
             'Имате въпроси за UniTrack? Ще се радваме да ни отговорите. Изпратете ни съобщение и ние ще ви отговорим възможно най-скоро.',
           cards: [
             {
@@ -1044,14 +1043,14 @@ export default defineI18nConfig(() => ({
         },
         contact: {
           title: 'Контакт',
-          email: 'contact@unitrack.edu',
+          email: "{'contact@unitrack.edu'}",
           phone: '+1 (555) 123-4567',
         },
         social: {
           title: 'Последвайте ни',
         },
         bottomBar: {
-          copyright: '&copy; {year} UniTrack. Всички права запазени.',
+          copyright: '©; {year} UniTrack. Всички права запазени.',
           privacyPolicy: 'Политика за поверителност',
           termsOfService: 'Условия за ползване',
           cookiePolicy: 'Политика за бисквитки',

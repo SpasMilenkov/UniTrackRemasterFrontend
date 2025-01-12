@@ -76,7 +76,7 @@
                 <div class="relative flex justify-center">
                   <Icon
                     :name="feature.icon"
-                    class="text-emerald-400 transform transition-all duration-500 hover:scale-110"
+                    class="text-emerald-400"
                     size="48"
                   />
                 </div>
@@ -427,23 +427,23 @@ const roadmapSteps = [
 const cards = [
   {
     icon: 'ph:headset-bold',
-    title: t('indexPage.contacts.cards[0].title'),
-    description: t('indexPage.contacts.cards[0].description'),
-    buttonText: t('indexPage.contacts.cards[0].buttonText'),
+    title: 'indexPage.contacts.cards[0].title',
+    description: 'indexPage.contacts.cards[0].description',
+    buttonText: 'indexPage.contacts.cards[0].buttonText',
     link: localePath('/support'),
   },
   {
     icon: 'ph:currency-circle-dollar-bold',
-    title: t('indexPage.contacts.cards[1].title'),
-    description: t('indexPage.contacts.cards[1].description'),
-    buttonText: t('indexPage.contacts.cards[1].buttonText'),
+    title: 'indexPage.contacts.cards[1].title',
+    description: 'indexPage.contacts.cards[1].description',
+    buttonText: 'indexPage.contacts.cards[1].buttonText',
     link: localePath('/sales'),
   },
   {
     icon: 'ph:handshake-bold',
-    title: t('indexPage.contacts.cards[2].title'),
-    description: t('indexPage.contacts.cards[2].description'),
-    buttonText: t('indexPage.contacts.cards[2].buttonText'),
+    title: 'indexPage.contacts.cards[2].title',
+    description: 'indexPage.contacts.cards[2].description',
+    buttonText: 'indexPage.contacts.cards[2].buttonText',
     link: localePath('/partnerships'),
   },
 ];

@@ -1,6 +1,6 @@
 <!-- error.vue -->
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="darkTheme" :theme-overrides="themeOverrides">
     <n-space
       align="center"
       justify="center"
@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app';
 import { NCard, NH1, NH2, NP, NButton, NIcon, darkTheme } from 'naive-ui';
-
+import { themeOverrides } from '~/utils/theme-overrides';
 const { t } = useI18n();
 
 defineProps<{

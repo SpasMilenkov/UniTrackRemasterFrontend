@@ -17,12 +17,12 @@ export default {
         // Background colors
         background: {
           DEFAULT: '#101014', // main background
-          secondary: '#18181c', // secondary background
-          card: '#262629', // card background
+          secondary: '#262629', // secondary background
+          card: '#18181c', // card background
         },
         // Text colors
         text: {
-          primary: '#ffffff',
+          primary: '#f5f5f5',
           secondary: '#9ca3af', // gray-400 equivalent
           muted: 'rgba(156, 163, 175, 0.7)', // reduced opacity gray
         },
