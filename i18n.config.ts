@@ -25,7 +25,7 @@ export default defineI18nConfig(() => ({
           'Revolutionizing education management with powerful analytics and insights',
         getStarted: 'Get Started',
         featuresTitle: 'Powerful Features',
-        featuresSubTitle:
+        featuresSubtitle:
           'Everything you need to manage your educational institution effectively',
         features: [
           {
@@ -321,7 +321,6 @@ export default defineI18nConfig(() => ({
         },
         finalStep: {
           title: 'Final Step',
-          // Add any specific messages for finalStep component
         },
         approval: {
           status: {
@@ -526,7 +525,7 @@ export default defineI18nConfig(() => ({
           title: 'Follow Us',
         },
         bottomBar: {
-          copyright: '&copy; {year} UniTrack. All rights reserved.',
+          copyright: '©; {year} UniTrack. All rights reserved.',
           privacyPolicy: 'Privacy Policy',
           termsOfService: 'Terms of Service',
           cookiePolicy: 'Cookie Policy',
@@ -1051,7 +1050,7 @@ export default defineI18nConfig(() => ({
           title: 'Последвайте ни',
         },
         bottomBar: {
-          copyright: '&copy; {year} UniTrack. Всички права запазени.',
+          copyright: '©; {year} UniTrack. Всички права запазени.',
           privacyPolicy: 'Политика за поверителност',
           termsOfService: 'Условия за ползване',
           cookiePolicy: 'Политика за бисквитки',
