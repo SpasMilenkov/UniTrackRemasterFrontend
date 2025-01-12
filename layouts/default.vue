@@ -6,7 +6,7 @@
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <!-- Logo Section -->
-          <div class="flex items-center">
+          <RouterLink class="flex items-center" to="/">
             <img
               src="/img/logo.png"
               alt="UniTrack Logo"
@@ -17,7 +17,7 @@
             >
               UniTrack
             </span>
-          </div>
+          </RouterLink>
 
           <!-- Desktop Menu -->
           <div class="hidden md:flex md:items-center md:ml-auto">
@@ -94,7 +94,6 @@ import {
   NButton,
 } from 'naive-ui';
 import {
-  HomeOutline,
   LogInOutline,
   PersonAddOutline,
   MenuOutline,
@@ -128,10 +127,6 @@ const createMenuLabel = (icon: any, text: string, href: string) => () =>
 
 // Desktop menu options
 const menuOptions = [
-  {
-    label: createMenuLabel(HomeOutline, t('navigation.home'), localePath('/')),
-    key: 'home',
-  },
   {
     label: createMenuLabel(
       AnalyticsOutline,
