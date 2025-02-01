@@ -64,7 +64,6 @@ import {
   ChatbubbleOutline,
 } from '@vicons/ionicons5';
 
-console.log('LOADING');
 
 //Emits
 const emit = defineEmits(['submitGrade', 'closeGradeForm']);
