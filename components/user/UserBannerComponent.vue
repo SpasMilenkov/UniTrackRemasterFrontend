@@ -1,5 +1,4 @@
 <template>
-  <!-- Enhanced User Status Banner -->
   <div class="relative w-full bg-[#262629] rounded-xl overflow-hidden">
     <!-- Gradient background effects -->
     <div class="absolute inset-0">
@@ -28,18 +27,18 @@
             >
               {{ $t('userBanner.welcomeMessage', { name: user.name }) }}
             </h1>
-            <div class="flex flex-wrap items-center gap-3">
+            <div v-if="mounted" class="flex flex-wrap items-center gap-3">
               <span
                 :class="[
                   'px-4 py-1.5 rounded-full text-sm font-medium',
-                  user.isLinked
+                  isLinked
                     ? 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20'
                     : 'bg-yellow-400/10 text-yellow-400 border border-yellow-400/20',
                 ]"
               >
                 {{
                   $t(
-                    user.isLinked
+                    isLinked
                       ? 'userBanner.profileLinked'
                       : 'userBanner.profileNotLinked'
                   )
@@ -55,23 +54,24 @@
             </div>
           </div>
         </div>
+
         <n-button
-          :secondary="!user.isLinked"
-          :type="user.isLinked ? 'primary' : 'warning'"
-          :disabled="!user.isLinked"
-          :class="[
-            'px-6 h-12 text-base font-medium',
-            !user.isLinked
-              ? 'cursor-not-allowed opacity-50'
-              : 'hover:shadow-lg bg-primary hover:shadow-emerald-400/20 transition-all duration-300',
-          ]"
-          class="px-6 h-12 text-base font-medium hover:shadow-lg hover:shadow-emerald-400/20 transition-all duration-300"
-          @click="navigateTo('/institutions')"
+          v-if="mounted"
+          :type="isLinked ? 'primary' : 'warning'"
+          :disabled="!isLinked"
+          class="px-6 h-12 text-base font-medium transition-all duration-300"
+          :class="{
+            'hover:shadow-lg hover:shadow-emerald-400/20 bg-primary': isLinked,
+            'opacity-50 cursor-not-allowed': !isLinked,
+          }"
+          @click="handleClick"
         >
           {{
-            user.isLinked
-              ? $t('userBanner.viewInstitutions')
-              : $t('userBanner.noInstitutions')
+            $t(
+              isLinked
+                ? 'userBanner.viewInstitutions'
+                : 'userBanner.noInstitutions'
+            )
           }}
           <template #icon>
             <Icon name="ph:buildings-bold" />
@@ -81,11 +81,30 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { User } from '~/interfaces/user/user';
+import { ref, onMounted, computed } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   user: User;
 }>();
+
+const mounted = ref(false);
+const localePath = useLocalePath();
+//Computed
+const isLinked = computed(() => props.user.isLinked);
+
+const handleClick = () => {
+  if (isLinked.value) {
+    navigateTo(localePath('/users/institutions'));
+  }
+};
+
+// Set mounted after component mounts
+onMounted(() => {
+  mounted.value = true;
+});
 </script>
+
 <style scoped></style>
