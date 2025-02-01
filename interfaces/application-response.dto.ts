@@ -1,4 +1,5 @@
-export interface Address {
+
+export interface AddressDto {
   country: string;
   settlement: string;
   postalCode: string;
@@ -6,15 +7,20 @@ export interface Address {
   schoolId: string;
 }
 
+interface Institution {
+  id: string;
+  name: string;
+  type: number;
+  address: AddressDto;
+}
+
 export interface ApplicationResponseDto {
   id: string;
-  schoolId: string;
-  schoolName: string;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   code: string;
   status: number;
-  address: Address;
+  institution: Institution;
 }
