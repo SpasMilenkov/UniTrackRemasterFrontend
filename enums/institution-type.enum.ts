@@ -1,0 +1,11 @@
+export enum InstitutionType {
+  PRIMARY_SCHOOL = 0,
+  SECONDARY_SCHOOL = 1,
+  HIGH_SCHOOL = 2,
+  UNIVERSITY = 3,
+  COLLEGE = 4,
+  VOCATIONAL = 5,
+  SPECIAL_EDUCATION = 6,
+  LANGUAGE_SCHOOL = 7,
+  OTHER = 8,
+}
