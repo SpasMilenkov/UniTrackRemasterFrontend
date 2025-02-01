@@ -1,177 +1,215 @@
 <template>
-  <n-form
-    class="flex-col w-full items-center mx-auto gap-4 bg-[hsl(240,8%,10%)] py-8 px-16 rounded"
-    @submit.prevent="onSubmit"
-  >
-    <VanillaTitle
-      :title="t('onboarding.initialForm.titles.main')"
-      size="medium"
-    />
-    <n-divider />
-    <VanillaTitle
-      :title="t('onboarding.initialForm.titles.contact')"
-      size="small"
-    />
-    <p class="mt-2">
-      {{ t('onboarding.initialForm.descriptions.contact') }}
-    </p>
-    <div
-      class="flex flex-wrap justify-center md:justify-start w-full max-w-[45rem] max-h-fit md:max-h-80 gap-8 py-4"
-    >
-      <n-form-item
-        :label="t('onboarding.initialForm.fields.firstName.label')"
-        class="w-80"
-        v-bind="firstNameProps"
-      >
-        <n-input
-          v-model:value="firstName"
-          :placeholder="
-            t('onboarding.initialForm.fields.firstName.placeholder')
-          "
-          class="mb-3"
+  <div class="min-h-screen bg-background-card">
+    <n-form @submit.prevent="onSubmit" class="max-w-7xl mx-auto p-6">
+      <!-- Header -->
+      <div class="mb-8 text-center">
+        <VanillaTitle
+          :title="t('onboarding.initialForm.titles.main')"
+          size="medium"
+          class="text-primary"
         />
-      </n-form-item>
-      <n-form-item
-        :label="t('onboarding.initialForm.fields.lastName.label')"
-        class="w-80"
-        v-bind="lastNameProps"
-      >
-        <n-input
-          v-model:value="lastName"
-          :placeholder="t('onboarding.initialForm.fields.lastName.placeholder')"
-          class="mb-3"
-        />
-      </n-form-item>
-      <n-form-item
-        :label="t('onboarding.initialForm.fields.email.label')"
-        class="w-80"
-        v-bind="emailProps"
-      >
-        <n-input
-          v-model:value="email"
-          :placeholder="t('onboarding.initialForm.fields.email.placeholder')"
-          class="mb-3"
-        />
-      </n-form-item>
-      <n-form-item
-        :label="t('onboarding.initialForm.fields.phone.label')"
-        class="w-80"
-        v-bind="phoneNumberProps"
-      >
-        <n-input
-          v-model:value="phoneNumber"
-          class="w-full mb-3"
-          :placeholder="t('onboarding.initialForm.fields.phone.placeholder')"
-        />
-      </n-form-item>
-    </div>
-    <n-divider />
-    <VanillaTitle
-      :title="t('onboarding.initialForm.titles.geographic')"
-      size="small"
-    />
-    <p class="mt-2">
-      {{ t('onboarding.initialForm.descriptions.geographic') }}
-    </p>
-    <div class="flex flex-col items-center mx-auto gap-8 py-4 md:flex-row">
-      <div class="min-w-80">
-        <n-form-item
-          :label="t('onboarding.initialForm.fields.schoolName.label')"
-          v-bind="schoolNameProps"
-        >
-          <n-input
-            v-model:value="schoolName"
-            :placeholder="
-              t('onboarding.initialForm.fields.schoolName.placeholder')
-            "
-            class="mb-3"
-          />
-        </n-form-item>
-        <n-form-item
-          :label="t('onboarding.initialForm.fields.country.label')"
-          v-bind="countryProps"
-        >
-          <n-input
-            v-model:value="country"
-            :placeholder="
-              t('onboarding.initialForm.fields.country.placeholder')
-            "
-            class="mb-3"
-          />
-        </n-form-item>
-        <n-form-item
-          :label="t('onboarding.initialForm.fields.city.label')"
-          v-bind="cityProps"
-        >
-          <n-input
-            v-model:value="city"
-            :placeholder="t('onboarding.initialForm.fields.city.placeholder')"
-            class="mb-3"
-          />
-        </n-form-item>
-        <n-form-item
-          :label="t('onboarding.initialForm.fields.postcode.label')"
-          v-bind="postcodeProps"
-        >
-          <n-input
-            v-model:value="postcode"
-            :show-button="false"
-            :placeholder="
-              t('onboarding.initialForm.fields.postcode.placeholder')
-            "
-            class="mb-3 w-full"
-          />
-        </n-form-item>
-        <n-form-item
-          :label="t('onboarding.initialForm.fields.street.label')"
-          v-bind="streetProps"
-        >
-          <n-input
-            v-model:value="street"
-            :placeholder="t('onboarding.initialForm.fields.street.placeholder')"
-            class="mb-3"
-          />
-        </n-form-item>
+        <p class="text-text-secondary mt-2">
+          {{ t('onboarding.initialForm.subtitle') }}
+        </p>
       </div>
-      <div id="map" class="h-[23rem] w-full rounded" />
-    </div>
-    <n-button type="primary" @click="onSubmit">{{
-      t('onboarding.initialForm.submit')
-    }}</n-button>
-  </n-form>
+
+      <!-- Main Form Content -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Left Column: Form Fields -->
+        <div class="space-y-6 bg-background rounded-lg p-6">
+          <!-- Institution Details -->
+          <div class="space-y-4">
+            <h3
+              class="text-lg font-semibold text-text-primary border-l-4 border-primary pl-3"
+            >
+              {{ t('onboarding.initialForm.titles.institution') }}
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <n-form-item
+                :label="
+                  t('onboarding.initialForm.fields.institutionName.label')
+                "
+                v-bind="institutionNameProps"
+              >
+                <n-input
+                  v-model:value="institutionName"
+                  :placeholder="
+                    t(
+                      'onboarding.initialForm.fields.institutionName.placeholder'
+                    )
+                  "
+                />
+              </n-form-item>
+              <n-form-item
+                :label="
+                  t('onboarding.initialForm.fields.institutionType.label')
+                "
+                v-bind="institutionTypeProps"
+              >
+                <n-select
+                  v-model:value="institutionType"
+                  :options="institutionTypeOptions"
+                  :placeholder="
+                    t(
+                      'onboarding.initialForm.fields.institutionType.placeholder'
+                    )
+                  "
+                />
+              </n-form-item>
+            </div>
+          </div>
+
+          <!-- Contact Information -->
+          <div class="space-y-4">
+            <h3
+              class="text-lg font-semibold text-text-primary border-l-4 border-primary pl-3"
+            >
+              {{ t('onboarding.initialForm.titles.contact') }}
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <n-form-item
+                :label="t('onboarding.initialForm.fields.firstName.label')"
+                v-bind="firstNameProps"
+              >
+                <n-input
+                  v-model:value="firstName"
+                  :placeholder="
+                    t('onboarding.initialForm.fields.firstName.placeholder')
+                  "
+                />
+              </n-form-item>
+              <n-form-item
+                :label="t('onboarding.initialForm.fields.lastName.label')"
+                v-bind="lastNameProps"
+              >
+                <n-input
+                  v-model:value="lastName"
+                  :placeholder="
+                    t('onboarding.initialForm.fields.lastName.placeholder')
+                  "
+                />
+              </n-form-item>
+              <n-form-item
+                :label="t('onboarding.initialForm.fields.email.label')"
+                v-bind="emailProps"
+              >
+                <n-input
+                  v-model:value="email"
+                  :placeholder="
+                    t('onboarding.initialForm.fields.email.placeholder')
+                  "
+                />
+              </n-form-item>
+              <n-form-item
+                :label="t('onboarding.initialForm.fields.phone.label')"
+                v-bind="phoneNumberProps"
+              >
+                <n-input
+                  v-model:value="phoneNumber"
+                  :placeholder="
+                    t('onboarding.initialForm.fields.phone.placeholder')
+                  "
+                />
+              </n-form-item>
+            </div>
+          </div>
+
+          <!-- Address Fields -->
+          <div class="space-y-4">
+            <h3
+              class="text-lg font-semibold text-text-primary border-l-4 border-primary pl-3"
+            >
+              {{ t('onboarding.initialForm.titles.geographic') }}
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <n-form-item
+                :label="t('onboarding.initialForm.fields.country.label')"
+                v-bind="countryProps"
+              >
+                <n-input
+                  v-model:value="country"
+                  :placeholder="
+                    t('onboarding.initialForm.fields.country.placeholder')
+                  "
+                />
+              </n-form-item>
+              <n-form-item
+                :label="t('onboarding.initialForm.fields.city.label')"
+                v-bind="settlementProps"
+              >
+                <n-input
+                  v-model:value="settlement"
+                  :placeholder="
+                    t('onboarding.initialForm.fields.city.placeholder')
+                  "
+                />
+              </n-form-item>
+              <n-form-item
+                :label="t('onboarding.initialForm.fields.postcode.label')"
+                v-bind="postalCodeProps"
+              >
+                <n-input
+                  v-model:value="postalCode"
+                  :placeholder="
+                    t('onboarding.initialForm.fields.postcode.placeholder')
+                  "
+                />
+              </n-form-item>
+              <n-form-item
+                :label="t('onboarding.initialForm.fields.street.label')"
+                v-bind="streetProps"
+              >
+                <n-input
+                  v-model:value="street"
+                  :placeholder="
+                    t('onboarding.initialForm.fields.street.placeholder')
+                  "
+                />
+              </n-form-item>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Map -->
+        <div class="bg-background rounded-lg p-6">
+          <ClientOnly>
+            <div id="map" class="h-[600px] w-full rounded-lg" />
+          </ClientOnly>
+          <p class="text-text-secondary text-sm mt-4">
+            {{ t('onboarding.initialForm.mapInstructions') }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="mt-8 flex justify-end">
+        <n-button type="primary" @click="onSubmit" class="px-8">
+          {{ t('onboarding.initialForm.submit') }}
+        </n-button>
+      </div>
+    </n-form>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import 'ol/ol.css';
-import Map from 'ol/Map';
-import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
-import { fromLonLat, toLonLat } from 'ol/proj';
-import { Feature } from 'ol';
-import { Point } from 'ol/geom';
-import { Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
-import { Style, Icon } from 'ol/style';
-import { useSchoolOnboardingStore } from '~/stores/school-onboarding';
-import { initSchoolApplicationSchema } from '~/schemas/init-school-application.schema';
+import { initInstitutionApplicationSchema } from '~/schemas/init-institution-application.schema';
 
 // Localization
 
 const { t } = useI18n();
 
 //Stores
-const onboardingStore = useSchoolOnboardingStore();
+const onboardingStore = useOnboardingStore();
 
 //variables
 const latitude = ref();
 const longitude = ref();
 
 // Form
-
+const schema = initInstitutionApplicationSchema();
 const { handleSubmit, defineField, setFieldValue } = useForm({
-  validationSchema: toTypedSchema(initSchoolApplicationSchema),
+  validationSchema: toTypedSchema(schema),
 });
 
 // Form fields
@@ -185,64 +223,134 @@ const [phoneNumber, phoneNumberProps] = defineField(
   'phoneNumber',
   naiveUiFormsConfig
 );
-const [schoolName, schoolNameProps] = defineField(
-  'schoolName',
+
+const [country, countryProps] = defineField('country', naiveUiFormsConfig);
+const [settlement, settlementProps] = defineField(
+  'settlement',
   naiveUiFormsConfig
 );
-const [country, countryProps] = defineField('country', naiveUiFormsConfig);
-const [city, cityProps] = defineField('city', naiveUiFormsConfig);
-const [postcode, postcodeProps] = defineField('postcode', naiveUiFormsConfig);
+const [postalCode, postalCodeProps] = defineField(
+  'postalCode',
+  naiveUiFormsConfig
+);
 const [street, streetProps] = defineField('street', naiveUiFormsConfig);
+const [institutionName, institutionNameProps] = defineField(
+  'institutionName',
+  naiveUiFormsConfig
+);
+const [institutionType, institutionTypeProps] = defineField(
+  'institutionType',
+  naiveUiFormsConfig
+);
 
-// Marker source and layer
-const markerSource = new VectorSource();
-const markerLayer = new VectorLayer({
-  source: markerSource,
-  style: new Style({
-    image: new Icon({
-      src: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // Marker icon
-      scale: 0.05,
+// Institution type options
+const institutionTypeOptions = [
+  {
+    label: t(
+      'onboarding.initialForm.fields.institutionType.options.primarySchool'
+    ),
+    value: 0,
+  },
+  {
+    label: t(
+      'onboarding.initialForm.fields.institutionType.options.secondarySchool'
+    ),
+    value: 1,
+  },
+  {
+    label: t(
+      'onboarding.initialForm.fields.institutionType.options.highSchool'
+    ),
+    value: 2,
+  },
+  {
+    label: t(
+      'onboarding.initialForm.fields.institutionType.options.university'
+    ),
+    value: 3,
+  },
+  {
+    label: t('onboarding.initialForm.fields.institutionType.options.college'),
+    value: 4,
+  },
+  {
+    label: t(
+      'onboarding.initialForm.fields.institutionType.options.vocational'
+    ),
+    value: 5,
+  },
+  {
+    label: t(
+      'onboarding.initialForm.fields.institutionType.options.specialEducation'
+    ),
+    value: 6,
+  },
+  {
+    label: t(
+      'onboarding.initialForm.fields.institutionType.options.languageSchool'
+    ),
+    value: 7,
+  },
+  {
+    label: t('onboarding.initialForm.fields.institutionType.options.other'),
+    value: 8,
+  },
+];
+const initMap = async () => {
+  // Properly import OpenLayers modules
+  const OLMap = (await import('ol/Map')).default;
+  const OLView = (await import('ol/View')).default;
+  const OLTileLayer = (await import('ol/layer/Tile')).default;
+  const OLMOSM = (await import('ol/source/OSM')).default;
+  const { fromLonLat, toLonLat } = await import('ol/proj');
+  const OLFeature = (await import('ol/Feature')).default;
+  const OLPoint = (await import('ol/geom/Point')).default;
+  const OLVectorLayer = (await import('ol/layer/Vector')).default;
+  const OLVectorSource = (await import('ol/source/Vector')).default;
+  const { Style, Icon } = await import('ol/style');
+
+  // Marker source and layer
+  const markerSource = new OLVectorSource();
+  const markerLayer = new OLVectorLayer({
+    source: markerSource,
+    style: new Style({
+      image: new Icon({
+        src: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+        scale: 0.05,
+      }),
     }),
-  }),
-});
+  });
 
-// Methods
-const onSubmit = handleSubmit((values) => {
-  return onboardingStore.createSchoolApplication(values);
-});
-
-// Lifecycle
-onMounted(() => {
-  const map = new Map({
+  const map = new OLMap({
     target: 'map',
     layers: [
-      new TileLayer({
-        source: new OSM(),
+      new OLTileLayer({
+        source: new OLMOSM(),
       }),
       markerLayer,
     ],
-    view: new View({
-      center: fromLonLat([0, 0]), // Initial center of the map
+    view: new OLView({
+      center: fromLonLat([0, 0]),
       zoom: 2,
     }),
   });
 
-  // handle map click to place a marker
+  // Map click handler
   map.on('click', async (event) => {
-    const coordinates = toLonLat(event.coordinate); // Get clicked location in LonLat
-    latitude.value = coordinates[1].toFixed(6);
-    longitude.value = coordinates[0].toFixed(6);
+    const coordinates = toLonLat(event.coordinate);
+    latitude.value = Number(coordinates[1].toFixed(6));
+    longitude.value = Number(coordinates[0].toFixed(6));
 
     // Clear existing markers
     markerSource.clear();
 
-    // Add a new marker at the clicked location
-    const marker = new Feature({
-      geometry: new Point(fromLonLat(coordinates)),
+    // Add new marker
+    const marker = new OLFeature({
+      geometry: new OLPoint(fromLonLat(coordinates)),
     });
     markerSource.addFeature(marker);
 
-    // Fetch address from a reverse-geocoding API with nominatim
+    // Reverse geocoding
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude.value}&lon=${longitude.value}`
@@ -253,16 +361,46 @@ onMounted(() => {
 
       setFieldValue('country', address.country || '');
       setFieldValue(
-        'city',
+        'settlement',
         address.city || address.town || address.village || ''
       );
-      setFieldValue('postcode', address.postcode || '');
+      setFieldValue('postalCode', address.postcode || '');
       setFieldValue('street', address.road || '');
     } catch (error) {
       console.error('Error fetching reverse geocoding data:', error);
     }
   });
+};
+
+// Methods
+const onSubmit = handleSubmit((values) => {
+  return onboardingStore.createInstitutionApplication(values);
+});
+
+// Lifecycle
+onMounted(() => {
+  if (import.meta.client) {
+    initMap();
+  }
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+:deep(.n-input),
+:deep(.n-select) {
+  background-color: rgb(
+    38,
+    38,
+    41
+  ); /* matches bg-background-secondary from your Tailwind config */
+}
+
+:deep(.n-form-item .n-form-item-label) {
+  color: rgb(
+    156,
+    163,
+    175
+  ); /* matches text-text-secondary from your Tailwind config */
+  font-size: 0.875rem; /* matches text-sm */
+}
+</style>
