@@ -346,7 +346,7 @@
 import { ref } from 'vue';
 import type { UploadFileInfo } from 'naive-ui';
 import { FocusArea } from '~/enums/focus-area.enum';
-import { AccreditationType } from '~/enums/acreditation-type.enum';
+import { AccreditationType } from '~/enums/accreditation-type.enum';
 import { useUniversityFormSchema } from '~/schemas/init-university.schema';
 
 const { t } = useI18n();
