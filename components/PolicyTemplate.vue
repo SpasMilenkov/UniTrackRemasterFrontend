@@ -75,41 +75,73 @@ defineProps({
 
 <style scoped>
 .policy-content :deep(h1) {
-  @apply text-3xl font-bold mb-8 mt-12 first:mt-0;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  margin-top: 3rem;
   background: linear-gradient(to right, #4ade80, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.policy-content :deep(h1:first-child) {
+  margin-top: 0;
+}
+
 .policy-content :deep(h2) {
-  @apply text-2xl font-semibold mb-6 mt-10 text-emerald-400;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
+  color: #4ade80;
 }
 
 .policy-content :deep(h3) {
-  @apply text-xl font-semibold mb-4 mt-8 text-blue-400;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  color: #60a5fa;
 }
 
 .policy-content :deep(p) {
-  @apply mb-6 text-gray-300 leading-relaxed;
+  margin-bottom: 1.5rem;
+  color: rgb(209, 213, 219);
+  line-height: 1.75;
 }
 
 .policy-content :deep(ul) {
-  @apply mb-6 pl-6;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
 }
 
 .policy-content :deep(li) {
-  @apply mb-2 text-gray-300;
+  margin-bottom: 0.5rem;
+  color: rgb(209, 213, 219);
 }
 
 .policy-content :deep(strong) {
-  @apply text-white;
+  color: #ffffff;
 }
 
 .policy-content :deep(a) {
-  @apply text-emerald-400 hover:text-emerald-300 transition-colors duration-200;
+  color: #4ade80;
+  transition: color 0.2s ease;
+}
+
+.policy-content :deep(a:hover) {
+  color: #86efac;
 }
 
 .policy-content :deep(blockquote) {
-  @apply border-l-4 border-emerald-400 pl-4 my-6 text-gray-400 italic;
+  border-left: 4px solid #4ade80;
+  padding-left: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: rgb(156, 163, 175);
+  font-style: italic;
 }
 </style>
