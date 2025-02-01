@@ -3,13 +3,9 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <!-- Company Info -->
-        <div>
-          <img
-            src="/img/logo.png"
-            alt="UniTrack Logo"
-            class="h-12 w-auto mb-4"
-          />
-          <n-text class="text-gray-400">
+        <div class="flex flex-col items-start">
+          <Logo />
+          <n-text class="text-gray-400 p-2">
             {{ t('footer.companyInfo.description') }}
           </n-text>
         </div>
@@ -132,10 +128,8 @@
 
 <script setup lang="ts">
 import { NLayoutFooter, NSpace, NText, NButton } from 'naive-ui';
-
+import Logo from './LogoComponent.vue';
 const { t } = useI18n();
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
