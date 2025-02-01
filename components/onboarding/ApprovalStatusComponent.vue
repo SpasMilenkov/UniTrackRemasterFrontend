@@ -61,7 +61,12 @@
                   <p class="text-gray-400">
                     {{ t('onboarding.approval.messages.approved') }}
                   </p>
-                  <n-button type="primary" color="#4ade80" class="text-lg px-8">
+                  <n-button
+                    type="primary"
+                    color="#4ade80"
+                    class="text-lg px-8"
+                    @click="moveToNextStep"
+                  >
                     {{ t('onboarding.approval.buttons.continue') }}
                     <template #icon>
                       <Icon name="ph:arrow-right-bold" />
@@ -94,6 +99,9 @@
 <script setup lang="ts">
 import type { Ref } from 'vue';
 import { ref, watch } from 'vue';
+
+// Stores
+const onboardingStore = useOnboardingStore();
 
 // Localization
 const { t } = useI18n();
@@ -139,6 +147,12 @@ watch(
     }
   }
 );
+
+const moveToNextStep = () => {
+  if (onboardingStore.applicationData?.status === 1){
+    onboardingStore.currentStep = 3;
+  }
+};
 </script>
 
 <style scoped></style>
