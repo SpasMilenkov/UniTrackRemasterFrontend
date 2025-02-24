@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { InitSchoolDto } from '~/interfaces/organizations/init-school.dto';
+// import type { InitSchoolDto } from '~/interfaces/organizations/init-school.dto';
 import type { School } from '~/interfaces/organizations/school';
 import type { SchoolFilterParams } from '~/interfaces/school-filter.dto';
 
@@ -11,56 +11,6 @@ export const useSchoolStore = defineStore('school', {
     error: null as string | null,
   }),
   actions: {
-    async initSchool(
-      schoolData: InitSchoolDto,
-      files: File[],
-      logoFile?: File
-    ) {
-      try {
-        this.isLoading = true;
-        this.error = null;
-        const { $api } = useNuxtApp();
-        const formData = new FormData();
-
-        // Add basic fields
-        Object.entries(schoolData).forEach(([key, value]) => {
-          if (Array.isArray(value)) {
-            value.forEach((item) => formData.append(key, item));
-          } else {
-            formData.append(key, value);
-          }
-        });
-
-        // Add logo file if it exists
-        if (logoFile) {
-          formData.append('logo', logoFile);
-        }
-
-        // Add general files
-        files.forEach((file) => {
-          formData.append('additionalImages', file);
-        });
-
-        const response = await $api.post<{
-          message: string;
-          fileUrls: string[];
-          logoUrl?: string;
-        }>('/School/init', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-        await this.getSchools({ page: 1, pageSize: 5 });
-        return response;
-      } catch (err) {
-        this.error =
-          err instanceof Error ? err.message : 'Failed to initialize school';
-        throw err;
-      } finally {
-        this.isLoading = false;
-      }
-    },
     async getSchoolById(schoolId: string) {
       try {
         this.isLoading = true;

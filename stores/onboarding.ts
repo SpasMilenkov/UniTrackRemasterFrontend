@@ -2,142 +2,184 @@ import { defineStore } from 'pinia';
 import type { z } from 'zod';
 import type { ApplicationResponseDto } from '~/interfaces/application-response.dto';
 import type { codeAuthSchema } from '~/schemas/code-auth.schema';
-import type { InstitutionType } from '~/enums/institution-type.enum';
+import { InstitutionType } from '~/enums/institution-type.enum';
 import type { initInstitutionApplicationSchema } from '~/schemas/init-institution-application.schema';
 import type { InitUniversityDto } from '~/interfaces/organizations/init-university.dto';
+import type { InitSchoolDto } from '~/interfaces/organizations/init-school.dto';
+import type { InstitutionResponseDto } from '~/interfaces/organizations/institution-response.dto';
+import { ApplicationStatus } from '~/enums/application-status.enum';
 
 export const useOnboardingStore = defineStore('onboardingStore', {
-  state: (): {
-    currentStep: number;
-    canSubmit: boolean;
-    passedVerification: boolean;
-    processingSubmission: boolean;
-    applicationData: ApplicationResponseDto | null;
-    applications: ApplicationResponseDto[] | null;
-    authenticated: boolean;
-    error: unknown;
-    currentApplicationId: string | null;
-    institutionType: InstitutionType | null;
-    currentInstitutionId: string | null;
-    isProcessing: boolean;
-  } => ({
-    currentStep: 1,
+  state: () => ({
+    currentStep: null as ApplicationStatus | null,
     canSubmit: true,
     passedVerification: false,
     processingSubmission: false,
-    applicationData: null,
-    applications: null,
+    applicationData: null as ApplicationResponseDto | null,
+    applications: null as ApplicationResponseDto[] | null,
     authenticated: false,
     error: null as unknown,
     currentApplicationId: null as string | null,
-    institutionType: null,
+    institutionType: null as InstitutionType | null,
     currentInstitutionId: null as string | null,
     isProcessing: false,
+    selectedInstitution: null as InstitutionResponseDto | null,
+    selectedInstitutionCategory: null as 'school' | 'higher-ed' | null,
   }),
+
+  getters: {
+    availableInstitutionTypes: (state) => {
+      if (state.selectedInstitutionCategory === 'school') {
+        return [
+          InstitutionType.PublicSchool,
+          InstitutionType.PrivateSchool,
+          InstitutionType.CharterSchool,
+          InstitutionType.InternationalSchool,
+          InstitutionType.PrimarySchool,
+          InstitutionType.SecondarySchool,
+          InstitutionType.HighSchool,
+          InstitutionType.VocationalSchool,
+          InstitutionType.SpecialEducationSchool,
+          InstitutionType.LanguageSchool,
+        ];
+      } else if (state.selectedInstitutionCategory === 'higher-ed') {
+        return [
+          InstitutionType.PublicUniversity,
+          InstitutionType.PrivateUniversity,
+          InstitutionType.CommunityCollege,
+          InstitutionType.TechnicalCollege,
+          InstitutionType.LiberalArtsCollege,
+        ];
+      }
+      return [
+        InstitutionType.PublicSchool,
+        InstitutionType.PrivateSchool,
+        InstitutionType.CharterSchool,
+        InstitutionType.InternationalSchool,
+        InstitutionType.PrimarySchool,
+        InstitutionType.SecondarySchool,
+        InstitutionType.HighSchool,
+        InstitutionType.VocationalSchool,
+        InstitutionType.SpecialEducationSchool,
+        InstitutionType.LanguageSchool,
+        InstitutionType.PublicUniversity,
+        InstitutionType.PrivateUniversity,
+        InstitutionType.CommunityCollege,
+        InstitutionType.TechnicalCollege,
+        InstitutionType.LiberalArtsCollege,
+      ];
+    },
+  },
+
   actions: {
     setInstitutionType(type: InstitutionType) {
       this.institutionType = type;
     },
-    async initUniversity(universityData: InitUniversityDto, files: File[]) {
+
+    setInstitutionCategory(category: 'school' | 'higher-ed') {
+      this.selectedInstitutionCategory = category;
+    },
+
+    setCategoryFromType() {
+      console.log(this.selectedInstitution)
+      if (!this.selectedInstitution?.type) return;
+
+      const schoolTypes = new Set([
+        InstitutionType.PublicSchool,
+        InstitutionType.PrivateSchool,
+        InstitutionType.CharterSchool,
+        InstitutionType.InternationalSchool,
+        InstitutionType.PrimarySchool,
+        InstitutionType.SecondarySchool,
+        InstitutionType.HighSchool,
+        InstitutionType.VocationalSchool,
+        InstitutionType.SpecialEducationSchool,
+        InstitutionType.LanguageSchool,
+      ]);
+
+      this.setInstitutionCategory(
+        schoolTypes.has(this.selectedInstitution.type as InstitutionType)
+          ? 'school'
+          : 'higher-ed'
+      );
+    },
+
+    async initInstitution(
+      institutionData: InitUniversityDto | InitSchoolDto,
+      files: File[],
+      logoFile?: File
+    ) {
+      console.log(institutionData)
       try {
         this.isProcessing = true;
-        const { $api } = useNuxtApp();
 
         if (!this.applicationData?.institution.id) {
           throw new Error('No institution ID found in application data');
         }
 
+        // Set the category based on the institution type
+        this.setCategoryFromType();
+
         const formData = new FormData();
 
-        // Basic Information
+        // Add basic fields from the institution data
+        Object.entries(institutionData).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach((item) => formData.append(key, item));
+          } else if (value instanceof Date) {
+            formData.append(key, value.toISOString());
+          } else if (value !== undefined && value !== null) {
+            formData.append(key, value.toString());
+          }
+        });
+
+        // Add ID from application
         formData.append('id', this.applicationData.institution.id);
-        formData.append('name', universityData.name);
-        formData.append('motto', universityData.motto);
-        formData.append('description', universityData.description);
 
-        // Contact Information
-        formData.append('email', universityData.email);
-        formData.append('phone', universityData.phone);
-        formData.append('website', universityData.website);
-        formData.append(
-          'establishedDate',
-          universityData.establishedDate.toISOString()
-        );
-
-        // Academic Information
-        formData.append(
-          'undergraduateCount',
-          universityData.undergraduateCount.toString()
-        );
-        formData.append(
-          'graduateCount',
-          universityData.graduateCount.toString()
-        );
-        formData.append(
-          'acceptanceRate',
-          universityData.acceptanceRate.toString()
-        );
-        formData.append(
-          'researchFunding',
-          universityData.researchFunding.toString()
-        );
-        formData.append(
-          'hasStudentHousing',
-          universityData.hasStudentHousing.toString()
-        );
-
-        universityData.focusAreas.forEach((area) => {
-          formData.append('focusAreas', area.toString());
-        });
-
-        universityData.departments.forEach((department) => {
-          formData.append('departments', department);
-        });
-
-        universityData.accreditations.forEach((accreditation) => {
-          formData.append('accreditations', accreditation.toString());
-        });
-
-        // Handle files
-        // First file is treated as logo if present
-        if (files.length > 0) {
-          formData.append('logo', files[0]);
-
-          // Remaining files are treated as additional images
-          files.slice(1).forEach((file) => {
-            formData.append('additionalImages', file);
-          });
+        // Handle logo file if provided
+        if (logoFile) {
+          formData.append('logo', logoFile);
         }
 
-        const response = await $api.post<{
-          message: string;
-          fileUrls: string[];
-        }>('/universities/init', formData);
+        // Handle additional images
+        files.forEach((file) => {
+          formData.append('additionalImages', file);
+        });
 
+        const { $api } = useNuxtApp();
+        const endpoint =
+          this.selectedInstitutionCategory === 'higher-ed'
+            ? '/Universities/init'
+            : '/School/init';
+
+        const response = await $api.post(endpoint, formData);
+        this.currentStep = ApplicationStatus.Verified;
         return response;
       } catch (err) {
         const errorMessage =
           err instanceof Error
             ? err.message
-            : 'Failed to initialize university';
-        console.error('Failed to initialize university:', err);
+            : 'Failed to initialize institution';
+        console.error('Failed to initialize institution:', err);
         throw new Error(errorMessage);
       } finally {
         this.isProcessing = false;
       }
     },
+
     async createInstitutionApplication(
       applicationPayload: z.infer<
         ReturnType<typeof initInstitutionApplicationSchema>
       >
     ) {
+      console.log(applicationPayload)
       const transformedPayload = {
         firstName: applicationPayload.firstName,
         lastName: applicationPayload.lastName,
         email: applicationPayload.email,
         phone: applicationPayload.phoneNumber,
         institutionName: applicationPayload.institutionName,
-        institutionType: Number(this.institutionType),
+        institutionType: applicationPayload.institutionType,
         address: {
           country: applicationPayload.country,
           settlement: applicationPayload.settlement,
@@ -153,29 +195,52 @@ export const useOnboardingStore = defineStore('onboardingStore', {
           transformedPayload
         );
 
-        if (this.applicationData && this.applicationData.institution.id) {
+        if (this.applicationData?.institution.id) {
           this.currentInstitutionId = this.applicationData.institution.id;
         }
 
-        this.currentStep = 3;
+        this.currentStep = ApplicationStatus.Pending;
         this.processingSubmission = true;
       } catch (err) {
         this.error = err;
         console.error('Error submitting application:', err);
+      } finally {
+        this.processingSubmission = false;
       }
     },
-    async getSchoolApplications() {
+
+    async getInstitutionById(id: string) {
+      try {
+        this.isProcessing = true;
+        const { $api } = useNuxtApp();
+
+        const response = await $api.get<InstitutionResponseDto>(
+          `/Institutions/${id}`
+        );
+        this.selectedInstitution = response;
+        this.setCategoryFromType()
+        return response;
+      } catch (err) {
+        console.error('Failed to fetch institution:', err);
+        throw err;
+      } finally {
+        this.isProcessing = false;
+      }
+    },
+
+    async getApplications() {
       try {
         const { $api } = useNuxtApp();
         this.applications =
           await $api.get<ApplicationResponseDto[]>('/Applications');
-
       } catch (err) {
         this.error = err;
         console.error('Error fetching applications:', err);
       }
     },
+
     async getApplicationById(id: string) {
+      this.isProcessing = true;
       try {
         const { $api } = useNuxtApp();
         const response = await $api.get<ApplicationResponseDto>(
@@ -183,51 +248,23 @@ export const useOnboardingStore = defineStore('onboardingStore', {
         );
 
         this.applicationData = response;
-        this.institutionType = Number(response.institution.type);
+        this.institutionType = response.institution.type as InstitutionType;
+        this.getInstitutionById(response.institution.id)
         this.currentApplicationId = id;
-
-        if (response) {
-          this.setStepFromStatus(response.status);
-        }
-
+        console.log('application response', response)
+        this.currentStep = response.status as ApplicationStatus;  
+        this.setCategoryFromType()
         return response;
       } catch (err) {
         console.error('Error fetching application:', err);
         throw err;
+      } finally {
+        this.isProcessing = false;
       }
     },
 
-    checkAuthStatus() {
-      try {
-        const authStatus = localStorage.getItem('authStatus');
-        if (!authStatus) return false;
-
-        const { authenticated, applicationId } = JSON.parse(authStatus);
-        this.authenticated = authenticated;
-        this.currentApplicationId = applicationId;
-        this.error = null;
-        return authenticated;
-      } catch (error) {
-        this.error = error;
-        return false;
-      }
-    },
-    setStepFromStatus(status: number) {
-      switch (status) {
-        case 0: // Pending approval after the form has been initially submitted
-          this.currentStep = 2;
-          break;
-        case 1: // The form has been approved and now the user has to submit detailed school information
-          this.currentStep = 3;
-          break;
-        case 3: // The final form has been submitted successfully and now the integration process is completed
-          this.currentStep = 4;
-          break;
-        default: // Redirect to the initial form.
-          this.currentStep = 1;
-      }
-    },
     async authenticateViaCode(values: z.infer<typeof codeAuthSchema>) {
+      this.isProcessing = true;
       try {
         const { $api } = useNuxtApp();
         const response = await $api.post<ApplicationResponseDto>(
@@ -241,7 +278,6 @@ export const useOnboardingStore = defineStore('onboardingStore', {
         this.currentApplicationId = response.id;
         this.error = null;
 
-        // Store authentication state in localStorage
         localStorage.setItem(
           'authStatus',
           JSON.stringify({
@@ -250,33 +286,58 @@ export const useOnboardingStore = defineStore('onboardingStore', {
           })
         );
 
-        // Determine correct step based on application status
-        if (response) {
-          this.setStepFromStatus(response.status);
-        }
+        this.currentStep = response.status as ApplicationStatus;
 
-        // Navigate with ID in URL
         navigateTo(`/onboarding/institution/${response.id}`);
       } catch (err) {
         this.error = err;
+      } finally {
+        this.isProcessing = false;
       }
     },
+
     async approveApplication(id: string) {
+      this.isProcessing = true;
       try {
         const { $api } = useNuxtApp();
         await $api.put(`/Applications/approve/${id}`);
       } catch (err) {
         console.error('Failed to approve application:', err);
         throw err;
+      } finally {
+        this.isProcessing = false;
       }
     },
+
     async deleteApplication(id: string) {
+      this.isProcessing = true;
       try {
         const { $api } = useNuxtApp();
         await $api.delete(`/Applications/${id}`);
       } catch (err) {
-        console.error('Failed to update application:', err);
+        console.error('Failed to delete application:', err);
         throw err;
+      } finally {
+        this.isProcessing = false;
+      }
+    },
+
+    checkAuthStatus() {
+      this.isProcessing = true;
+      try {
+        const authStatus = localStorage.getItem('authStatus');
+        if (!authStatus) return false;
+
+        const { authenticated, applicationId } = JSON.parse(authStatus);
+        this.authenticated = authenticated;
+        this.currentApplicationId = applicationId;
+        this.error = null;
+        return authenticated;
+      } catch (error) {
+        this.error = error;
+        return false;
+      } finally {
+        this.isProcessing = false;
       }
     },
   },
