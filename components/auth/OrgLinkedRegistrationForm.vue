@@ -2,8 +2,8 @@
 <template>
   <n-card size="large" class="max-w-5xl mx-auto">
     <n-form
-      @submit.prevent="onSubmit"
       class="grid grid-cols-1 md:grid-cols-2 gap-x-8"
+      @submit.prevent="onSubmit"
     >
       <!-- Left Column -->
       <div>
