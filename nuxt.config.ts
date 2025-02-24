@@ -12,7 +12,13 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     'nuxtjs-naive-ui',
     '@nuxtjs/i18n',
+    '@nuxt/image',
+    '@vueuse/motion/nuxt',
   ],
+  image: {
+    format: ['webp', 'avif', 'jpeg', 'png'],
+    quality: 90,
+  },
   vite: {
     plugins: [
       AutoImport({
