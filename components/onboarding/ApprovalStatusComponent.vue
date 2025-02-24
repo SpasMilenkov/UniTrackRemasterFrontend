@@ -11,18 +11,18 @@
                 <div
                   class="w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300"
                   :class="{
-                    'bg-yellow-400/10': onboardingStatus === 'pending',
-                    'bg-emerald-400/10': onboardingStatus === 'approved',
-                    'bg-red-400/10': onboardingStatus === 'rejected',
+                    'bg-yellow-400/10': displayStatus === 'pending',
+                    'bg-emerald-400/10': displayStatus === 'approved',
+                    'bg-red-400/10': displayStatus === 'rejected',
                   }"
                 >
                   <Icon
-                    v-if="onboardingStatus === 'pending'"
+                    v-if="displayStatus === 'pending'"
                     name="eos-icons:three-dots-loading"
                     class="text-yellow-400 text-5xl"
                   />
                   <Icon
-                    v-else-if="onboardingStatus === 'approved'"
+                    v-else-if="displayStatus === 'approved'"
                     name="ic:baseline-check-circle-outline"
                     class="text-emerald-400 text-5xl"
                   />
@@ -39,29 +39,34 @@
                   class="text-2xl font-bold mb-4 bg-gradient-to-r text-transparent bg-clip-text capitalize"
                   :class="{
                     'from-yellow-400 to-yellow-600':
-                      onboardingStatus === 'pending',
+                      displayStatus === 'pending',
                     'from-emerald-400 to-blue-500':
-                      onboardingStatus === 'approved',
-                    'from-red-400 to-red-600': onboardingStatus === 'rejected',
+                      displayStatus === 'approved',
+                    'from-red-400 to-red-600': displayStatus === 'rejected',
                   }"
                 >
-                  {{ t(`onboarding.approval.status.${onboardingStatus}`) }}
+                  {{ t(`onboarding.approval.status.${displayStatus}`) }}
                 </h2>
 
                 <p
-                  v-if="onboardingStatus === 'pending'"
+                  v-if="displayStatus === 'pending'"
                   class="text-gray-400 mb-6"
                 >
                   {{ t('onboarding.approval.messages.pending') }}
                 </p>
                 <div
-                  v-if="onboardingStatus === 'approved'"
+                  v-if="displayStatus === 'approved'"
                   class="flex flex-col items-center gap-6"
                 >
                   <p class="text-gray-400">
                     {{ t('onboarding.approval.messages.approved') }}
                   </p>
-                  <n-button type="primary" color="#4ade80" class="text-lg px-8">
+                  <n-button
+                    type="primary"
+                    color="#4ade80"
+                    class="text-lg px-8"
+                    @click="moveToNextStep"
+                  >
                     {{ t('onboarding.approval.buttons.continue') }}
                     <template #icon>
                       <Icon name="ph:arrow-right-bold" />
@@ -69,7 +74,7 @@
                   </n-button>
                 </div>
                 <div
-                  v-if="onboardingStatus === 'rejected'"
+                  v-if="displayStatus === 'rejected'"
                   class="flex flex-col items-center gap-6"
                 >
                   <p class="text-gray-400">
@@ -92,53 +97,40 @@
 </template>
 
 <script setup lang="ts">
-import type { Ref } from 'vue';
-import { ref, watch } from 'vue';
+import { computed } from 'vue';
+import { ApplicationStatus } from '~/enums/application-status.enum';
+
+// Stores
+const onboardingStore = useOnboardingStore();
 
 // Localization
 const { t } = useI18n();
 
 // Define the prop with validation
 const props = defineProps<{
-  statusNumber: number;
+  status: ApplicationStatus;
 }>();
 
-// Validate that the number is between 0 and 3
-const isValidStatus = (num: number) => num >= 0 && num <= 3;
-
-// Define the status mapping function
-const mapNumberToStatus = (
-  num: number
-): 'pending' | 'approved' | 'rejected' => {
-  const incrementedNum = num + 1;
-  switch (incrementedNum) {
-    case 1:
+// Map the ApplicationStatus enum to display status
+const displayStatus = computed((): 'pending' | 'approved' | 'rejected' => {
+  switch (props.status) {
+    case ApplicationStatus.Pending:
       return 'pending';
-    case 2:
+    case ApplicationStatus.Approved:
+    case ApplicationStatus.Verified:
       return 'approved';
-    case 3:
+    case ApplicationStatus.Denied:
       return 'rejected';
     default:
       return 'pending';
   }
-};
+});
 
-// Create the status ref with the initial mapped value
-const onboardingStatus: Ref<'pending' | 'approved' | 'rejected'> = ref(
-  isValidStatus(props.statusNumber)
-    ? mapNumberToStatus(props.statusNumber)
-    : 'pending'
-);
-
-// Watch for changes to the prop and update the status
-watch(
-  () => props.statusNumber,
-  (newValue) => {
-    if (isValidStatus(newValue)) {
-      onboardingStatus.value = mapNumberToStatus(newValue);
-    }
+const moveToNextStep = () => {
+  if (onboardingStore.applicationData?.status === ApplicationStatus.Approved) {
+    onboardingStore.currentStep = 3;
   }
-);
+};
 </script>
 
 <style scoped></style>

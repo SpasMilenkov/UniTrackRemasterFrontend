@@ -1,6 +1,6 @@
 <template>
   <n-space vertical :size="12" class="min-h-screen md:px-6 px-2 py-4">
-    <UserBanner :user="user" />
+    <UserBanner :user="bannerUser" />
     <!-- Refined Quick Actions Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-8">
       <UserQuickActionCard
@@ -19,7 +19,19 @@ import ActivityList from '~/components/user/ActivityListComponent.vue';
 import UserQuickActionCard from '~/components/user/UserQuickActionCard.vue';
 import UserBanner from '~/components/user/UserBannerComponent.vue';
 import type { UserQuickAction } from '~/interfaces/user/quick-action.props';
-import type { User } from '~/interfaces/user/user';
+const userStore = useUserStore();
+const authStore = useAuthStore();
+
+onMounted(async () => {
+  if (authStore.isAuthenticated)
+    await userStore.fetchUserDetails(authStore.user.id);
+});
+
+const bannerUser = computed(() => ({
+  name: userStore.displayName,
+  email: userStore.userDetails?.email || '',
+  isLinked: userStore.isInstitutionLinked,
+}));
 
 definePageMeta({
   layout: 'dashboard-layout',
@@ -60,12 +72,6 @@ const recentActivities = [
     type: 'indigo',
   },
 ];
-
-const user: User = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  isLinked: true,
-};
 
 const quickActions: UserQuickAction[] = [
   {

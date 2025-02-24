@@ -16,15 +16,18 @@
   "dependencies": {
     "@nuxt/eslint": "^0.5.7",
     "@nuxt/icon": "^1.5.5",
+    "@nuxt/image": "^1.9.0",
     "@nuxtjs/i18n": "^9.1.1",
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@pinia/nuxt": "^0.5.5",
     "@vee-validate/nuxt": "^4.13.2",
     "@vee-validate/zod": "^4.13.2",
     "@vicons/ionicons5": "^0.12.0",
-    "@vueuse/core": "^11.2.0",
+    "@vueuse/motion": "^2.2.6",
     "chart.js": "^4.4.5",
     "libphonenumber-js": "^1.11.11",
+    "lodash": "^4.17.21",
     "naive-ui": "^2.40.1",
     "nuxt": "^3.14.1592",
     "nuxtjs-naive-ui": "^1.0.2",
@@ -44,6 +47,7 @@
     "@iconify-json/material-symbols": "^1.2.6",
     "@iconify-json/ph": "^1.2.1",
     "prettier": "^3.4.2",
+    "tsx": "^4.19.3",
     "unplugin-vue-components": "^0.27.4"
   }
 }

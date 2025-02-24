@@ -1,3 +1,72 @@
+:root {
+  /* Brand Colors */
+  --color-primary: theme('colors.primary.DEFAULT');
+  --color-primary-light: theme('colors.primary.light');
+  --color-primary-dark: theme('colors.primary.dark');
+  --color-secondary: theme('colors.secondary.DEFAULT');
+  --color-secondary-light: theme('colors.secondary.light');
+  --color-secondary-dark: theme('colors.secondary.dark');
+
+  /* Background Colors */
+  --color-background: theme('colors.background.DEFAULT');
+  --color-background-secondary: theme('colors.background.secondary');
+  --color-background-card: theme('colors.background.card');
+
+  /* Text Colors */
+  --color-text-primary: theme('colors.text.primary');
+  --color-text-secondary: theme('colors.text.secondary');
+  --color-text-muted: theme('colors.text.muted');
+
+  /* Border Colors */
+  --color-border: theme('colors.border.DEFAULT');
+  --color-border-hover: theme('colors.border.hover');
+
+  /* Special Effects */
+  --color-emerald-glow: theme('backgroundColor.emerald-glow');
+  --color-blue-glow: theme('backgroundColor.blue-glow');
+
+  /* Gradients */
+  --gradient-primary: theme('backgroundImage.gradient-primary');
+
+  /* Blur Values */
+  --blur-3xl: theme('blur.3xl');
+
+  /* Opacity Values */
+  --opacity-5: theme('opacity.5');
+  --opacity-10: theme('opacity.10');
+
+  /* Animation Durations */
+  --animation-duration: 0.3s;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Utility Classes for Animations */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-in-out;
+}
+
 body {
   background-color: theme('colors.background.DEFAULT');
 }
@@ -80,4 +149,147 @@ body {
   .mobile-menu-toggle {
     display: none;
   }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 3000px 1000px;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 55s linear infinite;
+}
+
+.n-notification-container {
+  pointer-events: all;
+  margin: 12px !important;
+}
+
+/* Individual toast */
+.n-notification {
+  background-color: #18181c !important;
+  border: 1px solid rgba(75, 85, 99, 0.5) !important;
+  backdrop-filter: blur(8px);
+  border-radius: 0.75rem !important;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Toast content wrapper */
+.n-notification-main {
+  padding: 16px !important;
+}
+
+/* Toast title */
+.n-notification-main .n-notification-main-header {
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
+  color: #f5f5f5 !important;
+  margin-bottom: 4px !important;
+}
+
+/* Toast message */
+.n-notification-main .n-notification-main-content {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  color: #9ca3af !important;
+}
+
+/* Success toast */
+.n-notification.n-notification--success {
+  border-left: 4px solid #4ade80 !important;
+}
+.n-notification.n-notification--success
+  .n-notification-main
+  .n-notification-main-header {
+  color: #4ade80 !important;
+}
+
+/* Error toast */
+.n-notification.n-notification--error {
+  border-left: 4px solid #ef4444 !important;
+}
+.n-notification.n-notification--error
+  .n-notification-main
+  .n-notification-main-header {
+  color: #ef4444 !important;
+}
+
+/* Warning toast */
+.n-notification.n-notification--warning {
+  border-left: 4px solid #f59e0b !important;
+}
+.n-notification.n-notification--warning
+  .n-notification-main
+  .n-notification-main-header {
+  color: #f59e0b !important;
+}
+
+/* Info toast */
+.n-notification.n-notification--info {
+  border-left: 4px solid #3b82f6 !important;
+}
+.n-notification.n-notification--info
+  .n-notification-main
+  .n-notification-main-header {
+  color: #3b82f6 !important;
+}
+
+/* Close button */
+.n-notification .n-notification-close {
+  top: 16px !important;
+  right: 16px !important;
+  color: #9ca3af !important;
+  transition: color 0.2s ease !important;
+}
+
+.n-notification .n-notification-close:hover {
+  color: #f5f5f5 !important;
+}
+
+/* Progress bar */
+.n-notification .n-notification-main .n-notification-main-footer .n-progress {
+  margin-top: 12px !important;
+}
+
+.n-notification
+  .n-notification-main
+  .n-notification-main-footer
+  .n-progress.n-progress--success
+  .n-progress-rail
+  .n-progress-fill {
+  background-color: #4ade80 !important;
+}
+
+.n-notification
+  .n-notification-main
+  .n-notification-main-footer
+  .n-progress.n-progress--error
+  .n-progress-rail
+  .n-progress-fill {
+  background-color: #ef4444 !important;
+}
+
+.n-notification
+  .n-notification-main
+  .n-notification-main-footer
+  .n-progress.n-progress--warning
+  .n-progress-rail
+  .n-progress-fill {
+  background-color: #f59e0b !important;
+}
+
+.n-notification
+  .n-notification-main
+  .n-notification-main-footer
+  .n-progress.n-progress--info
+  .n-progress-rail
+  .n-progress-fill {
+  background-color: #3b82f6 !important;
 }

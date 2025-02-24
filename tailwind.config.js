@@ -17,7 +17,7 @@ export default {
         // Background colors
         background: {
           DEFAULT: '#101014', // main background
-          secondary: '#262629', // secondary background
+          secondary: '#1a1b23', // secondary background
           card: '#18181c', // card background
         },
         // Text colors

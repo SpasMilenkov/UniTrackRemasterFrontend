@@ -8,10 +8,17 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@nuxt/icon',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
     '@nuxt/eslint',
     'nuxtjs-naive-ui',
     '@nuxtjs/i18n',
+    '@nuxt/image',
+    '@vueuse/motion/nuxt',
   ],
+  image: {
+    format: ['webp', 'avif', 'jpeg', 'png'],
+    quality: 90,
+  },
   vite: {
     plugins: [
       AutoImport({
@@ -32,13 +39,17 @@ export default defineNuxtConfig({
       }),
     ],
   },
+  nitro: {
+    compressPublicAssets: true,
+    minify: true,
+  },
   router: {
     options: {
       scrollBehaviorType: 'smooth',
     },
   },
   build: {
-    transpile: ['vueuc'],
+    transpile: ['vueuc', 'ol'],
   },
   tailwindcss: {
     configPath: 'tailwind.config',
@@ -51,7 +62,6 @@ export default defineNuxtConfig({
   icon: {
     clientBundle: {
       scan: {
-        // note that when you specify those values, the default behavior will be overridden
         globInclude: ['components/**/*.vue' /* ... */],
         globExclude: ['node_modules', 'dist' /* ... */],
       },
@@ -68,7 +78,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBaseURL:
-        process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:5086',
+        process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:5086/api',
     },
   },
   compatibilityDate: '2024-04-03',

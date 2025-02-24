@@ -1,40 +1,47 @@
 <template>
   <n-layout>
+    <!-- Main Navbar -->
     <n-layout-header
-      class="bg-[#18181c] border-b border-[#262629] sticky top-0 z-50"
+      class="fixed top-0 w-full bg-background-card border-b border-border z-40 transition-all duration-300"
+      :class="{ '!z-20': isMobileMenuOpen }"
     >
-      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-          <!-- Logo Section -->
-          <RouterLink class="flex items-center" to="/">
-            <img
-              src="/img/logo.png"
-              alt="UniTrack Logo"
-              class="h-10 w-auto mr-4"
-            />
-            <span
-              class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-            >
-              UniTrack
-            </span>
+          <RouterLink class="flex items-center space-x-2" to="/">
+            <Logo />
           </RouterLink>
 
-          <!-- Desktop Menu -->
-          <div class="hidden md:flex md:items-center md:ml-auto">
-            <n-menu
-              mode="horizontal"
-              :options="menuOptions"
-              class="desktop-menu !bg-transparent"
-            />
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-6">
+            <n-button
+              class="text-text-secondary hover:text-primary relative p-1 rounded hover:bg-primary/5 nav-link"
+              text
+              @click="navigateTo(localePath('/login'))"
+            >
+              <template #icon>
+                <n-icon class="text-lg">
+                  <log-in-outline />
+                </n-icon>
+              </template>
+              <span class="ml-1">{{ t('navigation.login') }}</span>
+            </n-button>
+            <n-button
+              class="register-button rounded-lg font-medium shadow-sm hover:shadow-primary/20 transition-all duration-300"
+              type="primary"
+              color="#4ade80"
+              @click="navigateTo(localePath('/register'))"
+            >
+              <template #icon>
+                <n-icon class="text-lg">
+                  <person-add-outline />
+                </n-icon>
+              </template>
+              <span class="ml-1">{{ t('navigation.register') }}</span>
+            </n-button>
           </div>
 
           <!-- Mobile Menu Button -->
-          <n-button
-            class="mobile-menu-toggle md:hidden"
-            secondary
-            size="large"
-            @click="toggleMobileMenu"
-          >
+          <n-button class="md:hidden" secondary @click="toggleMobileMenu">
             <template #icon>
               <n-icon>
                 <menu-outline v-if="!isMobileMenuOpen" />
@@ -44,38 +51,80 @@
           </n-button>
         </div>
       </div>
-
-      <!-- Mobile Menu Drawer -->
-      <n-drawer
-        v-model:show="isMobileMenuOpen"
-        :width="280"
-        placement="left"
-        class="!bg-[#18181c]"
-      >
-        <n-drawer-content class="!bg-[#18181c] pt-6">
-          <div class="flex items-center mb-8 px-4">
-            <img
-              src="/img/UniTrack.png"
-              alt="UniTrack Logo"
-              class="h-8 w-auto mr-4"
-            />
-            <span
-              class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-            >
-              UniTrack
-            </span>
-          </div>
-          <n-menu
-            :options="mobileMenuOptions"
-            :indent="18"
-            class="!bg-transparent"
-          />
-        </n-drawer-content>
-      </n-drawer>
     </n-layout-header>
+
+    <!-- Mobile Sidebar -->
+    <div
+      v-if="isMobileMenuOpen"
+      class="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm"
+      @click="closeMobileMenu"
+    />
+
+    <!-- Sidebar Content -->
+    <transition name="slide">
+      <div
+        v-if="isMobileMenuOpen"
+        class="fixed top-0 left-0 w-72 h-full bg-background-card border-r border-border overflow-y-auto z-40"
+        @click.stop
+      >
+        <div class="p-6 pt-4">
+          <RouterLink class="flex items-center" to="/">
+            <Logo />
+          </RouterLink>
+          <!-- Mobile Navigation Links -->
+          <div class="space-y-6">
+            <div class="space-y-2">
+              <NuxtLink
+                v-for="item in mobileMenuOptions"
+                :key="item.key"
+                :to="localePath(item.path)"
+                class="flex items-center space-x-2 px-4 py-2 rounded-lg text-text-secondary hover:text-primary hover:bg-primary/5 transition-colors duration-200"
+                @click="closeMobileMenu"
+              >
+                <n-icon size="20">
+                  <component :is="item.icon" />
+                </n-icon>
+                <span>{{ t(item.label) }}</span>
+              </NuxtLink>
+            </div>
+
+            <!-- Mobile Action Buttons -->
+            <div class="space-y-2 pt-4 border-t border-border">
+              <n-button
+                block
+                secondary
+                class="mobile-nav-button border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200"
+                @click="navigateAndClose('/login')"
+              >
+                <template #icon>
+                  <n-icon><log-in-outline /></n-icon>
+                </template>
+                {{ t('navigation.login') }}
+              </n-button>
+              <n-button
+                block
+                type="primary"
+                color="#4ade80"
+                @click="navigateAndClose('/register')"
+              >
+                <template #icon>
+                  <n-icon><person-add-outline /></n-icon>
+                </template>
+                {{ t('navigation.register') }}
+              </n-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Main Content -->
     <n-layout-content>
-      <slot />
+      <div class="pt-16">
+        <slot />
+      </div>
     </n-layout-content>
+
     <n-layout-footer bordered>
       <FooterComponent />
     </n-layout-footer>
@@ -83,133 +132,160 @@
 </template>
 
 <script setup lang="ts">
-import { h, ref } from 'vue';
-import {
-  NIcon,
-  NLayout,
-  NLayoutHeader,
-  NMenu,
-  NDrawer,
-  NDrawerContent,
-  NButton,
-} from 'naive-ui';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import {
   LogInOutline,
   PersonAddOutline,
   MenuOutline,
   CloseOutline,
-  AnalyticsOutline,
-  HelpCircleOutline,
 } from '@vicons/ionicons5';
+import {
+  NIcon,
+  NLayout,
+  NLayoutHeader,
+  NLayoutContent,
+  NLayoutFooter,
+} from 'naive-ui';
+import Logo from '~/components/LogoComponent.vue';
 
 const isMobileMenuOpen = ref(false);
+const { t } = useI18n();
+const localePath = useLocalePath();
+const router = useRouter();
+
+router.afterEach(() => {
+  closeMobileMenu();
+});
+
+const handleResize = () => {
+  if (window.innerWidth >= 768 && isMobileMenuOpen.value) {
+    closeMobileMenu();
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+  watch(isMobileMenuOpen, (isOpen) => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+  document.body.style.overflow = '';
+});
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
-const { t } = useI18n();
-const localePath = useLocalePath();
-// Common menu item styling
-const createMenuLabel = (icon: any, text: string, href: string) => () =>
-  h(
-    'a',
-    {
-      href,
-      class:
-        'flex items-center transition-colors duration-200 hover:text-emerald-400',
-    },
-    [
-      h(NIcon, { size: 20 }, { default: () => h(icon) }),
-      h('span', { class: 'ml-2' }, text),
-    ]
-  );
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false;
+};
 
-// Desktop menu options
-const menuOptions = [
-  {
-    label: createMenuLabel(
-      AnalyticsOutline,
-      t('navigation.analytics'),
-      localePath('/analytics')
-    ),
-    key: 'analytics',
-  },
-  {
-    label: createMenuLabel(
-      HelpCircleOutline,
-      t('navigation.support'),
-      localePath('/support')
-    ),
-    key: 'support',
-  },
-  {
-    label: createMenuLabel(
-      LogInOutline,
-      t('navigation.login'),
-      localePath('/login')
-    ),
-    key: 'login',
-  },
-  {
-    label: createMenuLabel(
-      PersonAddOutline,
-      t('navigation.register'),
-      localePath('/register')
-    ),
-    key: 'register',
-  },
-];
+const navigateAndClose = (path: string) => {
+  navigateTo(localePath(path));
+  closeMobileMenu();
+};
 
-// Mobile menu options (can include additional items or different organization)
 const mobileMenuOptions = [
-  ...menuOptions,
-  // Add more mobile-specific menu items here if needed
+  {
+    key: 'features',
+    label: 'navigation.features',
+    path: '/#features',
+    icon: LogInOutline,
+  },
+  {
+    key: 'roadmap',
+    label: 'navigation.roadmap',
+    path: '/#roadmap',
+    icon: PersonAddOutline,
+  },
 ];
 </script>
 
 <style scoped>
-@media (min-width: 768px) {
-  .mobile-menu-toggle {
-    display: none;
-  }
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease-out;
 }
 
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: rgb(74 222 128); 
+  transition: all 0.3s;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.register-button:hover {
+  transform: translateY(-1px);
+}
+
+/* Menu styles */
 :deep(.n-menu) {
-  background-color: transparent !important;
+  background-color: transparent;
 }
 
 :deep(.n-menu-item) {
-  color: #9ca3af !important;
+  color: rgb(156 163 175);
 }
 
 :deep(.n-menu-item:hover) {
-  color: #4ade80 !important;
+  color: rgb(74 222 128); 
 }
 
 :deep(.n-menu-item-content__icon) {
-  color: inherit !important;
+  color: currentColor;
 }
 
 :deep(.n-menu-item-content--selected) {
-  color: #4ade80 !important;
-  background-color: #262629 !important;
+  color: rgb(74 222 128); 
+  background-color: rgba(74, 222, 128, 0.05);
 }
 
+/* Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Drawer */
 :deep(.n-drawer) {
-  background-color: #18181c !important;
+  background-color: rgb(24, 24, 28);
+  border-right: 1px solid rgb(55, 65, 81);
 }
 
-:deep(.n-drawer-content) {
-  background-color: #18181c !important;
-}
-
-:deep(.n-button.n-button--secondary-type) {
-  background-color: #262629 !important;
-  border-color: #374151 !important;
-}
-
-:deep(.n-button.n-button--secondary-type:hover) {
-  border-color: #4ade80 !important;
+/* Prevent interaction during transition */
+.slide-enter-active .backdrop,
+.slide-leave-active .backdrop {
+  pointer-events: none;
 }
 </style>

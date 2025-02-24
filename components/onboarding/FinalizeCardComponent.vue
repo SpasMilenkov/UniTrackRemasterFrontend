@@ -1,4 +1,3 @@
-<!-- SuccessCard.vue -->
 <template>
   <div class="min-h-screen bg-[#101014] text-white relative">
     <div class="relative z-10">
@@ -29,6 +28,7 @@
               color="#4ade80"
               class="text-lg px-12"
               size="large"
+              @click="navigateTo(localePath('/login'))"
             >
               {{ t('onboarding.success.button') }}
               <template #icon>
@@ -42,9 +42,11 @@
   </div>
 </template>
 
-<script setup lnag="ts">
+<script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+
 const { t } = useI18n();
+const localePath = useLocalePath();
 </script>
 
 <style scoped></style>

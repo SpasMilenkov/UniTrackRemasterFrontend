@@ -120,24 +120,36 @@
 
 <script setup lang="ts">
 import OptionCard from '~/components/onboarding/OptionCardComponent.vue';
+import { InstitutionType } from '~/enums/institution-type.enum';
+
 const { t } = useI18n();
 const showSchoolOptions = ref(false);
 const localePath = useLocalePath();
+const onboardingStore = useOnboardingStore();
 const institutionCards = {
   main: [
     {
       icon: 'ph:book-open-bold',
-      buttonAction: () => (showSchoolOptions.value = true),
+      buttonAction: () => {
+        onboardingStore.setInstitutionCategory('school');
+        showSchoolOptions.value = true;
+      },
     },
     {
       icon: 'ph:graduation-cap-bold',
-      buttonAction: () => navigateTo(localePath('/onboarding/university')),
+      buttonAction: () => {
+        onboardingStore.setInstitutionCategory('higher-ed');
+        showSchoolOptions.value = true;
+      },
     },
   ],
   school: [
     {
       icon: 'ph:plus-circle-bold',
-      buttonAction: () => navigateTo(localePath('/onboarding/school')),
+      buttonAction: () => {
+        onboardingStore.institutionType = InstitutionType.HIGH_SCHOOL;
+        navigateTo(localePath('/onboarding/institution'));
+      },
     },
     {
       icon: 'ph:clock-bold',

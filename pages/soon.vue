@@ -2,7 +2,7 @@
   <n-space
     align="center"
     justify="center"
-    class="min-h-screen bg-[hsl(240,8%,5%)] bg-[url('/img/blobs.svg')] bg-no-repeat bg-cover"
+    class="min-h-screen bg-[hsl(240,8%,5%)] bg-[url('/images/blobs.svg')] bg-no-repeat bg-cover"
   >
     <n-card :title="t('soon.title')" class="max-w-xl p-4 g-4">
       <p class="text-xl mb-4">

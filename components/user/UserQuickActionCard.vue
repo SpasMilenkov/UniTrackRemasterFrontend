@@ -1,48 +1,47 @@
 <template>
   <div
-    class="group relative bg-[#262629] rounded-xl overflow-hidden hover:transform hover:scale-[1.02] transition-all duration-300 min-h-[16rem]"
+    class="group relative bg-[#262629] rounded-xl overflow-hidden hover:transform hover:scale-[1.02] transition-all duration-300 min-h-[14rem]"
   >
     <!-- Gradient border effect -->
     <div
       class="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     />
-
     <!-- Glowing orb effect -->
     <div
       class="absolute -right-20 -top-20 w-40 h-40 bg-emerald-400/5 rounded-full blur-3xl group-hover:bg-emerald-400/10 transition-all duration-300"
     />
 
-    <div class="relative p-8 flex flex-col h-full">
+    <div class="relative p-5 flex flex-col h-full">
       <!-- Header -->
-      <div class="mb-6">
+      <div class="mb-4">
         <div
-          class="bg-emerald-400/10 p-4 rounded-xl w-fit mb-6 group-hover:bg-emerald-400/20 transition-all duration-300"
+          class="bg-emerald-400/10 p-3 rounded-xl w-fit mb-4 group-hover:bg-emerald-400/20 transition-all duration-300"
         >
           <Icon
             :name="action.icon"
-            class="text-3xl text-emerald-400 group-hover:scale-110 transition-transform duration-300"
+            class="text-2xl text-emerald-400 group-hover:scale-110 transition-transform duration-300"
           />
         </div>
         <h3
-          class="text-xl font-semibold text-white mb-4 bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"
+          class="text-lg font-semibold text-white mb-2 bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"
         >
           {{ t(action.title) }}
         </h3>
-        <p class="text-gray-400 text-lg leading-relaxed">
+        <p class="text-gray-400 text-base leading-relaxed">
           {{ t(action.description) }}
         </p>
       </div>
 
       <!-- Features List -->
-      <div class="space-y-4 flex-grow mb-8">
+      <div class="space-y-2 flex-grow mb-4">
         <div
           v-for="feature in action.features"
           :key="feature"
-          class="flex items-center text-base text-gray-300"
+          class="flex items-center text-sm text-gray-300"
         >
           <Icon
             name="ph:check-circle-fill"
-            class="text-emerald-400 mr-3 text-lg shrink-0"
+            class="text-emerald-400 mr-2 text-base shrink-0"
           />
           <span>{{ feature }}</span>
         </div>
@@ -52,7 +51,7 @@
         <n-button
           type="primary"
           color="#4ade80"
-          class="min-w-[13.125rem] h-14 text-base font-medium group-hover:shadow-lg group-hover:shadow-emerald-400/20 transition-all duration-300"
+          class="min-w-[12rem] h-12 text-base font-medium group-hover:shadow-lg group-hover:shadow-emerald-400/20 transition-all duration-300"
           @click="navigateTo(action.link)"
         >
           <span class="mr-2">{{ t(action.buttonText) }}</span>
@@ -69,7 +68,9 @@
 <script setup lang="ts">
 import type { UserQuickAction } from '~/interfaces/user/quick-action.props';
 import { useI18n } from 'vue-i18n';
+
 const { t } = useI18n();
+
 defineProps<{
   action: UserQuickAction;
 }>();

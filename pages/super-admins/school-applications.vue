@@ -1,33 +1,33 @@
 <template>
   <div class="min-h-screen bg-[#101014] text-white relative">
-    <!-- Content wrapper -->
     <div class="relative z-10">
       <!-- Header Section -->
-      <div class="py-8">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="py-6">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="mx-auto max-w-3xl text-center">
             <h1
-              class="text-4xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text mb-4"
+              class="text-3xl sm:text-4xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text mb-3"
             >
               Applications
             </h1>
-            <p class="text-gray-400">Review and manage student applications</p>
+            <p class="text-gray-400 text-sm sm:text-base">
+              Review and manage student applications
+            </p>
           </div>
         </div>
       </div>
 
       <!-- Filters and Search Section -->
       <div class="py-4">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div
-            class="flex flex-col sm:flex-row gap-4 justify-between items-center"
+            class="flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center"
           >
-            <!-- Search -->
-            <n-input-group>
+            <n-input-group class="w-full sm:w-auto">
               <n-input
                 v-model:value="searchQuery"
                 placeholder="Search applications..."
-                class="min-w-[300px]"
+                class="w-full sm:min-w-[300px]"
               >
                 <template #prefix>
                   <Icon name="ph:magnifying-glass" class="text-gray-400" />
@@ -35,123 +35,148 @@
               </n-input>
             </n-input-group>
 
-            <!-- Filter by School -->
             <n-select
               v-model:value="selectedSchool"
               :options="schoolOptions"
               placeholder="Filter by school"
-              class="min-w-[200px]"
+              class="w-full sm:w-[200px]"
             />
           </div>
         </div>
       </div>
 
       <!-- Applications List -->
-      <div class="py-8">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="py-6">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="space-y-4">
-            <!-- Application Card -->
-            <div
+            <template
               v-for="application in filteredApplications"
               :key="application.id"
-              class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6 group hover:border-emerald-400/50 transition-all duration-300"
             >
-              <div class="flex flex-col sm:flex-row justify-between gap-6">
-                <!-- Application Info -->
-                <div class="flex-1 space-y-4">
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <h3 class="text-xl font-semibold text-white">
+              <div
+                class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-4 sm:p-6 group hover:border-emerald-400/50 transition-all duration-300"
+              >
+                <div class="flex flex-col gap-4">
+                  <!-- Top Section: Name, Status, and Tags -->
+                  <div class="flex flex-col sm:flex-row justify-between gap-4">
+                    <div class="space-y-2">
+                      <h3 class="text-lg sm:text-xl font-semibold text-white">
                         {{ application.firstName }} {{ application.lastName }}
                       </h3>
-                      <div class="space-y-1">
-                        <p class="text-gray-400">{{ application.email }}</p>
-                        <p class="text-gray-400">{{ application.phone }}</p>
-                        <p class="text-gray-400">
+                      <div class="flex flex-col gap-1">
+                        <p class="text-gray-400 text-sm">
+                          {{ application.email }}
+                        </p>
+                        <p class="text-gray-400 text-sm">
+                          {{ application.phone }}
+                        </p>
+                        <p class="text-gray-400 text-sm">
                           Code: {{ application.code }}
                         </p>
                       </div>
                     </div>
-                    <div class="flex flex-col items-end gap-2">
-                      <n-tag :bordered="false" type="info" size="small">
+
+                    <!-- Status and Tags -->
+                    <div class="flex flex-row sm:flex-col items-start gap-2">
+                      <n-tag
+                        :bordered="false"
+                        type="info"
+                        size="small"
+                        class="whitespace-nowrap"
+                      >
                         ID: {{ application.id.slice(0, 8) }}
                       </n-tag>
-                      <n-tag :bordered="false" type="warning" size="small">
-                        School ID: {{ application.schoolId.slice(0, 8) }}
+                      <n-tag
+                        :bordered="false"
+                        type="warning"
+                        size="small"
+                        class="whitespace-nowrap"
+                      >
+                        School ID: {{ application.institution.id.slice(0, 8) }}
                       </n-tag>
                     </div>
                   </div>
 
-                  <div class="flex items-center gap-2 text-gray-400">
-                    <Icon name="ph:buildings" />
-                    <span>{{ application.schoolName }}</span>
+                  <!-- Middle Section: Institution and Address -->
+                  <div class="space-y-2">
+                    <div class="flex items-center gap-2 text-gray-400 text-sm">
+                      <Icon name="ph:buildings" />
+                      <span>{{ application.institution.name }}</span>
+                    </div>
+
+                    <div class="flex items-start gap-2 text-gray-400 text-sm">
+                      <Icon name="ph:map-pin" class="mt-1 flex-shrink-0" />
+                      <span class="break-words">
+                        {{ application.institution.address.street }},
+                        {{ application.institution.address.settlement }},
+                        {{ application.institution.address.postalCode }},
+                        {{ application.institution.address.country }}
+                      </span>
+                    </div>
                   </div>
 
-                  <div class="flex items-center gap-2 text-gray-400">
-                    <Icon name="ph:map-pin" />
-                    <span>
-                      {{ application.address.street }},
-                      {{ application.address.settlement }},
-                      {{ application.address.postalCode }},
-                      {{ application.address.country }}
-                    </span>
+                  <!-- Bottom Section: Actions -->
+                  <div class="flex flex-col sm:flex-row gap-3 mt-2">
+                    <div
+                      v-if="application.status === ApplicationStatus.Pending"
+                      class="flex gap-3 flex-1"
+                    >
+                      <n-button
+                        type="primary"
+                        color="#4ade80"
+                        class="flex-1"
+                        @click="approveApplication(application.id)"
+                      >
+                        <template #icon>
+                          <Icon name="ph:check-bold" />
+                        </template>
+                        Approve
+                      </n-button>
+                      <n-button
+                        type="error"
+                        class="flex-1"
+                        @click="showRejectDialog(application.id)"
+                      >
+                        <template #icon>
+                          <Icon name="ph:x-bold" />
+                        </template>
+                        Reject
+                      </n-button>
+                    </div>
+                    <div v-else class="flex justify-end">
+                      <n-tag
+                        v-if="application.status === ApplicationStatus.Approved"
+                        type="success"
+                        :bordered="false"
+                        >Approved</n-tag
+                      >
+                      <n-tag
+                        v-if="application.status === ApplicationStatus.Denied"
+                        type="error"
+                        :bordered="false"
+                        >Rejected</n-tag
+                      >
+                    </div>
                   </div>
-                </div>
-
-                <!-- Actions -->
-                <div class="flex items-center gap-3 sm:flex-col lg:flex-row">
-                  <n-button
-                    v-if="application.status === 0"
-                    type="primary"
-                    color="#4ade80"
-                    class="flex-1"
-                    @click="approveApplication(application.id)"
-                  >
-                    <template #icon>
-                      <Icon name="ph:check-bold" />
-                    </template>
-                    Approve
-                  </n-button>
-                  <n-button
-                    v-if="application.status === 0"
-                    type="error"
-                    class="flex-1"
-                    @click="showRejectDialog(application.id)"
-                  >
-                    <template #icon>
-                      <Icon name="ph:x-bold" />
-                    </template>
-                    Reject
-                  </n-button>
-                  <n-tag
-                    v-if="application.status === 1"
-                    type="success"
-                    :bordered="false"
-                    >Approved</n-tag
-                  >
-                  <n-tag
-                    v-if="application.status === 2"
-                    type="error"
-                    :bordered="false"
-                    >Rejected</n-tag
-                  >
                 </div>
               </div>
-            </div>
+            </template>
 
             <!-- Empty State -->
             <div
               v-if="filteredApplications?.length === 0"
-              class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-12 text-center"
+              class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-8 sm:p-12 text-center"
             >
               <Icon
                 name="ph:folder-simple"
-                class="text-gray-400 text-5xl mb-4"
+                class="text-gray-400 text-4xl sm:text-5xl mb-4"
               />
-              <h3 class="text-xl font-semibold text-gray-400 mb-2">
+              <h3 class="text-lg sm:text-xl font-semibold text-gray-400 mb-2">
                 No Applications Found
               </h3>
-              <p class="text-gray-500">Try adjusting your search or filters</p>
+              <p class="text-gray-500 text-sm sm:text-base">
+                Try adjusting your search or filters
+              </p>
             </div>
           </div>
         </div>
@@ -161,17 +186,16 @@
     <!-- Rejection Dialog -->
     <n-modal
       v-model:show="showRejectModal"
-      size="medium"
       :mask-closable="false"
-      class="w-[90vw] max-w-xl h-auto max-h-[80vh]"
+      class="w-[90vw] max-w-xl"
     >
       <div
-        class="bg-[#18181c] border border-gray-700/50 rounded-xl p-6 text-white"
+        class="bg-[#18181c] border border-gray-700/50 rounded-xl p-4 sm:p-6 text-white"
       >
         <div class="flex items-start justify-between mb-4">
-          <div class="text-xl font-semibold">Reject Application</div>
+          <div class="text-lg sm:text-xl font-semibold">Reject Application</div>
           <n-button text type="error" @click="showRejectModal = false">
-            <Icon name="ph:x-bold" class="text-2xl" />
+            <Icon name="ph:x-bold" class="text-xl sm:text-2xl" />
           </n-button>
         </div>
 
@@ -188,7 +212,7 @@
           />
         </div>
 
-        <div class="flex justify-end gap-4">
+        <div class="flex flex-col sm:flex-row gap-3">
           <n-button class="flex-1" @click="showRejectModal = false">
             Cancel
           </n-button>
@@ -203,9 +227,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useSchoolOnboardingStore } from '#imports';
+import { ApplicationStatus } from '~/enums/application-status.enum';
+import { useOnboardingStore } from '~/stores/onboarding';
+
 // Stores
-const schoolOnboardingStore = useSchoolOnboardingStore();
+const onboardingStore = useOnboardingStore();
 
 // Search and filters
 const searchQuery = ref('');
@@ -214,7 +240,7 @@ const selectedSchool = ref(null);
 // Compute unique schools for the filter dropdown
 const schoolOptions = computed(() => {
   const uniqueSchools = new Set(
-    schoolOnboardingStore.applications?.map((app) => app.schoolName)
+    onboardingStore.applications?.map((app) => app.institution.name)
   );
   return Array.from(uniqueSchools).map((school) => ({
     label: school,
@@ -224,14 +250,14 @@ const schoolOptions = computed(() => {
 
 // Filtered applications based on search and school filter
 const filteredApplications = computed(() => {
-  return schoolOnboardingStore.applications?.filter((app) => {
+  return onboardingStore.applications?.filter((app) => {
     const searchFields = [
       app.firstName,
       app.lastName,
       app.email,
       app.phone,
       app.code,
-      app.schoolName,
+      app.institution.name,
     ]
       .join(' ')
       .toLowerCase();
@@ -241,7 +267,7 @@ const filteredApplications = computed(() => {
       : true;
 
     const matchesSchool = selectedSchool.value
-      ? app.schoolName === selectedSchool.value
+      ? app.institution.name === selectedSchool.value
       : true;
 
     return matchesSearch && matchesSchool;
@@ -257,9 +283,9 @@ const currentApplicationId = ref<string | null>(null);
 const confirmReject = async () => {
   try {
     if (!currentApplicationId.value) return;
-    schoolOnboardingStore.deleteApplication(currentApplicationId.value);
+    onboardingStore.deleteApplication(currentApplicationId.value);
     showRejectModal.value = false;
-    schoolOnboardingStore.getSchoolApplications();
+    onboardingStore.getApplications();
   } catch (error) {
     console.error('Error rejecting application:', error);
   }
@@ -274,22 +300,21 @@ const showRejectDialog = (id: string) => {
 const approveApplication = async (applicationId: string) => {
   if (!applicationId) return;
   try {
-    const currentApplication = schoolOnboardingStore.applications?.find(
+    const currentApplication = onboardingStore.applications?.find(
       (a) => a.id === applicationId
     );
     if (!currentApplication) return;
-    console.log(currentApplication);
-    await schoolOnboardingStore.approveApplication(applicationId);
+    await onboardingStore.approveApplication(applicationId);
 
-    await schoolOnboardingStore.getSchoolApplications();
+    await onboardingStore.getApplications();
   } catch (error) {
     console.error('Error approving application:', error);
   }
 };
 
 // Lifecycle
-onMounted(() => {
-  schoolOnboardingStore.getSchoolApplications();
+onMounted(async () => {
+  await onboardingStore.getApplications();
 });
 </script>
 
@@ -307,5 +332,16 @@ onMounted(() => {
 :deep(.n-select) {
   background-color: #1f1f23 !important;
   border-color: rgba(75, 85, 99, 0.5) !important;
+}
+
+:deep(.n-button) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:deep(.n-tag) {
+  display: flex;
+  align-items: center;
 }
 </style>

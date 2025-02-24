@@ -1,133 +1,156 @@
 <template>
-  <div class="min-h-screen bg-[#101014] text-white relative">
-    <!-- Content wrapper -->
-    <div class="relative z-10">
-      <div class="py-12">
-        <div class="mx-auto max-w-3xl px-6 lg:px-8">
-          <!-- Form Card -->
-          <div
-            class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-8 transition-all duration-300"
+  <div class="min-h-screen bg-[#101014] text-white">
+    <div class="py-6">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-6 text-center">
+          <h1
+            class="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
           >
-            <!-- Header -->
-            <div class="mb-8 text-center">
-              <h1
-                class="text-2xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-              >
-                {{ t('onboarding.schoolForm.title') }}
-              </h1>
-            </div>
-            <n-form @submit.prevent="onSubmit">
-              <!-- School Name -->
-              <n-form-item
-                v-bind="nameProps"
-                :label="t('onboarding.schoolForm.fields.name.label')"
-              >
-                <n-input
-                  v-model:value="name"
-                  class="dark"
-                  :placeholder="
-                    t('onboarding.schoolForm.fields.name.placeholder')
-                  "
-                />
-              </n-form-item>
+            {{ t('onboarding.schoolForm.title') }}
+          </h1>
+        </div>
 
-              <!-- Pictures -->
-              <n-form-item
-                :label="t('onboarding.schoolForm.fields.pictures.label')"
-              >
-                <n-upload
-                  action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
-                  :default-file-list="fileList"
-                  list-type="image-card"
-                  class="upload-container"
+        <!-- Main Form Content -->
+        <div
+          class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6"
+        >
+          <n-form class="space-y-6" @submit.prevent="onSubmit">
+            <!-- Two Column Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <!-- Left Column: Basic Info -->
+              <div class="space-y-4">
+                <h3
+                  class="text-lg font-semibold text-white/90 border-l-4 border-emerald-400 pl-3 mb-4"
                 >
-                  <div
-                    class="flex flex-col items-center justify-center text-gray-400"
+                  {{ t('onboarding.schoolForm.sections.basicInfo') }}
+                </h3>
+
+                <!-- Logo Upload -->
+                <n-form-item
+                  :label="t('onboarding.schoolForm.fields.logo.label')"
+                >
+                  <n-upload
+                    ref="logoUploadRef"
+                    :default-file-list="logoFile"
+                    list-type="image-card"
+                    accept="image/*"
+                    :max="1"
+                    @update:file-list="handleLogoUpdate"
                   >
-                    <Icon name="ph:upload-simple-bold" class="text-2xl mb-2" />
-                    <span>{{
-                      t('onboarding.schoolForm.fields.pictures.uploadText')
-                    }}</span>
-                  </div>
-                </n-upload>
-              </n-form-item>
+                    <div
+                      class="flex flex-col items-center justify-center text-gray-400"
+                    >
+                      <Icon name="ph:image-square-bold" class="text-2xl mb-2" />
+                      <span>{{
+                        t('onboarding.schoolForm.fields.logo.uploadText')
+                      }}</span>
+                    </div>
+                  </n-upload>
+                </n-form-item>
 
-              <!-- Founded Date -->
-              <n-form-item
-                v-bind="foundedProps"
-                :label="t('onboarding.schoolForm.fields.founded.label')"
-              >
-                <n-date-picker
-                  v-model:value="founded"
-                  type="date"
-                  class="w-full"
-                />
-              </n-form-item>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <n-form-item
+                    v-bind="nameProps"
+                    :label="t('onboarding.schoolForm.fields.name.label')"
+                  >
+                    <n-input v-model:value="name" />
+                  </n-form-item>
 
-              <!-- School Type -->
-              <n-form-item
-                v-bind="typeProps"
-                :label="t('onboarding.schoolForm.fields.type.label')"
-              >
-                <n-input
-                  v-model:value="type"
-                  class="dark"
-                  :placeholder="
-                    t('onboarding.schoolForm.fields.type.placeholder')
-                  "
-                />
-              </n-form-item>
+                  <n-form-item
+                    v-bind="typeProps"
+                    :label="t('onboarding.schoolForm.fields.type.label')"
+                  >
+                    <n-select
+                      v-model:value="type"
+                      :options="schoolTypeOptions"
+                      :placeholder="
+                        t('onboarding.schoolForm.fields.type.placeholder')
+                      "
+                    />
+                  </n-form-item>
+                </div>
 
-              <!-- Description -->
-              <n-form-item
-                v-bind="descriptionProps"
-                :label="t('onboarding.schoolForm.fields.description.label')"
-              >
-                <n-input
-                  v-model:value="description"
-                  type="textarea"
-                  class="dark"
-                  :placeholder="
-                    t('onboarding.schoolForm.fields.description.placeholder')
-                  "
-                  :rows="4"
-                />
-              </n-form-item>
-
-              <!-- Programs -->
-              <n-form-item
-                :label="t('onboarding.schoolForm.fields.programs.label')"
-                v-bind="programsProps"
-              >
-                <n-select
-                  v-model:value="programs"
-                  multiple
-                  filterable
-                  tag
-                  :consistent-menu-width="false"
-                  :placeholder="
-                    t('onboarding.schoolForm.fields.programs.placeholder')
-                  "
-                  class="dark"
-                />
-              </n-form-item>
-
-              <!-- Submit Button -->
-              <div class="flex justify-end mt-8">
-                <n-button
-                  type="primary"
-                  attr-type="submit"
-                  color="#4ade80"
-                  class="text-lg px-8"
+                <n-form-item
+                  v-bind="mottoProps"
+                  :label="t('onboarding.schoolForm.fields.motto.label')"
                 >
-                  {{ t('onboarding.schoolForm.submit') }}
-                  <template #icon>
-                    <Icon name="ph:arrow-right-bold" />
-                  </template>
-                </n-button>
+                  <n-input v-model:value="motto" />
+                </n-form-item>
+
+                <n-form-item
+                  v-bind="websiteProps"
+                  :label="t('onboarding.schoolForm.fields.website.label')"
+                >
+                  <n-input v-model:value="website" />
+                </n-form-item>
+
+                <n-form-item
+                  v-bind="programsProps"
+                  :label="t('onboarding.schoolForm.fields.programs.label')"
+                >
+                  <n-select v-model:value="programs" multiple filterable tag />
+                </n-form-item>
               </div>
-            </n-form>
-          </div>
+
+              <!-- Right Column: Description and Files -->
+              <div class="space-y-4">
+                <h3
+                  class="text-lg font-semibold text-white/90 border-l-4 border-blue-500 pl-3 mb-4"
+                >
+                  {{ t('onboarding.schoolForm.sections.details') }}
+                </h3>
+
+                <n-form-item
+                  v-bind="descriptionProps"
+                  :label="t('onboarding.schoolForm.fields.description.label')"
+                >
+                  <n-input
+                    v-model:value="description"
+                    type="textarea"
+                    :rows="4"
+                  />
+                </n-form-item>
+
+                <n-form-item
+                  :label="t('onboarding.schoolForm.fields.pictures.label')"
+                >
+                  <n-upload
+                    ref="uploadRef"
+                    :default-file-list="fileList"
+                    list-type="image-card"
+                    accept="image/*"
+                    multiple
+                    @update:file-list="handleFileListUpdate"
+                  >
+                    <div
+                      class="flex flex-col items-center justify-center text-gray-400"
+                    >
+                      <Icon
+                        name="ph:upload-simple-bold"
+                        class="text-2xl mb-2"
+                      />
+                      <span>{{
+                        t('onboarding.schoolForm.fields.pictures.uploadText')
+                      }}</span>
+                    </div>
+                  </n-upload>
+                </n-form-item>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end pt-4 border-t border-gray-700/50">
+              <n-button
+                type="primary"
+                attr-type="submit"
+                :loading="isSubmitting"
+                class="min-w-[120px]"
+              >
+                {{ t('onboarding.schoolForm.submit') }}
+              </n-button>
+            </div>
+          </n-form>
         </div>
       </div>
     </div>
@@ -135,78 +158,141 @@
 </template>
 
 <script setup lang="ts">
-import * as z from 'zod';
-import type { UploadFileInfo } from 'naive-ui';
 import { ref } from 'vue';
+import type { UploadFileInfo } from 'naive-ui';
+import * as z from 'zod';
+import { InstitutionType } from '~/enums/institution-type.enum';
+import { camelCase } from 'lodash';
 
 const { t } = useI18n();
+const message = useMessage();
+const onboardingStore = useOnboardingStore();
 
-// File list for uploads
+// File handling
+const uploadRef = ref();
+const logoUploadRef = ref(null);
+const logoFile = ref<UploadFileInfo[]>([]);
 const fileList = ref<UploadFileInfo[]>([]);
+const uploadedFiles = ref<File[]>([]);
+const isSubmitting = ref(false);
 
+// Institution type options
+const schoolTypeOptions = computed(() => {
+  const schoolTypes = [
+    InstitutionType.PublicSchool,
+    InstitutionType.PrivateSchool,
+    InstitutionType.CharterSchool,
+    InstitutionType.InternationalSchool,
+    InstitutionType.PrimarySchool,
+    InstitutionType.SecondarySchool,
+    InstitutionType.HighSchool,
+    InstitutionType.VocationalSchool,
+    InstitutionType.SpecialEducationSchool,
+    InstitutionType.LanguageSchool,
+  ];
+
+  return schoolTypes.map((type) => ({
+    label: t(
+      `onboarding.initialForm.fields.institutionType.options.${camelCase(InstitutionType[type])}`
+    ),
+    value: type,
+  }));
+});
 // Schema
 const schema = z.object({
-  name: z.string(),
-  founded: z.number(),
-  type: z.string(),
-  description: z.string(),
-  programs: z.string().array(),
+  name: z.string().min(2).max(200),
+  description: z.string().max(500),
+  motto: z.string().max(200),
+  website: z.string().url(),
+  type: z.nativeEnum(InstitutionType),
+  programs: z.array(z.string()).min(1),
 });
 
-// Form
+const getInitialValues = () => {
+  const institution = onboardingStore.applicationData?.institution;
+  return {
+    name: institution?.name || '',
+    type: institution?.type || InstitutionType.HighSchool,
+  };
+};
+
 const { handleSubmit, defineField } = useForm({
   validationSchema: toTypedSchema(schema),
+  initialValues: getInitialValues(),
+  validateOnMount: false,
 });
 
-// Fields
+// Fields setup
 const [name, nameProps] = defineField('name', naiveUiFormsConfig);
-const [founded, foundedProps] = defineField('founded', naiveUiFormsConfig);
-const [type, typeProps] = defineField('type', naiveUiFormsConfig);
 const [description, descriptionProps] = defineField(
   'description',
   naiveUiFormsConfig
 );
+const [motto, mottoProps] = defineField('motto', naiveUiFormsConfig);
+const [website, websiteProps] = defineField('website', naiveUiFormsConfig);
+const [type, typeProps] = defineField('type', naiveUiFormsConfig);
 const [programs, programsProps] = defineField('programs', naiveUiFormsConfig);
 
-// Methods
-const onSubmit = handleSubmit((values) => {
-  console.log(values);
+const handleFileListUpdate = (newFileList: UploadFileInfo[]) => {
+  fileList.value = newFileList;
+  uploadedFiles.value = newFileList
+    .filter((file) => file.file instanceof File)
+    .map((file) => file.file as File);
+};
+
+const handleLogoUpdate = (files: UploadFileInfo[]) => {
+  logoFile.value = files;
+};
+
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    isSubmitting.value = true;
+
+    // getting the logo if it exists
+    const logoFileData = logoFile.value
+      .filter((file) => file.file instanceof File)
+      .map((file) => file.file as File)[0];
+
+    const schoolData = {
+      id: onboardingStore.applicationData?.institution.id ?? '',
+      name: values.name,
+      description: values.description,
+      motto: values.motto,
+      website: values.website,
+      type: values.type,
+      programs: values.programs,
+    };
+
+    await onboardingStore.initInstitution(
+      schoolData,
+      uploadedFiles.value,
+      logoFileData
+    );
+
+    message.success(t('onboarding.schoolForm.success'));
+    // No need to manually set step as it's handled in the store now
+  } catch {
+    message.error(
+      onboardingStore.error?.toString() || t('onboarding.schoolForm.error')
+    );
+  } finally {
+    isSubmitting.value = false;
+  }
 });
 </script>
-
 <style scoped>
-:deep(.n-form-item-label) {
-  color: #9ca3af !important;
-  /* text-gray-400 */
-}
-
-:deep(.n-input) {
-  background-color: #1f1f23 !important;
-  border-color: rgba(75, 85, 99, 0.5) !important;
-}
-
-:deep(.n-input:hover),
-:deep(.n-input:focus) {
-  border-color: #4ade80 !important;
-}
-
-:deep(.n-date-picker) {
-  background-color: #1f1f23 !important;
-  border-color: rgba(75, 85, 99, 0.5) !important;
-}
-
+:deep(.n-input),
 :deep(.n-select) {
-  background-color: #1f1f23 !important;
-  border-color: rgba(75, 85, 99, 0.5) !important;
+  background-color: #1c1c21;
 }
 
-:deep(.upload-container) {
-  background-color: #1f1f23 !important;
-  border: 2px dashed rgba(75, 85, 99, 0.5) !important;
-  border-radius: 0.5rem;
+:deep(.n-form-item .n-form-item-label) {
+  color: rgb(156, 163, 175);
+  font-size: 0.875rem;
 }
 
-:deep(.upload-container:hover) {
-  border-color: #4ade80 !important;
+:deep(.n-upload-trigger) {
+  background-color: #1c1c21;
+  border-color: rgba(55, 65, 81, 0.5);
 }
 </style>

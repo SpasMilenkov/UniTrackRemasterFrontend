@@ -56,15 +56,13 @@
 <script setup lang="ts">
 import * as z from 'zod';
 import { NDatePicker, type SelectOption, NIcon } from 'naive-ui';
-import { GradeType } from '~/utils/grade-type.enum';
+import { GradeType } from '~/enums/grade-type.enum';
 import {
   DocumentTextOutline,
   PencilOutline,
   FileTrayStackedOutline,
   ChatbubbleOutline,
 } from '@vicons/ionicons5';
-
-console.log('LOADING');
 
 //Emits
 const emit = defineEmits(['submitGrade', 'closeGradeForm']);
