@@ -11,7 +11,7 @@
           :src="school.images[0]"
           :alt="school.name"
           class="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-300"
-        />
+        >
         <div
           class="absolute inset-0 bg-gradient-to-t from-[#18181c]/80 to-transparent opacity-60"
         />
