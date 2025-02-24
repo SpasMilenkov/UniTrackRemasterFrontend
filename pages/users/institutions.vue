@@ -42,7 +42,7 @@
                     <div
                       class="w-16 h-16 bg-background-secondary rounded-lg flex-shrink-0 overflow-hidden"
                     >
-                      <img
+                      <NuxtImg
                         v-if="institution.logoUrl"
                         :src="institution.logoUrl"
                         class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
@@ -145,7 +145,7 @@
 
           <div class="flex-1 overflow-y-auto p-6">
             <div class="mb-6">
-              <img
+              <NuxtImg
                 v-if="selectedInstitution.logoUrl"
                 :src="selectedInstitution.logoUrl"
                 class="w-full h-48 object-contain rounded-lg bg-background-secondary"
@@ -262,7 +262,7 @@
                   >Gallery</label
                 >
                 <div class="grid grid-cols-3 gap-2">
-                  <img
+                  <NuxtImg
                     v-for="(image, i) in selectedInstitution.images"
                     :key="i"
                     :src="image"
@@ -294,7 +294,7 @@
           :key="i"
           class="flex items-center justify-center"
         >
-          <img
+          <NuxtImg
             :src="image"
             :alt="selectedInstitution?.name"
             class="max-h-[80vh] w-auto object-contain"
@@ -334,47 +334,96 @@ const currentImageIndex = ref(0);
 
 const institutions = computed(() => institutionStore.institutions);
 
-function getInstitutionIcon(type: InstitutionType): string {
+const getInstitutionIcon = (type: InstitutionType): string => {
   switch (type) {
-    case InstitutionType.UNIVERSITY:
+    case InstitutionType.PublicSchool:
       return 'ph:buildings';
-    case InstitutionType.COLLEGE:
+    case InstitutionType.PrivateSchool:
+      return 'ph:buildings';
+    case InstitutionType.CharterSchool:
+      return 'ph:buildings';
+    case InstitutionType.InternationalSchool:
+      return 'ph:buildings';
+    case InstitutionType.PublicUniversity:
+      return 'ph:buildings';
+    case InstitutionType.PrivateUniversity:
+      return 'ph:buildings';
+    case InstitutionType.CommunityCollege:
       return 'ph:graduation-cap';
-    case InstitutionType.PRIMARY_SCHOOL:
-    case InstitutionType.SECONDARY_SCHOOL:
-      return 'ph:chalkboard-teacher';
-    case InstitutionType.VOCATIONAL:
-      return 'ph:toolbox';
-    case InstitutionType.LANGUAGE_SCHOOL:
-      return 'ph:translate';
-    case InstitutionType.SPECIAL_EDUCATION:
+    case InstitutionType.TechnicalCollege:
+      return 'ph:graduation-cap';
+    case InstitutionType.LiberalArtsCollege:
+      return 'ph:graduation-cap';
+    case InstitutionType.PrimarySchool:
+      return 'ph:buildings';
+    case InstitutionType.SecondarySchool:
+      return 'ph:buildings';
+    case InstitutionType.HighSchool:
+      return 'ph:buildings';
+    case InstitutionType.VocationalSchool:
       return 'ph:monitor';
-    default:
+    case InstitutionType.SpecialEducationSchool:
+      return 'ph:monitor';
+    case InstitutionType.LanguageSchool:
+      return 'ph:book-open';
+    case InstitutionType.Other:
       return 'ph:book-open';
   }
-}
+};
 
-function formatInstitutionType(type: InstitutionType): string {
-  return InstitutionType[type].replace(/([A-Z])/g, ' $1').trim();
-}
+const formatInstitutionType = (type: InstitutionType): string => {
+  switch (type) {
+    case InstitutionType.PublicSchool:
+      return 'Public School';
+    case InstitutionType.PrivateSchool:
+      return 'Private School';
+    case InstitutionType.CharterSchool:
+      return 'Charter School';
+    case InstitutionType.InternationalSchool:
+      return 'International School';
+    case InstitutionType.PublicUniversity:
+    case InstitutionType.PrivateUniversity:
+      return 'University';
+    case InstitutionType.CommunityCollege:
+      return 'Community College';
+    case InstitutionType.TechnicalCollege:
+      return 'Technical College';
+    case InstitutionType.LiberalArtsCollege:
+      return 'Liberal Arts College';
+    case InstitutionType.PrimarySchool:
+      return 'Primary School';
+    case InstitutionType.SecondarySchool:
+      return 'Secondary School';
+    case InstitutionType.HighSchool:
+      return 'High School';
+    case InstitutionType.VocationalSchool:
+      return 'Vocational School';
+    case InstitutionType.SpecialEducationSchool:
+      return 'Special Education Institution';
+    case InstitutionType.LanguageSchool:
+      return 'Language School';
+    case InstitutionType.Other:
+      return 'Other';
+  }
+};
 
-function formatIntegrationStatus(status: IntegrationStatus): string {
+const formatIntegrationStatus = (status: IntegrationStatus): string => {
   return IntegrationStatus[status].replace(/([A-Z])/g, ' $1').trim();
-}
+};
 
-function formatAccreditationType(type: AccreditationType): string {
+const formatAccreditationType = (type: AccreditationType): string => {
   return AccreditationType[type].replace(/([A-Z])/g, ' $1').trim();
-}
+};
 
-function formatDate(date: string): string {
+const formatDate = (date: string): string => {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
-}
+};
 
-function getIntegrationStatusClasses(status: IntegrationStatus): string {
+const getIntegrationStatusClasses = (status: IntegrationStatus): string => {
   switch (status) {
     case IntegrationStatus.Active:
       return 'bg-emerald-400/10 text-emerald-400';
@@ -387,12 +436,12 @@ function getIntegrationStatusClasses(status: IntegrationStatus): string {
     default:
       return 'bg-gray-400/10 text-gray-400';
   }
-}
+};
 
-function openCarousel(index: number) {
+const openCarousel = (index: number) => {
   currentImageIndex.value = index;
   isCarouselOpen.value = true;
-}
+};
 
 onMounted(async () => {
   try {

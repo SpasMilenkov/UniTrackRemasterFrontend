@@ -27,22 +27,30 @@
         :disabled="currentStep !== 4"
       />
     </n-steps>
-
+    <InstructionFlashCards
+      v-if="isInstructionsVisible && onboardingStore.currentStep == null"
+      :steps="steps"
+      title="Signup form tutorial"
+      skip-button-text="Skip Tutorial"
+      @close="handleClose"
+    />
     <InitialFormComponent v-if="currentStep === 1" />
     <ApprovalStatusComponent
       v-if="currentStep === 2"
-      :status-number="onboardingStore.applicationData?.status ?? 0"
+      :status="
+        onboardingStore.applicationData?.status ?? ApplicationStatus.Pending
+      "
     />
     <SchoolInfoFormComponent
       v-if="
         currentStep === 3 &&
-        onboardingStore.institutionType !== InstitutionType.UNIVERSITY
+        onboardingStore.selectedInstitutionCategory === 'school'
       "
     />
     <UniversityInfoForm
       v-if="
         currentStep === 3 &&
-        onboardingStore.institutionType === InstitutionType.UNIVERSITY
+        onboardingStore.selectedInstitutionCategory === 'higher-ed'
       "
     />
     <FinalizeCardComponent v-if="currentStep === 4" />
@@ -54,13 +62,68 @@ import ApprovalStatusComponent from '~/components/onboarding/ApprovalStatusCompo
 import InitialFormComponent from '~/components/onboarding/InitialFormComponent.vue';
 import SchoolInfoFormComponent from '~/components/onboarding/SchoolInfoFormComponent.vue';
 import FinalizeCardComponent from '~/components/onboarding/FinalizeCardComponent.vue';
-import { InstitutionType } from '~/enums/institution-type.enum';
 import UniversityInfoForm from '~/components/onboarding/UniversityInfoFormComponent.vue';
+import InstructionFlashCards from '~/components/InstructionCards.vue';
+import { ApplicationStatus } from '~/enums/application-status.enum';
+
+const isInstructionsVisible = ref(true);
+
+const handleClose = () => {
+  isInstructionsVisible.value = false;
+};
 
 const route = useRoute();
 const onboardingStore = useOnboardingStore();
 const { t } = useI18n();
 const currentStep = ref(0);
+
+const steps = computed(() => [
+  {
+    title: t('instructions.steps.initial.title'),
+    description: t('instructions.steps.initial.description'),
+    note: t('instructions.steps.initial.note'),
+  },
+  {
+    title: t('instructions.steps.verification.title'),
+    description: t('instructions.steps.verification.description'),
+    note: t('instructions.steps.verification.note'),
+  },
+  {
+    title: t('instructions.steps.review.title'),
+    description: t('instructions.steps.review.description'),
+    note: t('instructions.steps.review.note'),
+  },
+  {
+    title: t('instructions.steps.details.title'),
+    description: t('instructions.steps.details.description'),
+    note: t('instructions.steps.details.note'),
+  },
+  {
+    title: t('instructions.steps.setup.title'),
+    description: t('instructions.steps.setup.description'),
+    note: t('instructions.steps.setup.note'),
+  },
+]);
+
+const statusToStep = (status: ApplicationStatus | null) => {
+  console.log(onboardingStore.selectedInstitutionCategory)
+  switch (status) {
+    case ApplicationStatus.Pending:
+      currentStep.value = 2;
+      break;
+    case ApplicationStatus.Denied:
+      currentStep.value = 2;
+      break;
+    case ApplicationStatus.Approved:
+      currentStep.value = 3;
+      break;
+    case ApplicationStatus.Verified:
+      currentStep.value = 4;
+      break;
+    default:
+      currentStep.value = 1;
+  }
+};
 
 onMounted(async () => {
   const id = route.params.id as string;
@@ -76,7 +139,8 @@ onMounted(async () => {
       return navigateTo('/onboarding/auth');
     }
   }
-  currentStep.value = onboardingStore.currentStep
+  statusToStep(onboardingStore.currentStep);
+  onboardingStore.setCategoryFromType();
 });
 
 // Watch for route changes
@@ -91,7 +155,7 @@ watch(
         return navigateTo('/onboarding/auth');
       }
     }
-    onboardingStore.currentStep = 0;
+    onboardingStore.currentStep = null;
   }
 );
 </script>
