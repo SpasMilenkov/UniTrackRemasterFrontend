@@ -130,7 +130,7 @@ const emit = defineEmits<{
 
 // Methods
 const getInstitutionIcon = (type: InstitutionResponseDto['type']) => {
-  return type === InstitutionType.UNIVERSITY
+  return type === InstitutionType.PublicUniversity
     ? 'ph:buildings-bold'
     : 'ph:school-bold';
 };
