@@ -118,7 +118,7 @@
                   <!-- Bottom Section: Actions -->
                   <div class="flex flex-col sm:flex-row gap-3 mt-2">
                     <div
-                      v-if="application.status === 0"
+                      v-if="application.status === ApplicationStatus.Pending"
                       class="flex gap-3 flex-1"
                     >
                       <n-button
@@ -145,13 +145,13 @@
                     </div>
                     <div v-else class="flex justify-end">
                       <n-tag
-                        v-if="application.status === 1"
+                        v-if="application.status === ApplicationStatus.Approved"
                         type="success"
                         :bordered="false"
                         >Approved</n-tag
                       >
                       <n-tag
-                        v-if="application.status === 2"
+                        v-if="application.status === ApplicationStatus.Denied"
                         type="error"
                         :bordered="false"
                         >Rejected</n-tag
@@ -227,10 +227,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import { ApplicationStatus } from '~/enums/application-status.enum';
 import { useOnboardingStore } from '~/stores/onboarding';
 
 // Stores
-const schoolOnboardingStore = useOnboardingStore();
+const onboardingStore = useOnboardingStore();
 
 // Search and filters
 const searchQuery = ref('');
@@ -239,7 +240,7 @@ const selectedSchool = ref(null);
 // Compute unique schools for the filter dropdown
 const schoolOptions = computed(() => {
   const uniqueSchools = new Set(
-    schoolOnboardingStore.applications?.map((app) => app.institution.name)
+    onboardingStore.applications?.map((app) => app.institution.name)
   );
   return Array.from(uniqueSchools).map((school) => ({
     label: school,
@@ -249,7 +250,7 @@ const schoolOptions = computed(() => {
 
 // Filtered applications based on search and school filter
 const filteredApplications = computed(() => {
-  return schoolOnboardingStore.applications?.filter((app) => {
+  return onboardingStore.applications?.filter((app) => {
     const searchFields = [
       app.firstName,
       app.lastName,
@@ -282,9 +283,9 @@ const currentApplicationId = ref<string | null>(null);
 const confirmReject = async () => {
   try {
     if (!currentApplicationId.value) return;
-    schoolOnboardingStore.deleteApplication(currentApplicationId.value);
+    onboardingStore.deleteApplication(currentApplicationId.value);
     showRejectModal.value = false;
-    schoolOnboardingStore.getSchoolApplications();
+    onboardingStore.getApplications();
   } catch (error) {
     console.error('Error rejecting application:', error);
   }
@@ -299,13 +300,13 @@ const showRejectDialog = (id: string) => {
 const approveApplication = async (applicationId: string) => {
   if (!applicationId) return;
   try {
-    const currentApplication = schoolOnboardingStore.applications?.find(
+    const currentApplication = onboardingStore.applications?.find(
       (a) => a.id === applicationId
     );
     if (!currentApplication) return;
-    await schoolOnboardingStore.approveApplication(applicationId);
+    await onboardingStore.approveApplication(applicationId);
 
-    await schoolOnboardingStore.getSchoolApplications();
+    await onboardingStore.getApplications();
   } catch (error) {
     console.error('Error approving application:', error);
   }
@@ -313,7 +314,7 @@ const approveApplication = async (applicationId: string) => {
 
 // Lifecycle
 onMounted(async () => {
-  await schoolOnboardingStore.getSchoolApplications();
+  await onboardingStore.getApplications();
 });
 </script>
 
