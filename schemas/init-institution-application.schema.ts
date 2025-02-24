@@ -2,9 +2,15 @@
 import { isPossiblePhoneNumber } from 'libphonenumber-js';
 import { z } from 'zod';
 import { useI18n } from 'vue-i18n';
+import { InstitutionType } from '~/enums/institution-type.enum';
 
 export const initInstitutionApplicationSchema = () => {
   const { t } = useI18n();
+
+  const institutionTypeValues = Object.values(InstitutionType) as [
+    string,
+    ...string[],
+  ];
 
   return z.object({
     firstName: z.string({
@@ -28,7 +34,7 @@ export const initInstitutionApplicationSchema = () => {
     institutionName: z.string({
       required_error: t('onboarding.validation.institutionName.required'),
     }),
-    institutionType: z.number({
+    institutionType: z.enum(institutionTypeValues, {
       required_error: t('onboarding.validation.institutionType.required'),
     }),
     country: z.string({

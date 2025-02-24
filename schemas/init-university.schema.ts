@@ -1,6 +1,8 @@
 import { isPossiblePhoneNumber } from 'libphonenumber-js';
 import { z } from 'zod';
+import { AccreditationType } from '~/enums/accreditation-type.enum';
 import { FocusArea } from '~/enums/focus-area.enum';
+import { InstitutionType } from '~/enums/institution-type.enum';
 
 export const useUniversityFormSchema = () => {
   const { t } = useI18n();
@@ -95,7 +97,7 @@ export const useUniversityFormSchema = () => {
         100000,
         t('onboarding.universityForm.validation.undergraduateCount.max')
       ),
-
+    type: z.nativeEnum(InstitutionType),
     graduateCount: z
       .number({
         required_error: t(
@@ -130,17 +132,13 @@ export const useUniversityFormSchema = () => {
 
     // Specialization Information
     focusAreas: z
-      .array(
-        z.nativeEnum(FocusArea)
-      )
+      .array(z.nativeEnum(FocusArea))
       .min(1, t('onboarding.universityForm.validation.focusAreas.min')),
 
     departments: z
       .array(z.string())
       .min(1, t('onboarding.universityForm.validation.departments.min')),
 
-    accreditations: z
-      .array(z.number())
-      .min(1, t('onboarding.universityForm.validation.accreditations.min')),
+    accreditations: z.array(z.nativeEnum(AccreditationType)).min(1, t('onboarding.universityForm.validation.accreditations.min')),
   });
 };
