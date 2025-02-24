@@ -9,11 +9,10 @@
  * - Localization: enabled
  */
 
-export enum IntegrationStatus {
-  RequiresVerification = 'RequiresVerification',
-  Verified = 'Verified',
-  AdditionalDataSubmitted = 'AdditionalDataSubmitted',
+export enum ApplicationStatus {
+  Pending = 'Pending',
+  Approved = 'Approved',
   Denied = 'Denied',
-  Active = 'Active',
-  Inactive = 'Inactive',
+  Verified = 'Verified',
 }
+ 
