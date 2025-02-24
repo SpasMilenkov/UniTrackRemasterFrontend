@@ -1,3 +1,5 @@
+import type { ApplicationStatus } from "~/enums/application-status.enum";
+import type { InstitutionType } from "~/enums/institution-type.enum";
 
 export interface AddressDto {
   country: string;
@@ -10,7 +12,7 @@ export interface AddressDto {
 interface Institution {
   id: string;
   name: string;
-  type: number;
+  type: InstitutionType;
   address: AddressDto;
 }
 
@@ -21,6 +23,6 @@ export interface ApplicationResponseDto {
   email: string;
   phone: string;
   code: string;
-  status: number;
+  status: ApplicationStatus;
   institution: Institution;
 }

@@ -1,3 +1,6 @@
+import type { AccreditationType } from "~/enums/accreditation-type.enum";
+import type { FocusArea } from "~/enums/focus-area.enum";
+
 export interface InitUniversityDto {
   id: string;
   name: string;
@@ -12,7 +15,7 @@ export interface InitUniversityDto {
   acceptanceRate: number;
   researchFunding: number;
   hasStudentHousing: boolean;
-  focusAreas: number[];
+  focusAreas: FocusArea[];
   departments: string[];
-  accreditations: number[];
+  accreditations: AccreditationType[];
 }
