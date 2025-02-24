@@ -255,7 +255,18 @@
                 "
               />
             </n-form-item>
-
+            <n-form-item
+              :label="t('onboarding.universityForm.fields.institutionType.label')"
+              v-bind="typeProps"
+            >
+              <n-select
+                v-model:value="type"
+                :options="universityTypeOptions"
+                :placeholder="
+                  t('onboarding.universityForm.fields.institutionType.placeholder')
+                "
+              />
+            </n-form-item>
             <n-form-item
               :label="t('onboarding.universityForm.fields.departments.label')"
               v-bind="departmentsProps"
@@ -348,7 +359,9 @@ import type { UploadFileInfo } from 'naive-ui';
 import { FocusArea } from '~/enums/focus-area.enum';
 import { AccreditationType } from '~/enums/accreditation-type.enum';
 import { useUniversityFormSchema } from '~/schemas/init-university.schema';
-
+import { InstitutionType } from '~/enums/institution-type.enum';
+import { ApplicationStatus } from '~/enums/application-status.enum';
+import { camelCase } from 'lodash';
 const { t } = useI18n();
 const message = useMessage();
 const onboardingStore = useOnboardingStore();
@@ -404,7 +417,7 @@ const [hasStudentHousing, hasStudentHousingProps] = defineField(
   'hasStudentHousing',
   naiveUiFormsConfig
 );
-
+const [type, typeProps] = defineField('type', naiveUiFormsConfig);
 // Specialization Fields
 const [focusAreas, focusAreasProps] = defineField(
   'focusAreas',
@@ -418,6 +431,24 @@ const [accreditations, accreditationsProps] = defineField(
   'accreditations',
   naiveUiFormsConfig
 );
+
+// For the university form
+const universityTypeOptions = computed(() => {
+  const universityTypes = [
+    InstitutionType.PublicSchool,
+    InstitutionType.PrivateUniversity,
+    InstitutionType.CommunityCollege,
+    InstitutionType.TechnicalCollege,
+    InstitutionType.LiberalArtsCollege,
+  ];
+
+  return universityTypes.map((type) => ({
+    label: t(
+      `onboarding.initialForm.fields.institutionType.options.${camelCase(InstitutionType[type])}`
+    ),
+    value: type,
+  }));
+});
 
 // Focus Area options
 const focusAreaOptions = [
@@ -459,19 +490,19 @@ const focusAreaOptions = [
 const accreditationOptions = [
   {
     label: t('onboarding.universityForm.accreditations.international'),
-    value: AccreditationType.INTERNATIONAL,
+    value: AccreditationType.International,
   },
   {
     label: t('onboarding.universityForm.accreditations.national'),
-    value: AccreditationType.NATIONAL,
+    value: AccreditationType.National,
   },
   {
     label: t('onboarding.universityForm.accreditations.programmatic'),
-    value: AccreditationType.PROGRAMMATIC,
+    value: AccreditationType.Programmatic,
   },
   {
-    label: t('onboarding.universityForm.accreditations.specialized'),
-    value: AccreditationType.SPECIALIZED,
+    label: t('onboarding.universityForm.accreditations.regional'),
+    value: AccreditationType.Regional,
   },
 ];
 
@@ -520,9 +551,9 @@ const onSubmit = handleSubmit(async (values) => {
       ? [logoFileData, ...uploadedFiles.value]
       : uploadedFiles.value;
 
-    await onboardingStore.initUniversity(universityData, allFiles);
+    await onboardingStore.initInstitution(universityData, allFiles);
     message.success(t('onboarding.universityForm.success'));
-    onboardingStore.currentStep = 4;
+    onboardingStore.currentStep = ApplicationStatus.Verified
   } catch {
     message.error(t('onboarding.universityForm.error'));
   } finally {

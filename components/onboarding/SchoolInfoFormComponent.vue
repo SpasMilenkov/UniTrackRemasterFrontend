@@ -63,7 +63,7 @@
                   >
                     <n-select
                       v-model:value="type"
-                      :options="institutionTypeOptions"
+                      :options="schoolTypeOptions"
                       :placeholder="
                         t('onboarding.schoolForm.fields.type.placeholder')
                       "
@@ -162,10 +162,10 @@ import { ref } from 'vue';
 import type { UploadFileInfo } from 'naive-ui';
 import * as z from 'zod';
 import { InstitutionType } from '~/enums/institution-type.enum';
+import { camelCase } from 'lodash';
 
 const { t } = useI18n();
 const message = useMessage();
-const schoolStore = useSchoolStore();
 const onboardingStore = useOnboardingStore();
 
 // File handling
@@ -177,37 +177,27 @@ const uploadedFiles = ref<File[]>([]);
 const isSubmitting = ref(false);
 
 // Institution type options
-const institutionTypeOptions = [
-  {
-    label: t('onboarding.schoolForm.fields.type.options.primarySchool'),
-    value: InstitutionType.PRIMARY_SCHOOL,
-  },
-  {
-    label: t('onboarding.schoolForm.fields.type.options.secondarySchool'),
-    value: InstitutionType.SECONDARY_SCHOOL,
-  },
-  {
-    label: t('onboarding.schoolForm.fields.type.options.highSchool'),
-    value: InstitutionType.HIGH_SCHOOL,
-  },
-  {
-    label: t('onboarding.schoolForm.fields.type.options.vocational'),
-    value: InstitutionType.VOCATIONAL,
-  },
-  {
-    label: t('onboarding.schoolForm.fields.type.options.specialEducation'),
-    value: InstitutionType.SPECIAL_EDUCATION,
-  },
-  {
-    label: t('onboarding.schoolForm.fields.type.options.languageSchool'),
-    value: InstitutionType.LANGUAGE_SCHOOL,
-  },
-  {
-    label: t('onboarding.schoolForm.fields.type.options.other'),
-    value: InstitutionType.OTHER,
-  },
-];
+const schoolTypeOptions = computed(() => {
+  const schoolTypes = [
+    InstitutionType.PublicSchool,
+    InstitutionType.PrivateSchool,
+    InstitutionType.CharterSchool,
+    InstitutionType.InternationalSchool,
+    InstitutionType.PrimarySchool,
+    InstitutionType.SecondarySchool,
+    InstitutionType.HighSchool,
+    InstitutionType.VocationalSchool,
+    InstitutionType.SpecialEducationSchool,
+    InstitutionType.LanguageSchool,
+  ];
 
+  return schoolTypes.map((type) => ({
+    label: t(
+      `onboarding.initialForm.fields.institutionType.options.${camelCase(InstitutionType[type])}`
+    ),
+    value: type,
+  }));
+});
 // Schema
 const schema = z.object({
   name: z.string().min(2).max(200),
@@ -218,15 +208,13 @@ const schema = z.object({
   programs: z.array(z.string()).min(1),
 });
 
-
 const getInitialValues = () => {
   const institution = onboardingStore.applicationData?.institution;
   return {
     name: institution?.name || '',
-    type: institution?.type || InstitutionType.HIGH_SCHOOL,
+    type: institution?.type || InstitutionType.HighSchool,
   };
 };
-
 
 const { handleSubmit, defineField } = useForm({
   validationSchema: toTypedSchema(schema),
@@ -260,7 +248,7 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     isSubmitting.value = true;
 
-    // getting the logo if it exits
+    // getting the logo if it exists
     const logoFileData = logoFile.value
       .filter((file) => file.file instanceof File)
       .map((file) => file.file as File)[0];
@@ -275,17 +263,23 @@ const onSubmit = handleSubmit(async (values) => {
       programs: values.programs,
     };
 
-    await schoolStore.initSchool(schoolData, uploadedFiles.value, logoFileData);
+    await onboardingStore.initInstitution(
+      schoolData,
+      uploadedFiles.value,
+      logoFileData
+    );
+
     message.success(t('onboarding.schoolForm.success'));
-    onboardingStore.currentStep = 4;
+    // No need to manually set step as it's handled in the store now
   } catch {
-    message.error(schoolStore.error || t('onboarding.schoolForm.error'));
+    message.error(
+      onboardingStore.error?.toString() || t('onboarding.schoolForm.error')
+    );
   } finally {
     isSubmitting.value = false;
   }
 });
 </script>
-
 <style scoped>
 :deep(.n-input),
 :deep(.n-select) {

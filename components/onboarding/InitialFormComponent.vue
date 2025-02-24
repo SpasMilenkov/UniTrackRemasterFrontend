@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-background-card">
-    <n-form @submit.prevent="onSubmit" class="max-w-7xl mx-auto p-6">
+    <n-form class="max-w-7xl mx-auto p-6" @submit.prevent="onSubmit">
       <!-- Header -->
       <div class="mb-8 text-center">
         <VanillaTitle
@@ -183,7 +183,7 @@
 
       <!-- Submit Button -->
       <div class="mt-8 flex justify-end">
-        <n-button type="primary" @click="onSubmit" class="px-8">
+        <n-button type="primary" class="px-8" @click="onSubmit">
           {{ t('onboarding.initialForm.submit') }}
         </n-button>
       </div>
@@ -192,13 +192,15 @@
 </template>
 
 <script setup lang="ts">
+import { camelCase } from 'lodash';
 import { ref, onMounted } from 'vue';
 import { initInstitutionApplicationSchema } from '~/schemas/init-institution-application.schema';
 
+const message = useMessage();
+
 // Localization
-
 const { t } = useI18n();
-
+const localePath = useLocalePath();
 //Stores
 const onboardingStore = useOnboardingStore();
 
@@ -243,59 +245,14 @@ const [institutionType, institutionTypeProps] = defineField(
   naiveUiFormsConfig
 );
 
-// Institution type options
-const institutionTypeOptions = [
-  {
-    label: t(
-      'onboarding.initialForm.fields.institutionType.options.primarySchool'
-    ),
-    value: 0,
-  },
-  {
-    label: t(
-      'onboarding.initialForm.fields.institutionType.options.secondarySchool'
-    ),
-    value: 1,
-  },
-  {
-    label: t(
-      'onboarding.initialForm.fields.institutionType.options.highSchool'
-    ),
-    value: 2,
-  },
-  {
-    label: t(
-      'onboarding.initialForm.fields.institutionType.options.university'
-    ),
-    value: 3,
-  },
-  {
-    label: t('onboarding.initialForm.fields.institutionType.options.college'),
-    value: 4,
-  },
-  {
-    label: t(
-      'onboarding.initialForm.fields.institutionType.options.vocational'
-    ),
-    value: 5,
-  },
-  {
-    label: t(
-      'onboarding.initialForm.fields.institutionType.options.specialEducation'
-    ),
-    value: 6,
-  },
-  {
-    label: t(
-      'onboarding.initialForm.fields.institutionType.options.languageSchool'
-    ),
-    value: 7,
-  },
-  {
-    label: t('onboarding.initialForm.fields.institutionType.options.other'),
-    value: 8,
-  },
-];
+const institutionTypeOptions = computed(() => {
+  const availableTypes = onboardingStore.availableInstitutionTypes;
+  return availableTypes.map((type) => ({
+    label: t(`onboarding.initialForm.fields.institutionType.options.${camelCase(type)}`),
+    value: type,
+  }));
+});
+
 const initMap = async () => {
   // Properly import OpenLayers modules
   const OLMap = (await import('ol/Map')).default;
@@ -373,8 +330,16 @@ const initMap = async () => {
 };
 
 // Methods
-const onSubmit = handleSubmit((values) => {
-  return onboardingStore.createInstitutionApplication(values);
+const onSubmit = handleSubmit(async (values) => {
+  await onboardingStore.createInstitutionApplication(values);
+  if (onboardingStore.error) {
+    message.error(
+      onboardingStore.error?.toString() || t('onboarding.applicationForm.error')
+    );
+    return;
+  }
+  message.success(t('onboarding.applicationForm.success'));
+  navigateTo(localePath('/onboarding/auth'));
 });
 
 // Lifecycle
@@ -388,19 +353,11 @@ onMounted(() => {
 <style scoped>
 :deep(.n-input),
 :deep(.n-select) {
-  background-color: rgb(
-    38,
-    38,
-    41
-  ); /* matches bg-background-secondary from your Tailwind config */
+  background-color: rgb(38, 38, 41);
 }
 
 :deep(.n-form-item .n-form-item-label) {
-  color: rgb(
-    156,
-    163,
-    175
-  ); /* matches text-text-secondary from your Tailwind config */
-  font-size: 0.875rem; /* matches text-sm */
+  color: rgb(156, 163, 175);
+  font-size: 0.875rem;
 }
 </style>
