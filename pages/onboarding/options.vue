@@ -130,11 +130,17 @@ const institutionCards = {
   main: [
     {
       icon: 'ph:book-open-bold',
-      buttonAction: () => (showSchoolOptions.value = true),
+      buttonAction: () => {
+        onboardingStore.setInstitutionCategory('school');
+        showSchoolOptions.value = true;
+      },
     },
     {
       icon: 'ph:graduation-cap-bold',
-      buttonAction: () => (showSchoolOptions.value = true),
+      buttonAction: () => {
+        onboardingStore.setInstitutionCategory('higher-ed');
+        showSchoolOptions.value = true;
+      },
     },
   ],
   school: [
