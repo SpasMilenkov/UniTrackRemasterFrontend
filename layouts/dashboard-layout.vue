@@ -12,11 +12,11 @@
         <!-- Logo Section -->
         <div class="flex items-center px-4 h-16 border-b border-border">
           <img
-            src="/img/UniTrack.png"
+            src="/images/UniTrack.png"
             alt="UniTrack Logo"
             class="h-8 w-auto mr-4"
             :class="{ 'mr-0': collapsed }"
-          />
+          >
           <span
             v-if="!collapsed"
             class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
@@ -88,8 +88,8 @@
           <div class="flex items-center justify-between h-16">
             <!-- Mobile Logo Section -->
             <div class="flex items-center lg:hidden">
-              <img
-                src="/img/UniTrack.png"
+              <NuxtImg
+                src="/images/UniTrack.png"
                 alt="UniTrack Logo"
                 class="h-8 w-auto mr-4"
               />
@@ -143,8 +143,8 @@
         >
           <div class="p-6 pt-4">
             <div class="flex items-center mb-6">
-              <img
-                src="/img/UniTrack.png"
+              <NuxtImg
+                src="/images/UniTrack.png"
                 alt="UniTrack Logo"
                 class="h-8 w-auto mr-4"
               />
