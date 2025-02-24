@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center bg-[url('/img/green-blobs.svg')] bg-no-repeat bg-cover relative"
+    class="min-h-screen flex items-center justify-center bg-[url('/images/green-blobs.svg')] bg-no-repeat bg-cover relative"
   >
     <div class="absolute inset-0 bg-black opacity-50" />
 
