@@ -1,3 +1,5 @@
+import type { InstitutionType } from "~/enums/institution-type.enum";
+
 export default {
   welcome: 'Welcome',
   errors: {
@@ -259,6 +261,45 @@ export default {
       },
     },
   },
+  instructions: {
+    title: 'Instructions for Application Process',
+    steps: {
+      initial: {
+        title: 'Initial Application',
+        description:
+          "Start by filling out the initial application form with your institution's basic information, including contact details and institution type.",
+        note: 'Make sure to provide accurate contact information as this will be used for all future communications.',
+      },
+      verification: {
+        title: 'Email Verification',
+        description:
+          "After submitting the initial form, you'll receive a verification code via email. This code is crucial for tracking your application status.",
+        note: 'Keep this verification code confidential - it should not be shared with anyone!',
+      },
+      review: {
+        title: 'Application Review',
+        description:
+          'Our team will review your application carefully. During this phase, you can track the status of your application using your verification code.',
+        note: 'The review process typically takes 2-3 business days.',
+      },
+      details: {
+        title: 'Institution Details',
+        description:
+          "Once approved, you'll be prompted to provide comprehensive details about your educational institution through a detailed form.",
+        note: "Have your institution's documentation ready for this step.",
+      },
+      setup: {
+        title: 'Admin Account Setup',
+        description:
+          'Finally, an administrator account will be created for your institution. Login credentials will be sent to your registered email address.',
+        note: "You'll receive separate emails with your username and password for security purposes.",
+      },
+    },
+    navigation: {
+      previous: 'Previous',
+      next: 'Next',
+    },
+  },
   onboarding: {
     title: 'School onboarding',
     steps: {
@@ -284,7 +325,39 @@ export default {
         title: 'Approval',
       },
     },
-
+    validation: {
+      firstName: {
+        required: 'First name is required',
+      },
+      lastName: {
+        required: 'Last name is required',
+      },
+      email: {
+        required: 'Email is required',
+        invalid: 'Please enter a valid email address',
+      },
+      phoneNumber: {
+        invalid: 'Please enter a valid phone number',
+      },
+      institutionName: {
+        required: 'Institution name is required',
+      },
+      institutionType: {
+        required: 'Institution type is required',
+      },
+      country: {
+        required: 'Country is required',
+      },
+      city: {
+        required: 'City is required',
+      },
+      postcode: {
+        required: 'Postal code is required',
+      },
+      street: {
+        required: 'Street address is required',
+      },
+    },
     initialForm: {
       titles: {
         main: 'Institution Registration',
@@ -292,6 +365,8 @@ export default {
         institution: 'Institution Details',
         geographic: 'Geographic Location',
       },
+      subtitle: 'Register your educational institution',
+      mapInstructions: 'Please select your location on the map',
       descriptions: {
         contact: 'Please provide your contact information.',
         institution: 'Tell us about your institution.',
@@ -306,13 +381,20 @@ export default {
           label: 'Institution Type',
           placeholder: 'Select institution type',
           options: {
+            publicSchool: 'Public School',
+            privateSchool: 'Private School',
+            charterSchool: 'Charter School',
+            internationalSchool: 'International School',
+            publicUniversity: 'Public University',
+            privateUniversity: 'Private University',
+            communityCollege: 'Community College',
+            technicalCollege: 'Technical College',
+            liberalArtsCollege: 'Liberal Arts College',
             primarySchool: 'Primary School',
             secondarySchool: 'Secondary School',
             highSchool: 'High School',
-            university: 'University',
-            college: 'College',
-            vocational: 'Vocational School',
-            specialEducation: 'Special Education',
+            vocationalSchool: 'Vocational School',
+            specialEducationSchool: 'Special Education School',
             languageSchool: 'Language School',
             other: 'Other',
           },
@@ -431,6 +513,10 @@ export default {
         images: {
           label: 'Additional Images',
           uploadText: 'Click or drag to upload',
+        },
+        institutionType: {
+          label: "Type",
+          placeholder: "Enter university type"
         },
         logo: {
           label: 'University Logo',
