@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme" :theme-overrides="themeOverrides">
+  <n-config-provider :theme="theme" :theme-overrides="ssrSafeThemeOverrides">
     <n-notification-provider>
       <n-message-provider>
         <NuxtLayout>
@@ -12,10 +12,47 @@
 
 <script setup lang="ts">
 import {
-  darkTheme,
   NConfigProvider,
   NMessageProvider,
   NNotificationProvider,
+  darkTheme,
 } from 'naive-ui';
-import { themeOverrides } from '~/utils/theme-overrides';
+import { useThemeStore } from '~/stores/theme';
+import { computed, ref, onMounted } from 'vue';
+
+const themeStore = useThemeStore();
+
+const isClient = ref(false);
+
+// Base theme overrides for SSR
+const baseThemeOverrides = computed(() => {
+  try {
+    return themeStore.getDefaultThemeOverrides
+      ? themeStore.getDefaultThemeOverrides()
+      : {};
+  } catch (error) {
+    console.error('Error getting default theme overrides:', error);
+    return {};
+  }
+});
+
+// for SSR, use default theme to avoid hydration mismatches
+const theme = computed(() =>
+  isClient.value ? themeStore.naiveTheme : darkTheme
+);
+
+const ssrSafeThemeOverrides = computed(() =>
+  isClient.value ? themeStore.naiveThemeOverrides : baseThemeOverrides.value
+);
+
+// Initialize theme when component mounts (client-side only)
+onMounted(() => {
+  themeStore.initTheme();
+
+  isClient.value = true;
+});
 </script>
+
+<style>
+
+</style>
