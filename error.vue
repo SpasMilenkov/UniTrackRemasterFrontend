@@ -1,12 +1,11 @@
 <!-- error.vue -->
 <template>
-  <n-config-provider :theme="darkTheme" :theme-overrides="themeOverrides">
-    <n-space
-      align="center"
-      justify="center"
-      class="min-h-screen bg-[hsl(240,8%,5%)]"
-    >
-      <n-card class="w-full max-w-md mx-4 text-center">
+  <n-config-provider
+    :theme="themeStore.naiveTheme"
+    :theme-overrides="themeStore.naiveThemeOverrides"
+  >
+    <n-space align="center" justify="center" class="min-h-screen bg-background">
+      <n-card class="w-full max-w-md mx-4 text-center themed-card">
         <template #header>
           <n-h1>
             <n-icon size="48" class="text-red-500">
@@ -14,11 +13,13 @@
             </n-icon>
           </n-h1>
         </template>
-        <n-h2 class="mb-4">{{ t('errorPage.title') }}</n-h2>
-        <n-p v-if="error.statusCode === 404" class="mb-6">
+        <n-h2 class="mb-4 text-text-primary">{{ t('errorPage.title') }}</n-h2>
+        <n-p v-if="error.statusCode === 404" class="mb-6 text-text-secondary">
           {{ t('errorPage.pageNotFoundMessage') }}
         </n-p>
-        <n-p v-else class="mb-6">{{ t('errorPage.errorMessage') }}</n-p>
+        <n-p v-else class="mb-6 text-text-secondary">{{
+          t('errorPage.errorMessage')
+        }}</n-p>
         <n-p class="text-orange-600 text-xl">{{
           t('errorPage.errorText') + error.statusCode
         }}</n-p>
@@ -34,9 +35,20 @@
 
 <script setup lang="ts">
 import type { NuxtError } from '#app';
-import { NCard, NH1, NH2, NP, NButton, NIcon, darkTheme } from 'naive-ui';
-import { themeOverrides } from '~/utils/theme-overrides';
+import {
+  NCard,
+  NH1,
+  NH2,
+  NP,
+  NButton,
+  NIcon,
+  NConfigProvider,
+  NSpace,
+} from 'naive-ui';
+import { useThemeStore } from '~/stores/theme';
+
 const { t } = useI18n();
+const themeStore = useThemeStore();
 
 defineProps<{
   error: NuxtError;
@@ -46,3 +58,22 @@ const handleError = () => {
   navigateTo('/');
 };
 </script>
+
+<style scoped>
+:deep(.themed-card) {
+  background-color: var(--color-background-card) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+:deep(.themed-card .n-card-header__main) {
+  color: var(--color-text-primary) !important;
+}
+
+:deep(.n-h2) {
+  color: var(--color-text-primary) !important;
+}
+
+:deep(.n-p) {
+  color: var(--color-text-secondary) !important;
+}
+</style>
