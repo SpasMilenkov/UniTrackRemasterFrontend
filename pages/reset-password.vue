@@ -2,47 +2,48 @@
   <div class="min-h-screen flex flex-col lg:flex-row">
     <!-- Left Section - Gradient Background -->
     <div
-      class="w-full lg:w-3/5 min-h-[50vh] lg:min-h-screen relative bg-[length:800px_800px] animate-gradient bg-[linear-gradient(45deg,rgba(0,190,164,0.2)_0%,rgba(128,116,239,0.2)_25%,rgba(0,190,164,0.2)_50%,rgba(128,116,239,0.2)_75%,rgba(0,190,164,0.2)_100%)]"
+      class="w-full lg:w-3/5 min-h-[50vh] lg:min-h-screen relative bg-[length:800px_800px] animate-gradient custom-gradient-bg"
     >
       <div class="relative z-10 p-6 lg:p-12 h-full flex flex-col">
         <div class="flex-1 mt-[20vh] lg:mt-[40vh]">
-          <h1 class="text-3xl lg:text-5xl font-bold mb-4 lg:mb-6 text-white">
+          <h1
+            class="text-3xl lg:text-5xl font-bold mb-4 lg:mb-6 text-text-primary"
+          >
             {{ t('resetPassword.title') }}
           </h1>
-          <p class="text-base lg:text-lg text-white/80">
+          <p class="text-base lg:text-lg text-text-primary/80">
             {{ t('resetPassword.description') }}
           </p>
         </div>
-        <div class="pt-4 lg:pt-8 border-t border-white/20">
-          <p class="text-white/60 text-sm">
+        <div class="pt-4 lg:pt-8 border-t border-text-primary/20">
+          <p class="text-text-primary/60 text-sm">
             {{ t('resetPassword.trademark') }}
           </p>
         </div>
       </div>
     </div>
+
     <!-- Right Section - Reset Form -->
     <div
-      class="w-full lg:w-2/5 flex items-center justify-center bg-[#18181c] p-4 lg:p-6"
+      class="w-full lg:w-2/5 flex items-center justify-center bg-background p-4 lg:p-6"
     >
       <div class="w-full max-w-md px-4">
         <Logo />
         <n-card
-          class="bg-[#262629] border border-gray-700/50 shadow-xl"
+          class="bg-background-card border border-border/50 shadow-xl"
           :bordered="false"
         >
           <div class="text-center mb-8">
-            <h2
-              class="text-2xl font-semibold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-            >
+            <h2 class="text-2xl font-semibold text-gradient">
               {{ t('resetPassword.formTitle') }}
             </h2>
           </div>
           <PasswordResetForm @success="handleResetSuccess" />
-          <div class="mt-6 text-center text-gray-400">
+          <div class="mt-6 text-center text-text-secondary">
             {{ t('resetPassword.backToLogin') }}
             <NuxtLink
               to="/login"
-              class="text-emerald-400 hover:text-emerald-300 transition-colors"
+              class="text-primary hover:text-primary-hover transition-colors"
             >
               {{ t('resetPassword.loginLink') }}
             </NuxtLink>
@@ -86,3 +87,28 @@ const handleResetSuccess = () => {
   router.push('/login');
 };
 </script>
+
+<style scoped>
+.text-gradient {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary, #4ade80),
+    var(--color-secondary, #3b82f6)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.custom-gradient-bg {
+  background-image: linear-gradient(
+    45deg,
+    rgba(var(--color-primary-rgb, 0, 190, 164), 0.2) 0%,
+    rgba(var(--color-secondary-rgb, 128, 116, 239), 0.2) 25%,
+    rgba(var(--color-primary-rgb, 0, 190, 164), 0.2) 50%,
+    rgba(var(--color-secondary-rgb, 128, 116, 239), 0.2) 75%,
+    rgba(var(--color-primary-rgb, 0, 190, 164), 0.2) 100%
+  );
+}
+</style>
