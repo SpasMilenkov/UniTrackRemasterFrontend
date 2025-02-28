@@ -11,15 +11,20 @@
   --color-background: theme('colors.background.DEFAULT');
   --color-background-secondary: theme('colors.background.secondary');
   --color-background-card: theme('colors.background.card');
+  --color-background-input: var(--color-background-secondary);
 
   /* Text Colors */
   --color-text-primary: theme('colors.text.primary');
   --color-text-secondary: theme('colors.text.secondary');
   --color-text-muted: theme('colors.text.muted');
+  --color-text-tertiary: var(--color-text-muted);
 
   /* Border Colors */
   --color-border: theme('colors.border.DEFAULT');
   --color-border-hover: theme('colors.border.hover');
+
+  /* Error Colors */
+  --color-error: #f43f5e;
 
   /* Special Effects */
   --color-emerald-glow: theme('backgroundColor.emerald-glow');
@@ -37,6 +42,26 @@
 
   /* Animation Durations */
   --animation-duration: 0.3s;
+}
+
+/* CSS Variables for RGB values (for rgba operations) */
+:root {
+  --color-primary-rgb: 74, 222, 128; /* Default - will be overridden by JS */
+  --color-secondary-rgb: 59, 130, 246; /* Default - will be overridden by JS */
+  --color-background-rgb: 16, 16, 20; /* Dark theme default */
+  --color-background-card-rgb: 24, 24, 28; /* Dark theme default */
+  --color-text-primary-rgb: 245, 245, 245; /* Dark theme default */
+  --color-text-secondary-rgb: 156, 163, 175; /* Dark theme default */
+  --color-border-rgb: 55, 65, 81; /* Dark theme default */
+}
+
+/* Theme-specific overrides for light theme */
+.light {
+  --color-background-rgb: 255, 255, 255;
+  --color-background-card-rgb: 255, 255, 255;
+  --color-text-primary-rgb: 31, 41, 55;
+  --color-text-secondary-rgb: 75, 85, 99;
+  --color-border-rgb: 229, 231, 235;
 }
 
 /* Animation Keyframes */
@@ -67,17 +92,72 @@
   animation: scaleIn 0.3s ease-in-out;
 }
 
-body {
-  background-color: theme('colors.background.DEFAULT');
+/* Gradient Background and Text */
+.bg-gradient-primary {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
 }
 
+/* Base Styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.bg-background {
+  background-color: var(--color-background);
+}
+.bg-background-secondary {
+  background-color: var(--color-background-secondary);
+}
+.bg-background-card {
+  background-color: var(--color-background-card);
+}
+.text-text-primary {
+  color: var(--color-text-primary);
+}
+.text-text-secondary {
+  color: var(--color-text-secondary);
+}
+.text-text-muted {
+  color: var(--color-text-muted);
+}
+.border-border {
+  border-color: var(--color-border);
+}
+
+.bg-background,
+.bg-background-secondary,
+.bg-background-card,
+.text-text-primary,
+.text-text-secondary,
+.text-text-muted,
+.border-border {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Naive UI Components */
 .n-button.n-button--secondary-type {
-  background-color: theme('colors.background.card') !important;
-  border-color: theme('colors.border.DEFAULT') !important;
+  /* background-color: var(--color-background-card) !important; */
+  border-color: var(--color-border) !important;
+  transition: border-color 0.2s ease;
 }
 
 .n-button.n-button--secondary-type:hover {
-  border-color: theme('colors.primary.DEFAULT') !important;
+  border-color: var(--color-primary) !important;
 }
 
 .n-layout-footer {
@@ -85,34 +165,27 @@ body {
 }
 
 .n-form-item-label {
-  color: theme('colors.text.secondary') !important;
+  color: var(--color-text-secondary) !important;
 }
 
-.n-input {
-  border-color: theme('colors.border.DEFAULT') !important;
-}
-
-.n-input:hover,
-.n-input:focus {
-  border-color: theme('colors.primary.DEFAULT') !important;
-}
-
+/* Form inputs */
 .n-date-picker {
-  border-color: theme('colors.border.DEFAULT') !important;
+  border-color: var(--color-border) !important;
 }
 
 .n-select {
-  border-color: theme('colors.border.DEFAULT') !important;
+  border-color: var(--color-border) !important;
 }
 
 .upload-container {
-  background-color: theme('colors.background.secondary') !important;
-  border: 2px dashed theme('colors.border.DEFAULT') !important;
+  background-color: var(--color-background-secondary) !important;
+  border: 2px dashed var(--color-border) !important;
   border-radius: 0.5rem;
+  transition: border-color 0.2s ease;
 }
 
 .upload-container:hover {
-  border-color: theme('colors.primary.DEFAULT') !important;
+  border-color: var(--color-primary) !important;
 }
 
 .n-menu {
@@ -120,15 +193,63 @@ body {
 }
 
 .n-card {
-  background-color: theme('colors.background.card') !important;
+  background-color: var(--color-background-card) !important;
+  transition: background-color 0.3s ease;
+}
+
+.n-card {
+  background-color: var(--color-background-card) !important;
+  border: 1px solid var(--color-border) !important; /* Override the default border */
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease !important;
+}
+
+/* Specifically target the native border element */
+.n-card .n-card__border,
+.n-card .n-card-header__border {
+  border: none !important; /* Remove the native border completely */
+}
+
+/* Handle bordered vs non-bordered cards */
+.n-card.n-card--bordered {
+  border: 1px solid var(--color-border) !important;
+}
+
+.n-card:not(.n-card--bordered) {
+  border: none !important;
+}
+
+/* Hover effect for cards if desired */
+.n-card.hoverable:hover {
+  border-color: var(--color-primary) !important;
+  opacity: 0.8;
+}
+
+/* Additional fixes for card headers/footers if needed */
+.n-card-header,
+.n-card-footer {
+  border-color: var(--color-border) !important;
+}
+
+/* Make sure text colors are consistent */
+.n-card .n-card-header__main {
+  color: var(--color-text-primary) !important;
+}
+
+.n-card .n-card__content,
+.n-card .n-card-footer {
+  color: var(--color-text-secondary) !important;
 }
 
 .n-menu-item {
-  color: theme('colors.text.secondary') !important;
+  color: var(--color-text-secondary) !important;
+  transition: color 0.2s ease;
 }
 
 .n-menu-item:hover {
-  color: theme('colors.primary.DEFAULT') !important;
+  color: var(--color-primary) !important;
 }
 
 .n-menu-item-content__icon {
@@ -136,13 +257,14 @@ body {
 }
 
 .n-menu-item-content--selected {
-  color: theme('colors.primary.DEFAULT') !important;
-  background-color: theme('colors.background.card') !important;
+  color: var(--color-primary) !important;
+  background-color: var(--color-background-card) !important;
 }
 
 .n-drawer,
 .n-drawer-content {
-  background-color: theme('colors.background.secondary') !important;
+  background-color: var(--color-background-secondary) !important;
+  transition: background-color 0.3s ease;
 }
 
 @media (min-width: 1000px) {
@@ -164,6 +286,7 @@ body {
   animation: gradient 55s linear infinite;
 }
 
+/* Notifications/Toasts */
 .n-notification-container {
   pointer-events: all;
   margin: 12px !important;
@@ -171,13 +294,14 @@ body {
 
 /* Individual toast */
 .n-notification {
-  background-color: #18181c !important;
-  border: 1px solid rgba(75, 85, 99, 0.5) !important;
+  background-color: var(--color-background-card) !important;
+  border: 1px solid rgba(var(--color-border-rgb), 0.5) !important;
   backdrop-filter: blur(8px);
   border-radius: 0.75rem !important;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  transition: background-color 0.3s ease;
 }
 
 /* Toast content wrapper */
@@ -190,7 +314,7 @@ body {
   font-weight: 600 !important;
   font-size: 1rem !important;
   line-height: 1.5rem !important;
-  color: #f5f5f5 !important;
+  color: var(--color-text-primary) !important;
   margin-bottom: 4px !important;
 }
 
@@ -198,17 +322,17 @@ body {
 .n-notification-main .n-notification-main-content {
   font-size: 0.875rem !important;
   line-height: 1.25rem !important;
-  color: #9ca3af !important;
+  color: var(--color-text-secondary) !important;
 }
 
 /* Success toast */
 .n-notification.n-notification--success {
-  border-left: 4px solid #4ade80 !important;
+  border-left: 4px solid var(--color-primary) !important;
 }
 .n-notification.n-notification--success
   .n-notification-main
   .n-notification-main-header {
-  color: #4ade80 !important;
+  color: var(--color-primary) !important;
 }
 
 /* Error toast */
@@ -233,24 +357,24 @@ body {
 
 /* Info toast */
 .n-notification.n-notification--info {
-  border-left: 4px solid #3b82f6 !important;
+  border-left: 4px solid var(--color-secondary) !important;
 }
 .n-notification.n-notification--info
   .n-notification-main
   .n-notification-main-header {
-  color: #3b82f6 !important;
+  color: var(--color-secondary) !important;
 }
 
 /* Close button */
 .n-notification .n-notification-close {
   top: 16px !important;
   right: 16px !important;
-  color: #9ca3af !important;
+  color: var(--color-text-secondary) !important;
   transition: color 0.2s ease !important;
 }
 
 .n-notification .n-notification-close:hover {
-  color: #f5f5f5 !important;
+  color: var(--color-text-primary) !important;
 }
 
 /* Progress bar */
@@ -264,7 +388,7 @@ body {
   .n-progress.n-progress--success
   .n-progress-rail
   .n-progress-fill {
-  background-color: #4ade80 !important;
+  background-color: var(--color-primary) !important;
 }
 
 .n-notification
@@ -291,5 +415,204 @@ body {
   .n-progress.n-progress--info
   .n-progress-rail
   .n-progress-fill {
-  background-color: #3b82f6 !important;
+  background-color: var(--color-secondary) !important;
+}
+
+/* Custom gradient background for use in components */
+.custom-gradient-bg {
+  background-image: linear-gradient(
+    45deg,
+    rgba(var(--color-primary-rgb), 0.2) 0%,
+    rgba(var(--color-secondary-rgb), 0.2) 25%,
+    rgba(var(--color-primary-rgb), 0.2) 50%,
+    rgba(var(--color-secondary-rgb), 0.2) 75%,
+    rgba(var(--color-primary-rgb), 0.2) 100%
+  );
+}
+
+/* Add transitions for smooth theme changes */
+.n-button,
+.n-input,
+.n-card,
+.n-menu-item,
+.n-notification,
+.n-drawer,
+.n-form-item-label,
+.n-select,
+.n-date-picker {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease !important;
+}
+
+/* NaiveUI Input Theming - With proper theme support */
+
+/* Base input styling */
+.n-input {
+  border: 1px solid rgba(var(--color-primary-rgb), 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.n-input:hover,
+.n-input:focus,
+.n-input--focus {
+  border-color: rgba(var(--color-primary-rgb), 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1) !important;
+}
+
+.n-input__input-el {
+  color: var(--color-text-primary) !important;
+}
+
+.n-input__placeholder {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* Select styling */
+.n-select {
+  border: 1px solid rgba(var(--color-primary-rgb), 0.1) !important;
+}
+
+.n-select:hover,
+.n-select:focus,
+.n-select--focus {
+  border-color: rgba(var(--color-primary-rgb), 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1) !important;
+}
+
+.n-select-menu {
+  background-color: var(--color-background-card) !important;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.1) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+.n-select-option {
+  color: var(--color-text-primary) !important;
+}
+
+.n-select-option:hover,
+.n-select-option--selected {
+  background-color: rgba(var(--color-primary-rgb), 0.1) !important;
+}
+
+/* Form item styling */
+.n-form-item .n-form-item-label {
+  color: var(--color-text-secondary) !important;
+}
+
+.n-form-item-feedback--error {
+  color: var(--color-error) !important;
+}
+
+/* Checkbox styling */
+.n-checkbox {
+  --n-label-color: var(--color-text-primary) !important;
+  --n-color-checked: var(--color-primary) !important;
+}
+
+/* Button styling overrides */
+.n-button--primary-type {
+  border: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.n-button--primary-type:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.2) !important;
+}
+
+.n-input .n-input__input-el,
+.n-input-wrapper {
+  background-color: transparent !important;
+  color: var(--color-text-primary) !important;
+}
+
+.n-input.n-input--stateful {
+  background-color: transparent !important;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.n-input .n-input__border,
+.n-input .n-input__state-border {
+  border-color: rgba(var(--color-primary-rgb), 0.5) !important;
+}
+
+.n-input:hover .n-input__border,
+.n-input:hover .n-input__state-border {
+  border-color: rgba(var(--color-primary-rgb), 0.5) !important;
+}
+
+.n-input--focus .n-input__border,
+.n-input--focus .n-input__state-border {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.5) !important;
+}
+
+/* Ensure placeholder text has correct color */
+.n-input__placeholder,
+.n-input input::placeholder {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* Override any transparency in the input background */
+.n-input {
+  --n-color: transparent !important;
+  --n-border-hover: rgba(var(--color-primary-rgb), 0.5) !important;
+  --n-border-focus: var(--color-primary) !important;
+  --n-border: rgba(var(--color-primary-rgb), 0.1) !important;
+  --n-placeholder-color: var(--color-text-tertiary) !important;
+  --n-text-color: var(--color-text-primary) !important;
+  --n-caret-color: var(--color-primary) !important;
+}
+
+.dark .n-input {
+  background-color: rgba(38, 38, 41, 0.95) !important;
+}
+
+.light .n-input {
+  background-color: #ffffff !important;
+}
+
+.n-button.n-button--primary-type {
+  border-color: var(--color-primary) !important;
+}
+
+.n-button.n-button--primary-type:hover {
+  border-color: var(--color-primary-hover) !important;
+}
+
+.n-switch {
+  --n-button-color-active: var(--color-primary) !important;
+  --n-button-color-focus: var(--color-primary) !important;
+  --n-button-color-hover: var(--color-primary-hover) !important;
+  --n-loading-color: var(--color-primary) !important;
+}
+
+.n-switch.n-switch--active .n-switch__rail {
+  background-color: var(--color-primary) !important;
+}
+
+.n-switch:hover .n-switch__rail {
+  background-color: var(--color-primary-hover) !important;
+}
+
+.n-switch--active:focus .n-switch__rail {
+  box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.3) !important;
+}
+
+/* For disabled switch */
+.n-switch.n-switch--disabled .n-switch__rail {
+  opacity: 0.5;
+}
+
+/* Switch when loading */
+.n-switch.n-switch--loading .n-switch__rail {
+  background-color: var(--color-background-secondary) !important;
+}
+
+.n-switch.n-switch--loading .n-switch__button {
+  border-color: var(--color-primary) !important;
 }
