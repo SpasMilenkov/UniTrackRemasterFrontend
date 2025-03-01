@@ -1,5 +1,3 @@
-import type { InstitutionType } from "~/enums/institution-type.enum";
-
 export default {
   welcome: 'Welcome',
   errors: {
@@ -515,8 +513,8 @@ export default {
           uploadText: 'Click or drag to upload',
         },
         institutionType: {
-          label: "Type",
-          placeholder: "Enter university type"
+          label: 'Type',
+          placeholder: 'Enter university type',
         },
         logo: {
           label: 'University Logo',
@@ -785,6 +783,9 @@ export default {
     loginLink: 'Login here',
   },
   registrationPage: {
+    welcomeMessage: 'Join UniTrack Today',
+    welcomeDescription:
+      'Create an account to access our comprehensive education management platform.',
     selectAccountType: 'Select account type',
     selectAccountTypeDesc:
       "UniTrack's mission is to make learning easier and more engaging for everyone. We offer two account types: Organization accounts for members of institutions partnered with UniTrack, and Community accounts for individuals who want to explore UniTrack's community features.",
@@ -879,6 +880,159 @@ export default {
   common: {
     confirm: 'Confirm',
     cancel: 'Cancel',
+  },
+  settings: {
+    title: 'Account Management',
+    tryAgain: 'Try again',
+    profileImage: {
+      modalTitle: 'Update Profile Picture',
+      previewAlt: 'Profile preview',
+      currentAlt: 'Current profile',
+      selectButton: 'Select Image',
+      uploadButton: 'Upload',
+      cancelButton: 'Cancel',
+      uploadSuccess: 'Profile picture updated successfully',
+      uploadError: 'Failed to upload profile picture',
+    },
+    menu: {
+      profile: 'Profile',
+      security: 'Security',
+      appearance: 'Appearance',
+      privacy: 'Privacy',
+    },
+    appearance: {
+      title: 'Appearance',
+      subtitle: 'Customize how UniTrack looks for you',
+      themeSection: 'Theme',
+      accentColorSection: 'Accent Color',
+      accentColorDescription:
+        'Changing the accent color will update the primary and secondary colors used throughout the interface.',
+      themes: {
+        dark: 'Dark',
+        light: 'Light',
+        system: 'System',
+      },
+      colors: {
+        green: 'Green',
+        blue: 'Blue',
+        purple: 'Purple',
+        pink: 'Pink',
+        red: 'Red',
+        amber: 'Amber',
+        teal: 'Teal',
+      },
+      notifications: {
+        themeChanged: 'Theme set to {theme}',
+        accentColorChanged: 'Accent color set to {color}',
+      },
+    },
+    profile: {
+      title: 'Profile',
+      subtitle: 'Your public profile information visible to other users',
+      profilePicture: 'Profile Picture',
+      changeImage: 'Change',
+      personalInfo: {
+        firstName: 'First Name',
+        firstNamePlaceholder: 'First Name',
+        lastName: 'Last Name',
+        lastNamePlaceholder: 'Last Name',
+        displayName: 'Display Name',
+        displayNamePlaceholder: 'Display Name',
+        displayNameHelp: 'This is how others will see you in the system',
+        email: 'Email',
+        emailPlaceholder: 'Email',
+        phone: 'Phone',
+        phonePlaceholder: 'Phone Number',
+      },
+      buttons: {
+        editProfile: 'Edit Profile',
+        saveChanges: 'Save Changes',
+        cancel: 'Cancel',
+      },
+    },
+    organization: {
+      title: 'Organization',
+      subtitle: 'Information about your institution and role',
+      institutionLabel: 'Institution',
+      roleLabel: 'Role',
+      positionLabel: 'Position',
+      departmentLabel: 'Department',
+      departmentPlaceholder: 'Department',
+      gradeLabel: 'Grade/Class',
+      permissionsLabel: 'Permissions',
+      roles: {
+        user: 'User',
+        admin: 'Administrator',
+        student: 'Student',
+        teacher: 'Teacher',
+        parent: 'Parent',
+      },
+      permissions: {
+        manage_users: 'Manage Users',
+        view_reports: 'View Reports',
+        edit_content: 'Edit Content',
+        manage_grades: 'Manage Grades',
+        manage_courses: 'Manage Courses',
+        manage_faculty: 'Manage Faculty',
+        manage_students: 'Manage Students',
+        manage_settings: 'Manage Settings',
+        manage_billing: 'Manage Billing',
+        full_access: 'Full Access',
+      },
+      buttons: {
+        editInfo: 'Edit Organization Info',
+        saveChanges: 'Save Changes',
+        cancel: 'Cancel',
+      },
+    },
+    security: {
+      title: 'Security',
+      subtitle: 'Manage your password and account security settings',
+      password: {
+        title: 'Change Password',
+        currentPassword: 'Current Password',
+        currentPasswordPlaceholder: 'Enter your current password',
+        newPassword: 'New Password',
+        newPasswordPlaceholder: 'Enter your new password',
+        confirmPassword: 'Confirm New Password',
+        confirmPasswordPlaceholder: 'Confirm your new password',
+        updateButton: 'Update Password',
+      },
+      twoFactor: {
+        title: 'Two-Factor Authentication',
+        description:
+          'Add an extra layer of security to your account by enabling two-factor authentication.',
+        enableButton: 'Enable Two-Factor Authentication',
+      },
+    },
+    privacy: {
+      title: 'Privacy',
+      subtitle: 'Manage your data and privacy settings',
+      saveButton: 'Save Privacy Settings',
+      dataUsage: {
+        title: 'Data Usage',
+        analytics: {
+          title: 'Analytics and Improvements',
+          description:
+            'Allow anonymous data collection to help us improve the platform',
+        },
+      },
+      communications: {
+        title: 'Communications',
+        emailUpdates: {
+          title: 'Email Updates',
+          description: 'Receive important notifications and updates via email',
+        },
+        marketingEmails: {
+          title: 'Marketing Emails',
+          description: 'Receive promotional content and newsletters',
+        },
+      },
+      profileVisibility: {
+        title: 'Profile Visibility',
+        description: 'Who can see your profile information',
+      },
+    },
   },
   footer: {
     companyInfo: {
