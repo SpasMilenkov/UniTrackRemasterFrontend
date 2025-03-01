@@ -1,32 +1,37 @@
 <template>
-  <div class="min-h-screen bg-[#101014] text-white relative">
+  <div class="min-h-screen bg-background text-text-primary relative">
     <div class="relative z-10">
       <div class="py-12">
         <div class="mx-auto max-w-2xl px-6 lg:px-8">
           <div
-            class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-12 group hover:border-emerald-400/50 transition-all duration-300 flex flex-col items-center"
+            v-motion
+            class="feature-card backdrop-blur-sm rounded-xl p-12 flex flex-col items-center hover:border-primary/50 transition-all duration-300"
+            :initial="{ opacity: 0, y: 20 }"
+            :enter="{ opacity: 1, y: 0 }"
+            :delay="300"
           >
             <div class="mb-8">
               <div
-                class="w-24 h-24 bg-emerald-400/10 rounded-full flex items-center justify-center group-hover:bg-emerald-400/20 transition-all duration-300"
+                class="w-24 h-24 bg-status-approved rounded-full flex items-center justify-center transition-all duration-300"
+                style="transition: all 0.3s ease;"
               >
                 <Icon
                   name="ph:check-circle-fill"
-                  class="text-emerald-400 text-5xl"
+                  class="text-status-approved text-5xl"
                 />
               </div>
             </div>
             <TitleComponent
               :title="t('onboarding.success.title')"
-              class="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text mb-4"
+              class="text-3xl font-bold tracking-tight gradient-text-approved mb-4"
             />
-            <p class="text-gray-400 text-lg mb-8">
+            <p style="color: var(--color-text-secondary); font-size: 1.125rem; margin-bottom: 2rem;">
               {{ t('onboarding.success.message') }}
             </p>
             <n-button
               type="primary"
-              color="#4ade80"
-              class="text-lg px-12"
+              class="text-lg"
+              style="padding-left: 3rem; padding-right: 3rem; transition: all 0.3s ease;"
               size="large"
               @click="navigateTo(localePath('/login'))"
             >
@@ -44,9 +49,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-
 const { t } = useI18n();
 const localePath = useLocalePath();
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
