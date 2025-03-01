@@ -1,5 +1,8 @@
 <template>
-  <n-form class="bg-background-card p-8 rounded-xl" @submit.prevent="onSubmit">
+  <n-form
+    class="bg-background-card p-8 rounded-xl feature-card backdrop-blur-sm"
+    @submit.prevent="onSubmit"
+  >
     <!-- Main grid container with equal columns -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-6">
       <!-- Left Column -->
@@ -7,7 +10,7 @@
         <!-- Basic Information Section -->
         <div>
           <h2
-            class="text-xl font-semibold text-emerald-400 mb-6 pb-2 border-b border-gray-700/50"
+            class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
             {{ t('onboarding.universityForm.sections.basicInfo') }}
           </h2>
@@ -27,7 +30,7 @@
                 @update:file-list="handleLogoUpdate"
               >
                 <div
-                  class="flex flex-col items-center justify-center text-gray-400 p-4"
+                  class="flex flex-col items-center justify-center upload-text p-4"
                 >
                   <Icon name="ph:image-square-bold" class="text-2xl mb-2" />
                   <span>{{
@@ -83,7 +86,7 @@
         <!-- Academic Information Section -->
         <div>
           <h2
-            class="text-xl font-semibold text-emerald-400 mb-6 pb-2 border-b border-gray-700/50"
+            class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
             {{ t('onboarding.universityForm.sections.academic') }}
           </h2>
@@ -178,7 +181,7 @@
         <!-- Contact Information Section -->
         <div>
           <h2
-            class="text-xl font-semibold text-emerald-400 mb-6 pb-2 border-b border-gray-700/50"
+            class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
             {{ t('onboarding.universityForm.sections.contact') }}
           </h2>
@@ -236,7 +239,7 @@
         <!-- Specialization Section -->
         <div>
           <h2
-            class="text-xl font-semibold text-emerald-400 mb-6 pb-2 border-b border-gray-700/50"
+            class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
             {{ t('onboarding.universityForm.sections.specialization') }}
           </h2>
@@ -256,14 +259,18 @@
               />
             </n-form-item>
             <n-form-item
-              :label="t('onboarding.universityForm.fields.institutionType.label')"
+              :label="
+                t('onboarding.universityForm.fields.institutionType.label')
+              "
               v-bind="typeProps"
             >
               <n-select
                 v-model:value="type"
                 :options="universityTypeOptions"
                 :placeholder="
-                  t('onboarding.universityForm.fields.institutionType.placeholder')
+                  t(
+                    'onboarding.universityForm.fields.institutionType.placeholder'
+                  )
                 "
               />
             </n-form-item>
@@ -305,7 +312,7 @@
         <!-- Media Section -->
         <div>
           <h2
-            class="text-xl font-semibold text-emerald-400 mb-6 pb-2 border-b border-gray-700/50"
+            class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
             {{ t('onboarding.universityForm.sections.media') }}
           </h2>
@@ -322,7 +329,7 @@
               @update:file-list="handleFileListUpdate"
             >
               <div
-                class="flex flex-col items-center justify-center text-gray-400 p-4"
+                class="flex flex-col items-center justify-center upload-text p-4"
               >
                 <Icon name="ph:upload-simple-bold" class="text-2xl mb-2" />
                 <span>{{
@@ -336,11 +343,10 @@
     </div>
 
     <!-- Submit Button -->
-    <div class="flex justify-end mt-8 pt-6 border-t border-gray-700/50">
+    <div class="flex justify-end mt-8 pt-6 border-t border-border/50">
       <n-button
         type="primary"
         attr-type="submit"
-        color="#4ade80"
         class="text-lg px-8"
         :loading="isSubmitting"
       >
@@ -553,7 +559,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     await onboardingStore.initInstitution(universityData, allFiles);
     message.success(t('onboarding.universityForm.success'));
-    onboardingStore.currentStep = ApplicationStatus.Verified
+    onboardingStore.currentStep = ApplicationStatus.Verified;
   } catch {
     message.error(t('onboarding.universityForm.error'));
   } finally {
@@ -563,6 +569,32 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <style scoped>
+/* Card styling */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(var(--color-border-rgb, 75, 85, 99), 0.5);
+  transition: all 0.3s ease;
+}
+
+/* Section heading gradient */
+.text-gradient-heading {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary, #4ade80),
+    var(--color-primary, #4ade80)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+/* Upload area text */
+.upload-text {
+  color: var(--color-text-secondary, rgb(156, 163, 175));
+}
+
 /* Base form styles */
 :deep(.n-form-item) {
   width: 100% !important;
@@ -573,8 +605,8 @@ const onSubmit = handleSubmit(async (values) => {
 :deep(.n-input),
 :deep(.n-input-number),
 :deep(.n-input-number-input) {
-  background-color: #1f1f23 !important;
-  border-color: rgba(75, 85, 99, 0.5) !important;
+  background-color: var(--color-background-input, #1f1f23) !important;
+  border-color: rgba(var(--color-border-rgb, 75, 85, 99), 0.5) !important;
   width: 100% !important;
   border-radius: 0.5rem !important;
 }
@@ -584,14 +616,14 @@ const onSubmit = handleSubmit(async (values) => {
 :deep(.n-input:focus),
 :deep(.n-input-number:hover),
 :deep(.n-input-number:focus) {
-  border-color: #4ade80 !important;
+  border-color: var(--color-primary, #4ade80) !important;
 }
 
 /* Select and date picker styles */
 :deep(.n-base-selection),
 :deep(.n-date-picker) {
   width: 100% !important;
-  background-color: #1f1f23 !important;
+  background-color: var(--color-background-input, #1f1f23) !important;
   border-radius: 0.5rem !important;
 }
 
@@ -599,17 +631,17 @@ const onSubmit = handleSubmit(async (values) => {
 :deep(.n-form-item .n-form-item-label) {
   font-size: 0.875rem !important;
   margin-bottom: 0.5rem !important;
-  color: rgb(156, 163, 175) !important;
+  color: var(--color-text-secondary, rgb(156, 163, 175)) !important;
 }
 
 /* Switch styles */
 :deep(.n-switch) {
-  background-color: rgba(75, 85, 99, 0.5) !important;
+  background-color: rgba(var(--color-border-rgb, 75, 85, 99), 0.5) !important;
   border-radius: 9999px !important;
 }
 
 :deep(.n-switch--active) {
-  background-color: #4ade80 !important;
+  background-color: var(--color-primary, #4ade80) !important;
 }
 
 :deep(.n-switch__rail) {
@@ -629,18 +661,18 @@ const onSubmit = handleSubmit(async (values) => {
 
 /* Upload area styles */
 :deep(.n-upload) {
-  background-color: #1f1f23 !important;
-  border: 1px dashed rgba(75, 85, 99, 0.5) !important;
+  background-color: var(--color-background-input, #1f1f23) !important;
+  border: 1px dashed rgba(var(--color-border-rgb, 75, 85, 99), 0.5) !important;
   border-radius: 0.5rem !important;
   transition: border-color 0.3s;
 }
 
 :deep(.n-upload:hover) {
-  border-color: #4ade80 !important;
+  border-color: var(--color-primary, #4ade80) !important;
 }
 
 /* Number input suffix */
 :deep(.n-input-number .n-input-number-suffix) {
-  color: rgb(156, 163, 175) !important;
+  color: var(--color-text-secondary, rgb(156, 163, 175)) !important;
 }
 </style>

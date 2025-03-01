@@ -2,7 +2,7 @@
   <div class="relative py-4 text-center lg:text-left">
     <div class="relative">
       <h1 :class="headingClass">{{ title }}</h1>
-      <p v-if="subtitle" class="text-gray-400 mt-2">{{ subtitle }}</p>
+      <p v-if="subtitle" class="text-text-secondary mt-2">{{ subtitle }}</p>
     </div>
   </div>
 </template>
@@ -21,16 +21,21 @@ const props = defineProps({
     type: String as () => 'large' | 'medium' | 'small',
     default: 'large',
   },
+  gradient: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const headingClass = computed(() => {
   return [
-    'font-bold text-gray-100',
+    'font-bold text-text-primary transition-colors',
+    props.gradient ? 'text-gradient' : '',
     props.size === 'large'
-      ? 'text-4xl'
+      ? 'text-4xl md:text-5xl'
       : props.size === 'medium'
-        ? 'text-3xl'
-        : 'text-2xl',
+        ? 'text-3xl md:text-4xl'
+        : 'text-2xl md:text-3xl',
   ];
 });
 </script>

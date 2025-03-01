@@ -9,20 +9,21 @@
   >
     <div
       v-if="isVisible && !hide"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
     >
       <div class="w-full max-w-4xl mx-auto p-4 animate-scale-in">
-        <n-card>
+        <n-card class="bg-background-card border border-border">
           <n-space vertical>
             <div class="flex justify-between items-center mb-4">
-              <div class="text-xl font-semibold text-white">{{ title }}</div>
+              <div class="text-xl font-semibold text-text-primary">
+                {{ title }}
+              </div>
               <div class="flex items-center gap-4">
-                <div class="text-sm text-gray-300">
+                <div class="text-sm text-text-secondary">
                   {{ currentStep + 1 }} / {{ steps.length }}
                 </div>
                 <n-button
                   text
-                  class="text-emerald-400 hover:text-emerald-300"
                   type="primary"
                   size="small"
                   @click="isVisible = false"
@@ -48,37 +49,32 @@
                     <div>
                       <div class="flex items-center gap-4 mb-4">
                         <div
-                          class="bg-emerald-400/10 p-3 rounded-full h-12 w-12 flex items-center justify-center"
+                          class="bg-primary/10 p-3 rounded-full h-12 w-12 flex items-center justify-center"
                         >
-                          <span class="text-emerald-400 text-xl font-bold">{{
+                          <span class="text-primary text-xl font-bold">{{
                             index + 1
                           }}</span>
                         </div>
-                        <h3 class="text-lg font-medium text-white">
+                        <h3 class="text-lg font-medium text-text-primary">
                           {{ step.title }}
                         </h3>
                       </div>
 
-                      <!-- Added icon section -->
+                      <!-- Icon section -->
                       <div class="flex justify-center my-6">
                         <NuxtPicture
                           format="avif,webp"
                           :src="stepImages[index]"
-                          class="w-24 h-24 text-emerald-400"
+                          class="w-24 h-24 text-primary"
                         />
                       </div>
 
-                      <p class="text-base text-gray-300">
+                      <p class="text-base text-text-secondary">
                         {{ step.description }}
                       </p>
                     </div>
                     <div class="mt-6">
-                      <n-alert
-                        v-if="step.note"
-                        type="info"
-                        :show-icon="true"
-                        class="text-white"
-                      >
+                      <n-alert v-if="step.note" type="info" :show-icon="true">
                         {{ step.note }}
                       </n-alert>
                     </div>
@@ -107,7 +103,7 @@
               </n-button>
               <n-button
                 v-else
-                secondary
+                type="primary"
                 size="large"
                 @click="isVisible = false"
               >
@@ -120,6 +116,7 @@
     </div>
   </Transition>
 </template>
+
 <script setup lang="ts">
 interface Step {
   title: string;
@@ -142,10 +139,10 @@ interface Props {
   nextButtonText?: string;
   doneButtonText?: string;
   skipButtonText?: string;
-  hide?: boolean
+  hide?: boolean;
 }
 
-const isVisible = ref(true)
+const isVisible = ref(true);
 
 withDefaults(defineProps<Props>(), {
   title: 'Instructions',
@@ -160,42 +157,6 @@ const currentStep = ref(0);
 </script>
 
 <style scoped>
-.instruction-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  animation: fadeIn 0.3s ease forwards;
-}
-
-.card-animation {
-  animation: slideIn 0.3s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 :deep(.n-carousel) {
   height: 100%;
 }
@@ -208,12 +169,14 @@ const currentStep = ref(0);
   margin: 0 4px;
 }
 
-:deep(.n-alert .n-alert-body) {
-  color: white;
+:deep(.n-alert) {
+  background-color: var(--color-secondary-hover);
+  border: 1px solid var(--color-secondary);
 }
 
+:deep(.n-alert .n-alert-body),
 :deep(.n-alert .n-alert__description) {
-  color: white;
+  color: var(--color-text-primary);
 }
 
 @keyframes scaleIn {

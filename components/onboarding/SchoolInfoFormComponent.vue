@@ -1,19 +1,45 @@
 <template>
-  <div class="min-h-screen bg-[#101014] text-white">
-    <div class="py-6">
+  <div class="min-h-screen bg-background text-text-primary">
+    <!-- Floating Particles Background -->
+    <div class="fixed inset-0 overflow-hidden z-0">
+      <div
+        v-for="n in 20"
+        :key="n"
+        class="absolute w-1 h-1 bg-primary opacity-20 rounded-full animate-float"
+        :style="{
+          left: Math.random() * 100 + '%',
+          top: Math.random() * 100 + '%',
+          '--tx': Math.random() * 200 - 100 + 'px',
+          '--ty': Math.random() * 200 - 100 + 'px',
+          '--scale': 0.5 + Math.random() * 1,
+          animationDelay: Math.random() * 10 + 's',
+          animationDuration: 10 + Math.random() * 20 + 's',
+        }"
+      />
+    </div>
+
+    <div class="py-6 relative z-10">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <!-- Header -->
-        <div class="mb-6 text-center">
-          <h1
-            class="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-          >
+        <div
+          v-motion
+          class="mb-6 text-center"
+          :initial="{ opacity: 0, y: -20 }"
+          :enter="{ opacity: 1, y: 0 }"
+          :delay="200"
+        >
+          <h1 class="text-3xl font-bold tracking-tight text-gradient">
             {{ t('onboarding.schoolForm.title') }}
           </h1>
         </div>
 
         <!-- Main Form Content -->
         <div
-          class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6"
+          v-motion
+          class="feature-card backdrop-blur-sm rounded-xl p-6"
+          :initial="{ opacity: 0, y: 20 }"
+          :enter="{ opacity: 1, y: 0 }"
+          :delay="400"
         >
           <n-form class="space-y-6" @submit.prevent="onSubmit">
             <!-- Two Column Layout -->
@@ -21,7 +47,7 @@
               <!-- Left Column: Basic Info -->
               <div class="space-y-4">
                 <h3
-                  class="text-lg font-semibold text-white/90 border-l-4 border-emerald-400 pl-3 mb-4"
+                  class="text-lg font-semibold section-heading border-primary"
                 >
                   {{ t('onboarding.schoolForm.sections.basicInfo') }}
                 </h3>
@@ -39,7 +65,7 @@
                     @update:file-list="handleLogoUpdate"
                   >
                     <div
-                      class="flex flex-col items-center justify-center text-gray-400"
+                      class="flex flex-col items-center justify-center upload-text"
                     >
                       <Icon name="ph:image-square-bold" class="text-2xl mb-2" />
                       <span>{{
@@ -96,7 +122,7 @@
               <!-- Right Column: Description and Files -->
               <div class="space-y-4">
                 <h3
-                  class="text-lg font-semibold text-white/90 border-l-4 border-blue-500 pl-3 mb-4"
+                  class="text-lg font-semibold section-heading border-secondary"
                 >
                   {{ t('onboarding.schoolForm.sections.details') }}
                 </h3>
@@ -124,7 +150,7 @@
                     @update:file-list="handleFileListUpdate"
                   >
                     <div
-                      class="flex flex-col items-center justify-center text-gray-400"
+                      class="flex flex-col items-center justify-center upload-text"
                     >
                       <Icon
                         name="ph:upload-simple-bold"
@@ -140,7 +166,7 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="flex justify-end pt-4 border-t border-gray-700/50">
+            <div class="flex justify-end pt-4 border-t border-border/50">
               <n-button
                 type="primary"
                 attr-type="submit"
@@ -270,7 +296,6 @@ const onSubmit = handleSubmit(async (values) => {
     );
 
     message.success(t('onboarding.schoolForm.success'));
-    // No need to manually set step as it's handled in the store now
   } catch {
     message.error(
       onboardingStore.error?.toString() || t('onboarding.schoolForm.error')
@@ -280,19 +305,80 @@ const onSubmit = handleSubmit(async (values) => {
   }
 });
 </script>
+
 <style scoped>
 :deep(.n-input),
 :deep(.n-select) {
-  background-color: #1c1c21;
+  background-color: var(--color-background-input, #1c1c21);
 }
 
 :deep(.n-form-item .n-form-item-label) {
-  color: rgb(156, 163, 175);
+  color: var(--color-text-secondary, rgb(156, 163, 175));
   font-size: 0.875rem;
 }
 
 :deep(.n-upload-trigger) {
-  background-color: #1c1c21;
-  border-color: rgba(55, 65, 81, 0.5);
+  background-color: var(--color-background-input, #1c1c21);
+  border-color: rgba(var(--color-border-rgb, 55, 65, 81), 0.5);
+}
+
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-background-card, rgba(24, 24, 28, 0.8));
+  border: 1px solid rgba(var(--color-border-rgb, 74, 85, 104), 0.5);
+  transition: all 0.3s ease;
+}
+
+.section-heading {
+  padding-left: 0.75rem;
+  border-left-width: 4px;
+  border-left-style: solid;
+  color: var(--color-text-primary, rgba(255, 255, 255, 0.9));
+}
+
+.border-primary {
+  border-left-color: var(--color-primary, #4ade80);
+}
+
+.border-secondary {
+  border-left-color: var(--color-secondary, #3b82f6);
+}
+
+.upload-text {
+  color: var(--color-text-secondary, rgb(156, 163, 175));
+}
+
+.text-gradient {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary, #4ade80),
+    var(--color-secondary, #3b82f6)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(var(--scale));
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(var(--scale));
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: float var(--duration, 15s) ease-in-out infinite alternate;
 }
 </style>

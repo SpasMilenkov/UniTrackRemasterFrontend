@@ -1,15 +1,18 @@
 <template>
-  <div class="min-h-screen bg-[#101014] text-white relative">
+  <div class="min-h-screen bg-background text-text-primary relative">
     <!-- Full-page background decorations -->
     <div class="fixed inset-0 z-0">
       <div
-        class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500 rounded-full filter blur-3xl opacity-5 transform -translate-x-1/2"
+        class="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full filter blur-3xl opacity-5 transform -translate-x-1/2"
+        :style="{ backgroundColor: 'var(--color-primary)' }"
       />
       <div
-        class="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-blue-500 rounded-full filter blur-3xl opacity-5 transform translate-x-1/2"
+        class="absolute top-1/2 right-1/4 w-[500px] h-[500px] rounded-full filter blur-3xl opacity-5 transform translate-x-1/2"
+        :style="{ backgroundColor: 'var(--color-secondary)' }"
       />
       <div
-        class="absolute bottom-0 left-1/3 w-[500px] h-[500px] bg-emerald-500 rounded-full filter blur-3xl opacity-5 transform -translate-x-1/2"
+        class="absolute bottom-0 left-1/3 w-[500px] h-[500px] rounded-full filter blur-3xl opacity-5 transform -translate-x-1/2"
+        :style="{ backgroundColor: 'var(--color-primary)' }"
       />
     </div>
 
@@ -19,12 +22,10 @@
       <div class="py-16">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <div class="mx-auto max-w-3xl text-center">
-            <h1
-              class="text-4xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text mb-6"
-            >
+            <h1 class="text-4xl font-bold tracking-tight text-gradient mb-6">
               {{ pageTitle }}
             </h1>
-            <p class="text-gray-400">Last updated: {{ lastUpdated }}</p>
+            <p class="text-text-secondary">Last updated: {{ lastUpdated }}</p>
           </div>
         </div>
       </div>
@@ -33,7 +34,7 @@
       <div class="py-12">
         <div class="mx-auto max-w-3xl px-6 lg:px-8">
           <div
-            class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-8 mb-8"
+            class="bg-background-card/80 backdrop-blur-sm rounded-xl border border-border p-8 mb-8"
           >
             <!-- Policy Content -->
             <div class="prose prose-invert max-w-none policy-content">
@@ -43,11 +44,11 @@
 
           <!-- Contact Section -->
           <div class="text-center">
-            <p class="text-gray-400 mb-4">
+            <p class="text-text-secondary mb-4">
               If you have any questions about our {{ pageTitle }}, please
               contact us:
             </p>
-            <n-button type="primary" color="#4ade80" class="text-lg">
+            <n-button type="primary" class="text-lg">
               Contact Us
               <template #icon>
                 <Icon name="ph:envelope-bold" />
@@ -80,7 +81,11 @@ defineProps({
   font-weight: 700;
   margin-bottom: 2rem;
   margin-top: 3rem;
-  background: linear-gradient(to right, #4ade80, #3b82f6);
+  background: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -95,7 +100,7 @@ defineProps({
   font-weight: 600;
   margin-bottom: 1.5rem;
   margin-top: 2.5rem;
-  color: #4ade80;
+  color: var(--color-primary);
 }
 
 .policy-content :deep(h3) {
@@ -104,12 +109,12 @@ defineProps({
   font-weight: 600;
   margin-bottom: 1rem;
   margin-top: 2rem;
-  color: #60a5fa;
+  color: var(--color-secondary);
 }
 
 .policy-content :deep(p) {
   margin-bottom: 1.5rem;
-  color: rgb(209, 213, 219);
+  color: var(--color-text-primary);
   line-height: 1.75;
 }
 
@@ -120,28 +125,29 @@ defineProps({
 
 .policy-content :deep(li) {
   margin-bottom: 0.5rem;
-  color: rgb(209, 213, 219);
+  color: var(--color-text-primary);
 }
 
 .policy-content :deep(strong) {
-  color: #ffffff;
+  color: var(--color-text-primary);
+  font-weight: 700;
 }
 
 .policy-content :deep(a) {
-  color: #4ade80;
+  color: var(--color-primary);
   transition: color 0.2s ease;
 }
 
 .policy-content :deep(a:hover) {
-  color: #86efac;
+  color: var(--color-primary-hover);
 }
 
 .policy-content :deep(blockquote) {
-  border-left: 4px solid #4ade80;
+  border-left: 4px solid var(--color-primary);
   padding-left: 1rem;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-  color: rgb(156, 163, 175);
+  color: var(--color-text-secondary);
   font-style: italic;
 }
 </style>

@@ -504,8 +504,8 @@ export default {
           placeholder: 'Изберете дата',
         },
         institutionType: {
-          label: "Тип",
-          placeholder: "Въведете тип на учебното заведение"
+          label: 'Тип',
+          placeholder: 'Въведете тип на учебното заведение',
         },
         accreditations: {
           label: 'Акредитации',
@@ -697,6 +697,9 @@ export default {
     loginLink: 'Влезте тук',
   },
   registrationPage: {
+    welcomeMessage: 'Присъединете се към UniTrack днес',
+    welcomeDescription:
+      'Създайте акаунт, за да получите достъп до нашата цялостна платформа',
     selectAccountType: 'Изберете тип акаунт',
     selectAccountTypeDesc:
       'Мисията на UniTrack е да направи обучението по-лесно и по-интересно за всеки. Предлагаме два типа акаунти: Организационни акаунти за членове на институции, които са партньори с UniTrack, и Общностни акаунти за индивидуални потребители, които искат да използват общностните функции на UniTrack.',
@@ -770,6 +773,161 @@ export default {
     loginButton: 'Отидете към вход',
     needHelp: 'Нуждаете се от помощ? ',
     contactSupport: 'Свържете се с поддръжката',
+  },
+  settings: {
+    title: 'Управление на акаунта',
+    tryAgain: 'Опитайте отново',
+    profileImage: {
+      modalTitle: 'Актуализиране на профилната снимка',
+      previewAlt: 'Преглед на профилната снимка',
+      currentAlt: 'Текуща профилна снимка',
+      selectButton: 'Избор на изображение',
+      uploadButton: 'Качване',
+      cancelButton: 'Отказ',
+      uploadSuccess: 'Профилната снимка е актуализирана успешно',
+      uploadError: 'Грешка при качване на профилната снимка',
+    },
+    menu: {
+      profile: 'Профил',
+      security: 'Сигурност',
+      appearance: 'Външен вид',
+      privacy: 'Поверителност'
+    },
+    appearance: {
+      title: 'Външен вид',
+      subtitle: 'Персонализирайте как изглежда UniTrack за вас',
+      themeSection: 'Тема',
+      accentColorSection: 'Акцентен цвят',
+      accentColorDescription:
+        'Промяната на акцентния цвят ще актуализира основните и вторичните цветове, използвани в интерфейса.',
+      themes: {
+        dark: 'Тъмна',
+        light: 'Светла',
+        system: 'Системна',
+      },
+      colors: {
+        green: 'Зелен',
+        blue: 'Син',
+        purple: 'Лилав',
+        pink: 'Розов',
+        red: 'Червен',
+        amber: 'Кехлибарен',
+        teal: 'Тюркоазен',
+      },
+      notifications: {
+        themeChanged: 'Темата е зададена на {theme}',
+        accentColorChanged: 'Акцентният цвят е зададен на {color}',
+      },
+    },
+    profile: {
+      title: 'Профил',
+      subtitle:
+        'Вашата публична информация за профила, видима за други потребители',
+      profilePicture: 'Профилна снимка',
+      changeImage: 'Промяна',
+      personalInfo: {
+        firstName: 'Име',
+        firstNamePlaceholder: 'Въведете име',
+        lastName: 'Фамилия',
+        lastNamePlaceholder: 'Въведете фамилия',
+        displayName: 'Показвано име',
+        displayNamePlaceholder: 'Въведете показвано име',
+        displayNameHelp: 'Така ще ви виждат другите в системата',
+        email: 'Имейл',
+        emailPlaceholder: 'Въведете имейл адрес',
+        phone: 'Телефон',
+        phonePlaceholder: 'Въведете телефонен номер',
+      },
+      buttons: {
+        editProfile: 'Редактиране на профила',
+        saveChanges: 'Запазване на промените',
+        cancel: 'Отказ',
+      },
+    },
+    organization: {
+      title: 'Организация',
+      subtitle: 'Информация за вашата институция и роля',
+      institutionLabel: 'Институция',
+      roleLabel: 'Роля',
+      positionLabel: 'Позиция',
+      departmentLabel: 'Отдел',
+      departmentPlaceholder: 'Въведете отдел',
+      gradeLabel: 'Клас/Курс',
+      permissionsLabel: 'Разрешения',
+      roles: {
+        user: 'Потребител',
+        admin: 'Администратор',
+        student: 'Ученик',
+        teacher: 'Учител',
+        parent: 'Родител',
+      },
+      permissions: {
+        manage_users: 'Управление на потребители',
+        view_reports: 'Преглед на отчети',
+        edit_content: 'Редактиране на съдържание',
+        manage_grades: 'Управление на оценки',
+        manage_courses: 'Управление на курсове',
+        manage_faculty: 'Управление на факултет',
+        manage_students: 'Управление на ученици',
+        manage_settings: 'Управление на настройки',
+        manage_billing: 'Управление на плащания',
+        full_access: 'Пълен достъп',
+      },
+      buttons: {
+        editInfo: 'Редактиране на информация за организацията',
+        saveChanges: 'Запазване на промените',
+        cancel: 'Отказ',
+      },
+    },
+    security: {
+      title: 'Сигурност',
+      subtitle:
+        'Управлявайте вашата парола и настройки за сигурност на акаунта',
+      password: {
+        title: 'Смяна на парола',
+        currentPassword: 'Текуща парола',
+        currentPasswordPlaceholder: 'Въведете текущата си парола',
+        newPassword: 'Нова парола',
+        newPasswordPlaceholder: 'Въведете новата си парола',
+        confirmPassword: 'Потвърдете новата парола',
+        confirmPasswordPlaceholder: 'Потвърдете новата си парола',
+        updateButton: 'Обновяване на паролата',
+      },
+      twoFactor: {
+        title: 'Двуфакторна автентикация',
+        description:
+          'Добавете допълнителен слой защита към вашия акаунт, като активирате двуфакторна автентикация.',
+        enableButton: 'Активиране на двуфакторна автентикация',
+      },
+    },
+    privacy: {
+      title: 'Поверителност',
+      subtitle: 'Управлявайте вашите данни и настройки за поверителност',
+      saveButton: 'Запази настройките за поверителност',
+      dataUsage: {
+        title: 'Използване на данни',
+        analytics: {
+          title: 'Анализи и подобрения',
+          description:
+            'Разрешаване на анонимно събиране на данни, за да подобрим платформата',
+        },
+      },
+      communications: {
+        title: 'Комуникации',
+        emailUpdates: {
+          title: 'Имейл известия',
+          description: 'Получаване на важни известия и актуализации по имейл',
+        },
+        marketingEmails: {
+          title: 'Маркетингови имейли',
+          description: 'Получаване на промоционално съдържание и бюлетини',
+        },
+      },
+      profileVisibility: {
+        title: 'Видимост на профила',
+        description: 'Кой може да вижда информацията за вашия профил',
+      },
+    },
   },
   footer: {
     companyInfo: {

@@ -1,14 +1,41 @@
 <template>
-  <div class="min-h-screen bg-background-card">
-    <n-form class="max-w-7xl mx-auto p-6" @submit.prevent="onSubmit">
+  <div class="min-h-screen bg-background-card relative">
+    <!-- Floating Particles Background (consistent with other pages) -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div
+        v-for="n in 20"
+        :key="n"
+        class="absolute w-1 h-1 bg-primary opacity-20 rounded-full animate-float"
+        :style="{
+          left: Math.random() * 100 + '%',
+          top: Math.random() * 100 + '%',
+          '--tx': Math.random() * 200 - 100 + 'px',
+          '--ty': Math.random() * 200 - 100 + 'px',
+          '--scale': 0.5 + Math.random() * 1,
+          animationDelay: Math.random() * 10 + 's',
+          animationDuration: 10 + Math.random() * 20 + 's',
+        }"
+      />
+    </div>
+
+    <n-form
+      class="max-w-7xl mx-auto p-6 relative z-10"
+      @submit.prevent="onSubmit"
+    >
       <!-- Header -->
-      <div class="mb-8 text-center">
+      <div
+        v-motion
+        class="mb-8 text-center"
+        :initial="{ opacity: 0, y: -20 }"
+        :enter="{ opacity: 1, y: 0 }"
+        :delay="200"
+      >
         <VanillaTitle
           :title="t('onboarding.initialForm.titles.main')"
           size="medium"
-          class="text-primary"
+          class="bg-gradient-primary"
         />
-        <p class="text-text-secondary mt-2">
+        <p style="color: var(--color-text-secondary); margin-top: 0.5rem">
           {{ t('onboarding.initialForm.subtitle') }}
         </p>
       </div>
@@ -16,11 +43,22 @@
       <!-- Main Form Content -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Left Column: Form Fields -->
-        <div class="space-y-6 bg-background rounded-lg p-6">
+        <div
+          v-motion
+          class="feature-card space-y-6 backdrop-blur-sm rounded-lg p-6"
+          :initial="{ opacity: 0, x: -20 }"
+          :enter="{ opacity: 1, x: 0 }"
+          :delay="400"
+        >
           <!-- Institution Details -->
           <div class="space-y-4">
             <h3
-              class="text-lg font-semibold text-text-primary border-l-4 border-primary pl-3"
+              class="text-lg font-semibold"
+              style="
+                color: var(--color-text-primary);
+                border-left: 4px solid var(--color-primary);
+                padding-left: 0.75rem;
+              "
             >
               {{ t('onboarding.initialForm.titles.institution') }}
             </h3>
@@ -62,7 +100,12 @@
           <!-- Contact Information -->
           <div class="space-y-4">
             <h3
-              class="text-lg font-semibold text-text-primary border-l-4 border-primary pl-3"
+              class="text-lg font-semibold"
+              style="
+                color: var(--color-text-primary);
+                border-left: 4px solid var(--color-primary);
+                padding-left: 0.75rem;
+              "
             >
               {{ t('onboarding.initialForm.titles.contact') }}
             </h3>
@@ -117,7 +160,12 @@
           <!-- Address Fields -->
           <div class="space-y-4">
             <h3
-              class="text-lg font-semibold text-text-primary border-l-4 border-primary pl-3"
+              class="text-lg font-semibold"
+              style="
+                color: var(--color-text-primary);
+                border-left: 4px solid var(--color-primary);
+                padding-left: 0.75rem;
+              "
             >
               {{ t('onboarding.initialForm.titles.geographic') }}
             </h3>
@@ -171,19 +219,45 @@
         </div>
 
         <!-- Right Column: Map -->
-        <div class="bg-background rounded-lg p-6">
+        <div
+          v-motion
+          class="feature-card backdrop-blur-sm rounded-lg p-6"
+          :initial="{ opacity: 0, x: 20 }"
+          :enter="{ opacity: 1, x: 0 }"
+          :delay="600"
+        >
           <ClientOnly>
             <div id="map" class="h-[600px] w-full rounded-lg" />
           </ClientOnly>
-          <p class="text-text-secondary text-sm mt-4">
+          <p
+            style="
+              color: var(--color-text-secondary);
+              font-size: 0.875rem;
+              margin-top: 1rem;
+            "
+          >
             {{ t('onboarding.initialForm.mapInstructions') }}
           </p>
         </div>
       </div>
 
       <!-- Submit Button -->
-      <div class="mt-8 flex justify-end">
-        <n-button type="primary" class="px-8" @click="onSubmit">
+      <div
+        v-motion
+        class="mt-8 flex justify-end"
+        :initial="{ opacity: 0, y: 20 }"
+        :enter="{ opacity: 1, y: 0 }"
+        :delay="800"
+      >
+        <n-button
+          type="primary"
+          style="
+            padding-left: 2rem;
+            padding-right: 2rem;
+            transition: all 0.3s ease;
+          "
+          @click="onSubmit"
+        >
           {{ t('onboarding.initialForm.submit') }}
         </n-button>
       </div>
@@ -248,7 +322,9 @@ const [institutionType, institutionTypeProps] = defineField(
 const institutionTypeOptions = computed(() => {
   const availableTypes = onboardingStore.availableInstitutionTypes;
   return availableTypes.map((type) => ({
-    label: t(`onboarding.initialForm.fields.institutionType.options.${camelCase(type)}`),
+    label: t(
+      `onboarding.initialForm.fields.institutionType.options.${camelCase(type)}`
+    ),
     value: type,
   }));
 });
@@ -353,11 +429,58 @@ onMounted(() => {
 <style scoped>
 :deep(.n-input),
 :deep(.n-select) {
-  background-color: rgb(38, 38, 41);
+  background-color: var(--color-background-input, rgb(38, 38, 41));
 }
 
 :deep(.n-form-item .n-form-item-label) {
-  color: rgb(156, 163, 175);
+  color: var(--color-text-secondary, rgb(156, 163, 175));
   font-size: 0.875rem;
+}
+
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-background);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(var(--color-primary-rgb, 74, 222, 128), 0.15);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(var(--color-primary-rgb, 74, 222, 128), 0.3);
+  box-shadow: 0 0 30px rgba(var(--color-primary-rgb, 74, 222, 128), 0.1);
+}
+
+.bg-gradient-primary {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(var(--scale));
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(var(--scale));
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: float var(--duration, 15s) ease-in-out infinite alternate;
 }
 </style>

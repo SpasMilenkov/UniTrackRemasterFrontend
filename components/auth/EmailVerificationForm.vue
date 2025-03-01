@@ -4,13 +4,13 @@
       <n-form-item
         :label="t('forgotPassword.emailLabel')"
         path="email"
-        label-style="text-gray-300 font-semibold"
+        label-style="color: var(--color-text-primary); font-weight: 600;"
         v-bind="emailProps"
       >
         <n-input
           v-model:value="email"
           :placeholder="t('forgotPassword.emailPlaceholder')"
-          class="bg-[#303035] text-white placeholder-gray-500"
+          class="themed-input"
         >
           <template #prefix>
             <Icon name="ph:envelope" />
@@ -23,7 +23,6 @@
         attr-type="submit"
         size="large"
         class="w-full"
-        :color="isLoading ? undefined : '#4ade80'"
         :loading="isLoading"
       >
         {{ t('forgotPassword.continueButton') }}
@@ -71,3 +70,30 @@ const handleSubmit = formSubmit(async (values) => {
   }
 });
 </script>
+
+<style scoped>
+.themed-input :deep(.n-input__input) {
+  background-color: var(--color-background-secondary) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.themed-input :deep(.n-input__placeholder) {
+  color: var(--color-text-muted) !important;
+}
+
+.themed-input :deep(.n-input__border),
+.themed-input :deep(.n-input__state-border) {
+  border-color: var(--color-border) !important;
+}
+
+.themed-input:hover :deep(.n-input__border),
+.themed-input:hover :deep(.n-input__state-border) {
+  border-color: var(--color-primary) !important;
+  opacity: 0.5;
+}
+
+.themed-input:focus-within :deep(.n-input__border),
+.themed-input:focus-within :deep(.n-input__state-border) {
+  border-color: var(--color-primary) !important;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[#18181c]/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6 group hover:border-emerald-400/50 transition-all duration-300 h-full"
+    class="bg-background-card/80 backdrop-blur-sm rounded-xl border border-border/50 p-6 group hover:border-primary/50 transition-all duration-300 h-full feature-card"
   >
     <div class="flex flex-col h-full">
       <!-- Image Section -->
@@ -11,40 +11,35 @@
           :src="school.images[0]"
           :alt="school.name"
           class="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-300"
-        >
+        />
         <div
-          class="absolute inset-0 bg-gradient-to-t from-[#18181c]/80 to-transparent opacity-60"
+          class="absolute inset-0 bg-gradient-to-t from-background-card/80 to-transparent opacity-60"
         />
         <div class="absolute bottom-3 right-3">
           <n-tag
             type="success"
             round
             size="small"
-            class="bg-emerald-400/20 border-emerald-400/50 text-emerald-400"
+            class="bg-primary/20 border-primary/50 text-primary"
           >
             {{ school.motto }}
           </n-tag>
         </div>
       </div>
-
       <!-- Content Section -->
       <div class="flex-grow">
-        <h3
-          class="text-2xl font-bold mb-3 bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text line-clamp-1"
-        >
+        <h3 class="text-2xl font-bold mb-3 text-gradient line-clamp-1">
           {{ school.name }}
         </h3>
-        <p class="text-gray-400 text-sm line-clamp-3 mb-6">
-          {{ school.shortDescription }}
+        <p class="text-text-muted text-sm line-clamp-3 mb-6">
+          {{ school.description }}
         </p>
       </div>
-
       <!-- Footer Section -->
-      <div class="mt-auto pt-4 border-t border-gray-700/50">
+      <div class="mt-auto pt-4 border-t border-border/50">
         <n-button
           type="primary"
-          color="#4ade80"
-          class="w-full text-lg group-hover:shadow-emerald-400/20 group-hover:shadow-lg transition-all duration-300"
+          class="w-full text-lg group-hover:shadow-primary/20 group-hover:shadow-lg transition-all duration-300 transform group-hover:scale-105"
           @click="navigateToSchool(school.id)"
         >
           Learn More
@@ -73,5 +68,28 @@ const navigateToSchool = (schoolId: string) => {
 </script>
 
 <style scoped>
-/* Remove old styles as they're now handled by Tailwind classes */
+.feature-card {
+  border: 1px solid rgba(var(--color-primary-rgb, 74, 222, 128), 0.15);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(var(--color-primary-rgb), 0.3);
+  box-shadow:
+    0 0 30px rgba(var(--color-primary-rgb), 0.1),
+    0 0 2px rgba(var(--color-primary-rgb), 0.3);
+  transform: translateY(-4px);
+}
+
+.text-gradient {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
 </style>

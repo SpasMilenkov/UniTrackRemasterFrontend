@@ -4,7 +4,6 @@
       <n-form-item
         :label="t('forgotPassword.newPasswordLabel')"
         path="password"
-        label-style="text-gray-300 font-semibold"
         v-bind="passwordProps"
       >
         <n-input
@@ -12,17 +11,15 @@
           type="password"
           :placeholder="t('forgotPassword.newPasswordPlaceholder')"
           show-password-on="click"
-          class="bg-[#303035] text-white placeholder-gray-500"
         >
           <template #prefix>
-            <Icon name="ph:lock-simple" />
+            <Icon name="ph:lock-simple" class="text-text-secondary" />
           </template>
         </n-input>
       </n-form-item>
       <n-form-item
         :label="t('forgotPassword.confirmPasswordLabel')"
         path="confirmPassword"
-        label-style="text-gray-300 font-semibold"
         v-bind="confirmPasswordProps"
       >
         <n-input
@@ -30,10 +27,9 @@
           type="password"
           :placeholder="t('forgotPassword.confirmPasswordPlaceholder')"
           show-password-on="click"
-          class="bg-[#303035] text-white placeholder-gray-500"
         >
           <template #prefix>
-            <Icon name="ph:lock-simple" />
+            <Icon name="ph:lock-simple" class="text-text-secondary" />
           </template>
         </n-input>
       </n-form-item>
@@ -41,8 +37,7 @@
         type="primary"
         attr-type="submit"
         size="large"
-        class="w-full"
-        :color="isLoading ? undefined : '#4ade80'"
+        class="w-full transform hover:scale-105 transition-all duration-300"
         :loading="isLoading"
       >
         {{ t('forgotPassword.resetButton') }}
@@ -64,14 +59,10 @@ const notification = useNotification();
 const authStore = useAuthStore();
 const route = useRoute();
 const isLoading = ref(false);
-
-
 const email = route.query.email as string;
 const token = route.query.token as string;
 
-
 const schema = resetPasswordSchema();
-
 const { handleSubmit: formSubmit, defineField } = useForm({
   validationSchema: toTypedSchema(schema),
 });
@@ -94,6 +85,7 @@ const handleSubmit = formSubmit(async (values) => {
   }
 
   isLoading.value = true;
+
   try {
     await authStore.resetPassword({
       email,
@@ -124,3 +116,30 @@ const handleSubmit = formSubmit(async (values) => {
   }
 });
 </script>
+
+<style scoped>
+:deep(.n-form-item-label) {
+  color: var(--color-text-primary) !important;
+  font-weight: 600;
+}
+
+:deep(.n-button) {
+  background-color: var(--color-primary) !important;
+}
+
+:deep(.n-button:hover) {
+  background-color: var(--color-primary-hover) !important;
+}
+
+:deep(.n-input) {
+  background-color: var(--color-background-secondary) !important;
+}
+
+:deep(.n-input__input) {
+  color: var(--color-text-primary) !important;
+}
+
+:deep(.n-input__placeholder) {
+  color: var(--color-text-muted) !important;
+}
+</style>

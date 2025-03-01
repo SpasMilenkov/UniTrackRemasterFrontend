@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-semibold text-text-primary">My Institutions</h1>
       <n-button
         type="primary"
-        class="bg-primary hover:bg-primary-dark"
+        class="transform hover:scale-105 transition-all duration-300"
         @click="navigateTo('/institutions/new')"
       >
         Add Institution
@@ -34,7 +34,7 @@
               <div
                 v-for="institution in institutions"
                 :key="institution.id"
-                class="bg-gradient-to-br from-background-card to-background-secondary rounded-xl overflow-hidden hover:shadow-lg transition-all cursor-pointer group border border-border hover:border-border-hover min-w-[30.625rem]"
+                class="institution-card"
                 @click="selectedInstitution = institution"
               >
                 <div class="p-6">
@@ -66,7 +66,7 @@
                           {{ institution.name }}
                         </h3>
                         <span
-                          class="px-2 py-1 rounded-full text-xs font-medium"
+                          class="px-2 py-1 rounded-full text-xs font-medium status-badge"
                           :class="
                             getIntegrationStatusClasses(
                               institution.integrationStatus
@@ -105,10 +105,7 @@
               </div>
             </div>
 
-            <div
-              v-if="!institutions.length"
-              class="text-center py-12 bg-gradient-to-br from-background-card to-background-secondary rounded-xl border border-border"
-            >
+            <div v-if="!institutions.length" class="empty-state">
               <Icon
                 name="ph:buildings"
                 class="text-4xl text-text-secondary mb-4"
@@ -119,19 +116,20 @@
               <p class="text-text-secondary mb-4">
                 Get started by adding your first institution
               </p>
-              <n-button type="primary" @click="navigateTo('/institutions/new')"
-                >Add Institution</n-button
+              <n-button
+                type="primary"
+                class="transform hover:scale-105 transition-all duration-300"
+                @click="navigateTo('/institutions/new')"
               >
+                Add Institution
+              </n-button>
             </div>
           </div>
         </div>
       </div>
 
       <Transition name="slide">
-        <div
-          v-if="selectedInstitution"
-          class="w-96 bg-background-card max-h-[48rem] rounded-xl flex flex-col border border-border"
-        >
+        <div v-if="selectedInstitution" class="details-panel">
           <div class="p-6 border-b border-border">
             <div class="flex justify-between items-center">
               <h2 class="text-xl font-semibold text-text-primary">
@@ -232,7 +230,7 @@
                   <span
                     v-for="accreditation in selectedInstitution.accreditationTypes"
                     :key="accreditation"
-                    class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium"
+                    class="accreditation-tag"
                   >
                     {{ formatAccreditationType(accreditation) }}
                   </span>
@@ -267,7 +265,7 @@
                     :key="i"
                     :src="image"
                     :alt="selectedInstitution.name"
-                    class="rounded-lg w-full h-24 object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                    class="gallery-image"
                     @click="openCarousel(i)"
                   />
                 </div>
@@ -282,6 +280,7 @@
       v-model:show="isCarouselOpen"
       preset="card"
       :style="{ maxWidth: '90vw' }"
+      class="carousel-modal"
     >
       <n-carousel
         show-arrow
@@ -303,7 +302,7 @@
       </n-carousel>
       <template #header>
         <div class="flex justify-between items-center">
-          <h3 class="text-lg font-medium">Gallery</h3>
+          <h3 class="text-lg font-medium text-text-primary">Gallery</h3>
           <n-button circle tertiary @click="isCarouselOpen = false">
             <template #icon><Icon name="ph:x-bold" /></template>
           </n-button>
@@ -426,15 +425,15 @@ const formatDate = (date: string): string => {
 const getIntegrationStatusClasses = (status: IntegrationStatus): string => {
   switch (status) {
     case IntegrationStatus.Active:
-      return 'bg-emerald-400/10 text-emerald-400';
+      return 'status-active';
     case IntegrationStatus.AdditionalDataSubmitted:
     case IntegrationStatus.RequiresVerification:
-      return 'bg-yellow-400/10 text-yellow-400';
+      return 'status-pending';
     case IntegrationStatus.Inactive:
     case IntegrationStatus.Denied:
-      return 'bg-red-400/10 text-red-400';
+      return 'status-inactive';
     default:
-      return 'bg-gray-400/10 text-gray-400';
+      return 'status-default';
   }
 };
 
@@ -479,11 +478,115 @@ onMounted(async () => {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(156, 163, 175, 0.3);
+  background-color: rgba(var(--color-text-secondary-rgb, 156, 163, 175), 0.3);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(156, 163, 175, 0.5);
+  background-color: rgba(var(--color-text-secondary-rgb, 156, 163, 175), 0.5);
+}
+
+.institution-card {
+  background: linear-gradient(
+    to bottom right,
+    var(--color-background-card),
+    var(--color-background-secondary)
+  );
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+  min-width: 30.625rem;
+}
+
+.institution-card:hover {
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 0;
+  background: linear-gradient(
+    to bottom right,
+    var(--color-background-card),
+    var(--color-background-secondary)
+  );
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+}
+
+.details-panel {
+  width: 24rem;
+  background-color: var(--color-background-card);
+  max-height: 48rem;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+}
+
+.accreditation-tag {
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(var(--color-primary-rgb, 74, 222, 128), 0.1);
+  color: var(--color-primary);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.gallery-image {
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 6rem;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.gallery-image:hover {
+  opacity: 0.9;
+}
+
+/* Status badge styles */
+.status-badge {
+  font-weight: 500;
+}
+
+.status-active {
+  background-color: rgba(var(--color-primary-rgb, 74, 222, 128), 0.1);
+  color: var(--color-primary);
+}
+
+.status-pending {
+  background-color: rgba(234, 179, 8, 0.1);
+  color: #eab308; /* yellow-400 */
+}
+
+.status-inactive {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444; /* red-400 */
+}
+
+.status-default {
+  background-color: rgba(156, 163, 175, 0.1);
+  color: #9ca3af; /* gray-400 */
+}
+
+:deep(.n-modal) {
+  background-color: var(--color-background-card) !important;
+}
+
+:deep(.n-button--primary-type) {
+  background-color: var(--color-primary) !important;
+}
+
+:deep(.n-button--primary-type:hover) {
+  background-color: var(--color-primary-hover) !important;
 }
 </style>
