@@ -1,21 +1,35 @@
 <template>
   <n-space vertical class="w-full max-w-6xl mx-auto px-4 py-8">
     <!-- Hero Section -->
-    <div class="text-center mb-12">
-      <h1 class="text-5xl md:text-7xl font-bold mb-6">
-        <span
-          class="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"
-        >
-          School Index
-        </span>
+    <div
+      v-motion
+      class="text-center mb-12"
+      :initial="{ opacity: 0, y: 50 }"
+      :enter="{ opacity: 1, y: 0 }"
+      :delay="200"
+    >
+      <h1
+        v-motion
+        class="text-5xl md:text-7xl font-bold mb-6"
+        :initial="{ opacity: 0, y: 50 }"
+        :enter="{ opacity: 1, y: 0 }"
+        :delay="400"
+      >
+        <span class="text-gradient"> School Index </span>
       </h1>
-      <p class="text-lg max-w-2xl mx-auto">
+      <p
+        v-motion
+        class="text-lg text-text-secondary max-w-2xl mx-auto"
+        :initial="{ opacity: 0, y: 50 }"
+        :enter="{ opacity: 1, y: 0 }"
+        :delay="600"
+      >
         Discover and compare schools that match your needs
       </p>
     </div>
 
     <!-- Search Section with improved mobile layout -->
-    <n-card class="mb-8">
+    <n-card class="feature-card backdrop-blur-sm mb-8" :bordered="false">
       <n-space vertical :size="16">
         <!-- Search Bar -->
         <n-space align="center" justify="center" class="w-full">
@@ -28,7 +42,10 @@
               @input="handleSearch"
             >
               <template #prefix>
-                <Icon name="material-symbols:search" />
+                <Icon
+                  name="material-symbols:search"
+                  class="text-text-secondary"
+                />
               </template>
             </n-input>
             <n-button
@@ -38,7 +55,7 @@
               class="flex items-center gap-2"
               @click="showFilters = !showFilters"
             >
-              <Icon name="material-symbols:tune" />
+              <Icon name="material-symbols:tune" class="text-primary" />
               <n-badge
                 v-if="activeFilterCount > 0"
                 :value="activeFilterCount"
@@ -51,10 +68,14 @@
 
         <!-- Improved Filter Section -->
         <n-collapse-transition :show="showFilters">
-          <n-card embedded :bordered="false" class="filter-card">
+          <n-card
+            embedded
+            :bordered="false"
+            class="filter-card bg-background-secondary"
+          >
             <n-space vertical :size="12">
               <div class="flex justify-between items-center mb-4">
-                <h3 class="font-semibold text-lg">Filters</h3>
+                <h3 class="font-semibold text-lg text-text-primary">Filters</h3>
                 <n-button
                   v-if="activeFilterCount > 0"
                   text
@@ -128,7 +149,7 @@
                     :key="category"
                   >
                     <n-space vertical :size="8">
-                      <h4 class="font-medium capitalize">
+                      <h4 class="font-medium capitalize text-text-primary">
                         {{ formatFilterCategory(category as FilterCategory) }}
                       </h4>
                       <n-space wrap>
@@ -192,7 +213,7 @@
     </n-space>
 
     <!-- Results count -->
-    <div class="mb-4">
+    <div class="mb-4 text-text-secondary">
       Showing {{ filteredSchools.length }} schools
     </div>
 
@@ -209,18 +230,29 @@
       v-else-if="!loading && filteredSchools.length === 0"
       class="flex flex-col items-center justify-center py-16 px-4"
     >
-      <Icon
-        name="material-symbols:school-outline"
-        class="text-gray-400 mb-4"
-        size="48"
-      />
-      <h3 class="text-xl font-semibold text-gray-700 mb-2">No Schools Found</h3>
-      <p class="text-gray-500 text-center mb-6 max-w-md">
+      <div class="relative mb-6">
+        <div
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary opacity-10 rounded-full blur-xl"
+        />
+        <div
+          class="relative w-16 h-16 bg-background-card rounded-full flex items-center justify-center"
+        >
+          <Icon
+            name="material-symbols:school-outline"
+            class="text-primary w-7 h-7"
+          />
+        </div>
+      </div>
+      <h3 class="text-xl font-semibold text-text-primary mb-2">
+        No Schools Found
+      </h3>
+      <p class="text-text-secondary text-center mb-6 max-w-md">
         {{ getEmptyStateMessage() }}
       </p>
       <n-button
         v-if="activeFilterCount > 0"
         type="primary"
+        class="transform hover:scale-105 transition-all duration-300"
         @click="clearFilters"
       >
         Clear All Filters
@@ -271,7 +303,6 @@ import { ref, computed, onMounted } from 'vue';
 import { debounce } from 'lodash';
 import type { FilterState } from '~/interfaces/filter-state';
 
-
 type FilterCategory = keyof FilterState;
 
 // Stores
@@ -298,7 +329,6 @@ const selectedFilters = ref<FilterState>({
 });
 
 // Computed
-
 const showUniversityFilters = computed(() => {
   return (
     selectedFilters.value.institutionType.includes('University') ||
@@ -535,6 +565,53 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.feature-card {
+  border-radius: 12px;
+  border: 1px solid rgba(var(--color-primary-rgb, 74, 222, 128), 0.15);
+}
+
+.text-gradient {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+:deep(.n-card) {
+  background-color: var(--color-background-card) !important;
+  border: 1px solid rgba(var(--color-primary-rgb, 74, 222, 128), 0.15);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.n-card:hover) {
+  transform: translateY(-4px);
+  border-color: rgba(var(--color-primary-rgb), 0.3);
+  box-shadow:
+    0 0 30px rgba(var(--color-primary-rgb), 0.1),
+    0 0 2px rgba(var(--color-primary-rgb), 0.3);
+}
+
+:deep(.n-card-header) {
+  padding: 1.5rem !important;
+}
+
+:deep(.n-card__content) {
+  padding: 1.5rem 2rem 2rem !important;
+}
+
+:deep(.n-card__content-inner) {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .n-input-group {
   width: 100%;
   max-width: 600px;
@@ -592,5 +669,26 @@ onUnmounted(() => {
 .n-collapse-transition-leave-to {
   opacity: 0;
   transform: translateY(-10px);
+}
+
+.animate-float {
+  animation: float var(--duration, 15s) ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(var(--scale));
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(var(--scale));
+    opacity: 0;
+  }
 }
 </style>
