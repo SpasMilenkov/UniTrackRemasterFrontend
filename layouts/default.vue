@@ -28,7 +28,6 @@
             <n-button
               class="register-button rounded-lg font-medium shadow-sm hover:shadow-primary/20 transition-all duration-300"
               type="primary"
-              color="#4ade80"
               @click="navigateTo(localePath('/register'))"
             >
               <template #icon>
@@ -104,7 +103,6 @@
               <n-button
                 block
                 type="primary"
-                color="#4ade80"
                 @click="navigateAndClose('/register')"
               >
                 <template #icon>
@@ -193,18 +191,18 @@ const navigateAndClose = (path: string) => {
 };
 
 const mobileMenuOptions = [
-  {
-    key: 'features',
-    label: 'navigation.features',
-    path: '/#features',
-    icon: LogInOutline,
-  },
-  {
-    key: 'roadmap',
-    label: 'navigation.roadmap',
-    path: '/#roadmap',
-    icon: PersonAddOutline,
-  },
+  // {
+  //   key: 'features',
+  //   label: 'navigation.features',
+  //   path: '/#features',
+  //   icon: LogInOutline,
+  // },
+  // {
+  //   key: 'roadmap',
+  //   label: 'navigation.roadmap',
+  //   path: '/#roadmap',
+  //   icon: PersonAddOutline,
+  // },
 ];
 </script>
 
@@ -231,7 +229,7 @@ const mobileMenuOptions = [
   left: 50%;
   width: 0;
   height: 2px;
-  background-color: rgb(74 222 128); 
+  background-color: var(--color-primary, rgb(74, 222, 128));
   transition: all 0.3s;
   transform: translateX(-50%);
 }
@@ -250,11 +248,11 @@ const mobileMenuOptions = [
 }
 
 :deep(.n-menu-item) {
-  color: rgb(156 163 175);
+  color: var(--color-text-secondary, rgb(156, 163, 175));
 }
 
 :deep(.n-menu-item:hover) {
-  color: rgb(74 222 128); 
+  color: var(--color-primary, rgb(74, 222, 128));
 }
 
 :deep(.n-menu-item-content__icon) {
@@ -262,8 +260,8 @@ const mobileMenuOptions = [
 }
 
 :deep(.n-menu-item-content--selected) {
-  color: rgb(74 222 128); 
-  background-color: rgba(74, 222, 128, 0.05);
+  color: var(--color-primary, rgb(74, 222, 128));
+  background-color: rgba(var(--color-primary-rgb, 74, 222, 128), 0.05);
 }
 
 /* Transitions */
@@ -279,8 +277,8 @@ const mobileMenuOptions = [
 
 /* Drawer */
 :deep(.n-drawer) {
-  background-color: rgb(24, 24, 28);
-  border-right: 1px solid rgb(55, 65, 81);
+  background-color: var(--color-background-card, rgb(24, 24, 28));
+  border-right: 1px solid var(--color-border, rgb(55, 65, 81));
 }
 
 /* Prevent interaction during transition */
