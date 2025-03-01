@@ -9,21 +9,7 @@
       <div
         class="h-full bg-background-card border-r border-border flex flex-col"
       >
-        <!-- Logo Section -->
-        <div class="flex items-center px-4 h-16 border-b border-border">
-          <img
-            src="/images/UniTrack.png"
-            alt="UniTrack Logo"
-            class="h-8 w-auto mr-4"
-            :class="{ 'mr-0': collapsed }"
-          >
-          <span
-            v-if="!collapsed"
-            class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-          >
-            UniTrack
-          </span>
-        </div>
+        <LogoComponent v-if="!collapsed" />
 
         <!-- Sidebar Menu -->
         <div class="py-4 flex-grow">
@@ -31,7 +17,7 @@
             mode="vertical"
             :options="sidebarOptions"
             :collapsed="collapsed"
-            class="!bg-transparent"
+            class="sidebar-menu"
           />
         </div>
 
@@ -64,7 +50,7 @@
         circle
         secondary
         size="small"
-        class="transform -translate-x-1/2 -translate-y-1/2 shadow-lg hover:border-primary transition-all duration-200"
+        class="collapse-btn transform -translate-x-1/2 -translate-y-1/2 shadow-lg transition-all duration-200"
         @click="collapsed = !collapsed"
       >
         <Icon :name="collapsed ? 'ion:chevron-forward' : 'ion:chevron-back'" />
@@ -87,18 +73,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between h-16">
             <!-- Mobile Logo Section -->
-            <div class="flex items-center lg:hidden">
-              <NuxtImg
-                src="/images/UniTrack.png"
-                alt="UniTrack Logo"
-                class="h-8 w-auto mr-4"
-              />
-              <span
-                class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-              >
-                UniTrack
-              </span>
-            </div>
+            <LogoComponent v-if="isMobile" />
 
             <!-- Desktop Menu -->
             <div class="hidden lg:flex lg:items-center lg:ml-auto space-x-6">
@@ -117,7 +92,7 @@
             <!-- Mobile Menu Button -->
             <n-button
               v-if="isMobile"
-              class="md:hidden"
+              class="md:hidden mobile-menu-btn"
               secondary
               @click="toggleMobileMenu"
             >
@@ -142,34 +117,23 @@
           @click.stop
         >
           <div class="p-6 pt-4">
-            <div class="flex items-center mb-6">
-              <NuxtImg
-                src="/images/UniTrack.png"
-                alt="UniTrack Logo"
-                class="h-8 w-auto mr-4"
-              />
-              <span
-                class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 text-transparent bg-clip-text"
-              >
-                UniTrack
-              </span>
-            </div>
+            <LogoComponent />
 
-            <!-- Mobile Navigation -->
-            <div class="space-y-6">
-              <div class="space-y-2">
-                <n-button
-                  v-for="option in combinedMobileOptions"
-                  :key="option.key"
-                  block
-                  text
-                  class="nav-link flex items-center space-x-2 px-4 py-2 rounded-lg text-text-secondary hover:text-primary hover:bg-primary/5 transition-colors duration-200"
-                  @click="() => navigateAndClose(option.key as string)"
-                >
-                  <Icon :name="option.iconName" class="text-xl" />
+            <!-- Mobile Navigation - Left aligned -->
+            <div class="space-y-1 mt-6">
+              <n-button
+                v-for="option in combinedMobileOptions"
+                :key="option.key"
+                block
+                text
+                class="mobile-nav-item text-left justify-start"
+                @click="() => navigateAndClose(option.key as string)"
+              >
+                <div class="flex items-center">
+                  <Icon :name="option.iconName" class="text-xl mr-3" />
                   <span>{{ option.label }}</span>
-                </n-button>
-              </div>
+                </div>
+              </n-button>
             </div>
           </div>
         </div>
@@ -198,6 +162,7 @@ import {
   NLayoutFooter,
   type MenuOption,
 } from 'naive-ui';
+import LogoComponent from '~/components/LogoComponent.vue';
 
 interface CustomMenuOption {
   label: string;
@@ -210,7 +175,7 @@ const isMobileMenuOpen = ref(false);
 const isMobile = ref(false);
 const collapsed = ref(false);
 
-// helper function to render icons (breaks easily)
+// helper function to render icons
 const createMenuItem = (
   label: string,
   key: string,
@@ -228,6 +193,7 @@ const createMenuItem = (
   show: true,
   onClick: () => router.push(key),
 });
+
 // menu options with fixed types
 const menuOptions: CustomMenuOption[] = [
   { label: 'Home', key: '/', iconName: 'ion:home' },
@@ -238,6 +204,7 @@ const menuOptions: CustomMenuOption[] = [
 const sidebarMenuOptions: CustomMenuOption[] = [
   { label: 'Timetable', key: '/timetable', iconName: 'ion:book' },
   { label: 'Plan Examination', key: '/exams', iconName: 'ion:document-text' },
+  { label: 'Profile', key: '/users/profile', iconName: 'ion:cog' },
   { label: 'Calendar', key: '/calendar', iconName: 'ion:calendar' },
 ];
 
@@ -315,56 +282,108 @@ const handleTransitionEnd = () => {
 }
 
 /* Navigation links */
-:deep(.nav-link) {
-  color: #9ca3af; /* text-secondary */
+.nav-link {
+  color: var(--color-text-secondary) !important;
   position: relative;
   padding: 0.25rem;
   border-radius: 0.25rem;
   font-weight: 500;
 }
 
-:deep(.nav-link:hover) {
-  color: #4ade80; /* primary color */
-  background-color: rgba(74, 222, 128, 0.05); /* primary with 5% opacity */
+.nav-link:hover {
+  color: var(--color-primary) !important;
+  background-color: rgba(
+    var(--color-primary-rgb, 74, 222, 128),
+    0.05
+  ) !important;
 }
 
-:deep(.nav-link::after) {
+.nav-link::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 50%;
   width: 0;
   height: 0.125rem;
-  background-color: #4ade80; /* primary color */
+  background-color: var(--color-primary);
   transition: all 0.3s;
   transform: translateX(-50%);
 }
 
-:deep(.nav-link:hover::after) {
+.nav-link:hover::after {
   width: 100%;
 }
 
+/* Mobile nav items - left aligned */
+.mobile-nav-item {
+  color: var(--color-text-secondary) !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-bottom: 0.25rem;
+  text-align: left !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+.mobile-nav-item:hover {
+  color: var(--color-primary) !important;
+  background-color: rgba(
+    var(--color-primary-rgb, 74, 222, 128),
+    0.05
+  ) !important;
+}
+
 /* Menu styles */
-:deep(.n-menu) {
+.sidebar-menu {
   background-color: transparent !important;
 }
 
 :deep(.n-menu-item) {
-  color: #9ca3af; /* text-secondary */
+  color: var(--color-text-secondary) !important;
 }
 
 :deep(.n-menu-item:hover) {
-  color: #4ade80; /* primary color */
-  background-color: rgba(74, 222, 128, 0.05); /* primary with 5% opacity */
+  color: var(--color-primary) !important;
+  background-color: rgba(
+    var(--color-primary-rgb, 74, 222, 128),
+    0.05
+  ) !important;
 }
 
 :deep(.n-menu-item-content__icon) {
-  color: currentColor;
+  color: currentColor !important;
 }
 
 :deep(.n-menu-item-content--selected) {
-  color: #4ade80; /* primary color */
-  background-color: rgba(74, 222, 128, 0.05); /* primary with 5% opacity */
+  color: var(--color-primary) !important;
+  background-color: rgba(
+    var(--color-primary-rgb, 74, 222, 128),
+    0.05
+  ) !important;
+}
+
+/* Collapse button */
+.collapse-btn {
+  border-color: var(--color-border) !important;
+  background-color: var(--color-background-card) !important;
+}
+
+.collapse-btn:hover {
+  border-color: var(--color-primary) !important;
+}
+
+/* Mobile menu button */
+.mobile-menu-btn {
+  background-color: transparent !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.mobile-menu-btn:hover {
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
 }
 
 /* Backdrop transitions */
@@ -392,9 +411,71 @@ const handleTransitionEnd = () => {
   :deep(.n-layout-header .max-w-7xl) {
     padding: 0 1rem;
   }
+}
 
-  .mobile-menu-button {
-    display: block;
-  }
+/* Comprehensive fix for sidebar menu item hover colors */
+:deep(.n-menu .n-menu-item-content) {
+  color: var(--color-text-secondary) !important;
+}
+
+:deep(.n-menu .n-menu-item-content:hover),
+:deep(.n-menu .n-menu-item-content:hover .n-menu-item-content-header),
+:deep(.n-menu .n-menu-item-content:hover .n-icon) {
+  color: var(--color-primary) !important;
+}
+
+:deep(.n-menu .n-menu-item-content--selected),
+:deep(.n-menu .n-menu-item-content--selected .n-menu-item-content-header),
+:deep(.n-menu .n-menu-item-content--selected .n-icon) {
+  color: var(--color-primary) !important;
+}
+
+/* Fix for the icon color */
+:deep(.n-menu .n-icon) {
+  color: var(--color-text-secondary) !important;
+}
+
+:deep(.n-menu .n-menu-item-content:hover .n-icon),
+:deep(.n-menu .n-menu-item-content--selected .n-icon) {
+  color: var(--color-primary) !important;
+}
+
+/* Sometimes the text label is in this element */
+:deep(.n-menu .n-menu-item-content-header__extra) {
+  color: inherit !important;
+}
+
+/* Fix for when using the tooltip in collapsed mode */
+:deep(.n-menu-item-content--selected-in-tooltip) {
+  color: var(--color-primary) !important;
+}
+:deep(.n-dropdown-menu) {
+  background-color: var(--color-background-card) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+:deep(.n-dropdown-option) {
+  color: var(--color-text-primary) !important;
+}
+
+:deep(.n-dropdown-option:hover) {
+  color: var(--color-primary) !important;
+  background-color: rgba(
+    var(--color-primary-rgb, 74, 222, 128),
+    0.05
+  ) !important;
+}
+
+/* Fix for the tooltip popover itself */
+:deep(.n-popover) {
+  background-color: var(--color-background-card) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Tooltip arrow */
+:deep(.n-popover-arrow-wrapper .n-popover-arrow) {
+  background-color: var(--color-background-card) !important;
+  border: 1px solid var(--color-border) !important;
 }
 </style>
