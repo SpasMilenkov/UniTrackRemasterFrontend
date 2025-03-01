@@ -1,7 +1,7 @@
 <template>
   <div
     :key="t(card.title)"
-    class="bg-background-card/80 backdrop-blur-sm rounded-xl border border-border/50 p-8 group hover:border-primary/50 transition-all duration-300"
+     class="bg-background-card/80 backdrop-blur-sm rounded-xl border border-border/50 p-8 group hover:border-primary/50 transition-all duration-300"
   >
     <div class="flex flex-col h-full">
       <!-- Icon -->
