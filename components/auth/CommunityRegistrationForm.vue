@@ -1,5 +1,5 @@
 <template>
-  <n-card size="large" class="max-w-5xl mx-auto">
+  <n-card size="large" class="max-w-5xl mx-auto registration-card">
     <n-form
       class="grid grid-cols-1 md:grid-cols-2 gap-x-8"
       @submit.prevent="onSubmit"
@@ -97,13 +97,18 @@
       <div
         class="col-span-1 md:col-span-2 flex flex-col md:flex-row justify-center gap-4 mt-6"
       >
-        <n-button quaternary @click="$emit('back')">
+        <n-button quaternary @click="$emit('back')" class="back-btn">
           <template #icon>
             <Icon name="ph:arrow-left-bold" />
           </template>
           {{ t('registrationPage.backButton') }}
         </n-button>
-        <n-button type="primary" attr-type="submit" size="large">
+        <n-button
+          type="primary"
+          attr-type="submit"
+          size="large"
+          class="transform hover:scale-105 transition-all duration-300"
+        >
           {{ t('registrationPage.registerButton') }}
         </n-button>
       </div>
@@ -150,3 +155,54 @@ const onSubmit = handleSubmit((values) => {
   emit('submit', { ...values, accountType: 'community' });
 });
 </script>
+
+<style scoped>
+.registration-card {
+  background-color: var(--color-background-card) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+:deep(.n-card__content) {
+  background-color: var(--color-background-card) !important;
+}
+
+:deep(.n-form-item-label) {
+  color: var(--color-text-primary) !important;
+  font-weight: 600;
+}
+
+:deep(.n-input) {
+  background-color: var(--color-background-secondary) !important;
+}
+
+:deep(.n-input__input) {
+  color: var(--color-text-primary) !important;
+}
+
+:deep(.n-input__placeholder) {
+  color: var(--color-text-muted) !important;
+}
+
+:deep(.n-divider__title) {
+  color: var(--color-text-primary) !important;
+  font-weight: 600;
+}
+
+:deep(.n-button--primary-type) {
+  background-color: var(--color-primary) !important;
+}
+
+:deep(.n-button--primary-type:hover) {
+  background-color: var(--color-primary-hover) !important;
+}
+
+:deep(.back-btn) {
+  color: var(--color-text-secondary) !important;
+}
+
+:deep(.back-btn:hover) {
+  color: var(--color-primary) !important;
+}
+</style>
