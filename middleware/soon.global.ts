@@ -4,7 +4,6 @@ export default defineNuxtRouteMiddleware((to) => {
   const notAvailable = [
     '/support',
     '/sales',
-    '/analytics',
     '/onboarding/university',
     '/cookie-policy',
     '/terms-of-service',
