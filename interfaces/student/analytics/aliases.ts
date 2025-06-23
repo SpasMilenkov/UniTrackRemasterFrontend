@@ -1,0 +1,11 @@
+export type AcademicYearInsight = import("./academic-year-insight.dto").AcademicYearInsightDto;
+export type AttendancePerformanceInsight = import("./attendance-performance-insight.dto").AttendancePerformanceInsightDto;
+export type CourseGrade = import("./course-grade.dto").CourseGradeDto;
+export type GradeDistribution = import("./grade-distribution.dto").GradeDistributionDto;
+export type PerformanceTrend = import("./performance-trend.dto").PerformanceTrendDto;
+export type SemesterSummary = import("./semester-summary.dto").SemesterSummaryDto;
+export type StudentGradeDashboard = import("./student-grade-dashboard.dto").StudentGradeDashboardDto;
+export type SubjectAttendanceInsight = import("./subject-attendance-insight.dto").SubjectAttendanceInsightDto;
+export type SubjectCorrelation = import("./subject-correlation.dto").SubjectCorrelationDto;
+export type TeacherComment = import("./teacher-comment.dto").TeacherCommentDto;
+export type TranscriptData = import("./transcript.dto").TranscriptDto;
