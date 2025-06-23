@@ -179,25 +179,6 @@
           />
         </div>
       </div>
-
-      <!-- Language preference section -->
-      <div class="pt-6 border-t border-border">
-        <h3 class="text-base font-medium text-text-primary mb-4">
-          {{ t('settings.profile.preferences.title') }}
-        </h3>
-
-        <div class="max-w-md">
-          <label class="block text-text-primary text-sm font-medium mb-2">
-            {{ t('settings.profile.preferences.language') }}
-          </label>
-          <n-select
-            v-model:value="userData.languagePreference"
-            :options="languageOptions"
-            :disabled="!isEditing.profile"
-            class="w-full"
-          />
-        </div>
-      </div>
     </div>
 
     <!-- Hidden file input for image upload -->
@@ -231,15 +212,6 @@ const userData = reactive({
   department: '',
 });
 
-const availableLocales = computed(() => {
-  return rawLocales.map((localeCode) => {
-    const label = getLanguageName(localeCode);
-    return { label, value: localeCode };
-  });
-});
-
-const adminData = ref(null);
-const studentData = ref(null);
 const institutionData = ref(null);
 const profileImageUrl = ref(null);
 
@@ -262,18 +234,6 @@ onMounted(async () => {
     userData.phone = userStore.userDetails.phone || '';
     userData.department = userStore.userDetails.department || '';
     profileImageUrl.value = userStore.userDetails.profileImageUrl || null;
-
-    // Set admin or student data if available
-    if (userStore.userDetails.role === 'admin') {
-      adminData.value = {
-        position: 'Administrator', // This should come from the API
-        permissions: ['ManageUsers', 'ManageSettings'], // This should come from the API
-      };
-    } else if (userStore.userDetails.role === 'student') {
-      studentData.value = {
-        gradeName: 'Grade 10', // This should come from the API
-      };
-    }
 
     // Fetch institution data if linked
     if (userStore.isInstitutionLinked && userStore.userDetails.institutionId) {

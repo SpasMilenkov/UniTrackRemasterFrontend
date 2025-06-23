@@ -8,18 +8,16 @@
       <!-- Left Column -->
       <div class="space-y-8">
         <!-- Basic Information Section -->
-        <div>
+        <div v-memo="[translations.basicInfo]">
           <h2
             class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
-            {{ t('onboarding.universityForm.sections.basicInfo') }}
+            {{ translations.basicInfo }}
           </h2>
 
           <!-- Logo Upload -->
           <div class="mb-6">
-            <n-form-item
-              :label="t('onboarding.universityForm.fields.logo.label')"
-            >
+            <n-form-item :label="translations.logo.label">
               <n-upload
                 ref="logoUploadRef"
                 :default-file-list="logoFile"
@@ -33,103 +31,86 @@
                   class="flex flex-col items-center justify-center upload-text p-4"
                 >
                   <Icon name="ph:image-square-bold" class="text-2xl mb-2" />
-                  <span>{{
-                    t('onboarding.universityForm.fields.logo.uploadText')
-                  }}</span>
+                  <span>{{ translations.logo.uploadText }}</span>
                 </div>
               </n-upload>
             </n-form-item>
           </div>
 
           <!-- Basic Info Fields -->
-          <div class="space-y-6">
-            <n-form-item
-              :label="t('onboarding.universityForm.fields.name.label')"
-              v-bind="nameProps"
-            >
+          <div v-memo="[name, motto, description]" class="space-y-6">
+            <n-form-item :label="translations.name.label" v-bind="nameProps">
               <n-input
                 v-model:value="name"
-                :placeholder="
-                  t('onboarding.universityForm.fields.name.placeholder')
-                "
+                :placeholder="translations.name.placeholder"
               />
             </n-form-item>
 
-            <n-form-item
-              :label="t('onboarding.universityForm.fields.motto.label')"
-              v-bind="mottoProps"
-            >
+            <n-form-item :label="translations.motto.label" v-bind="mottoProps">
               <n-input
                 v-model:value="motto"
-                :placeholder="
-                  t('onboarding.universityForm.fields.motto.placeholder')
-                "
+                :placeholder="translations.motto.placeholder"
               />
             </n-form-item>
 
             <n-form-item
-              :label="t('onboarding.universityForm.fields.description.label')"
+              :label="translations.description.label"
               v-bind="descriptionProps"
             >
               <n-input
                 v-model:value="description"
                 type="textarea"
                 :rows="4"
-                :placeholder="
-                  t('onboarding.universityForm.fields.description.placeholder')
-                "
+                :placeholder="translations.description.placeholder"
               />
             </n-form-item>
           </div>
         </div>
 
         <!-- Academic Information Section -->
-        <div>
+        <div v-memo="[translations.academic]">
           <h2
             class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
-            {{ t('onboarding.universityForm.sections.academic') }}
+            {{ translations.academic }}
           </h2>
 
-          <div class="space-y-6">
+          <div
+            v-memo="[
+              undergraduateCount,
+              graduateCount,
+              acceptanceRate,
+              researchFunding,
+              hasStudentHousing,
+            ]"
+            class="space-y-6"
+          >
             <n-form-item
-              :label="
-                t('onboarding.universityForm.fields.undergraduateCount.label')
-              "
+              :label="translations.undergraduateCount.label"
               v-bind="undergraduateCountProps"
             >
               <n-input-number
                 v-model:value="undergraduateCount"
                 :min="0"
                 :max="100000"
-                :placeholder="
-                  t(
-                    'onboarding.universityForm.fields.undergraduateCount.placeholder'
-                  )
-                "
+                :placeholder="translations.undergraduateCount.placeholder"
               />
             </n-form-item>
 
             <n-form-item
-              :label="t('onboarding.universityForm.fields.graduateCount.label')"
+              :label="translations.graduateCount.label"
               v-bind="graduateCountProps"
             >
               <n-input-number
                 v-model:value="graduateCount"
                 :min="0"
                 :max="50000"
-                :placeholder="
-                  t(
-                    'onboarding.universityForm.fields.graduateCount.placeholder'
-                  )
-                "
+                :placeholder="translations.graduateCount.placeholder"
               />
             </n-form-item>
 
             <n-form-item
-              :label="
-                t('onboarding.universityForm.fields.acceptanceRate.label')
-              "
+              :label="translations.acceptanceRate.label"
               v-bind="acceptanceRateProps"
             >
               <n-input-number
@@ -137,36 +118,24 @@
                 :min="0"
                 :max="100"
                 :precision="2"
-                :placeholder="
-                  t(
-                    'onboarding.universityForm.fields.acceptanceRate.placeholder'
-                  )
-                "
+                :placeholder="translations.acceptanceRate.placeholder"
               />
             </n-form-item>
 
             <n-form-item
-              :label="
-                t('onboarding.universityForm.fields.researchFunding.label')
-              "
+              :label="translations.researchFunding.label"
               v-bind="researchFundingProps"
             >
               <n-input-number
                 v-model:value="researchFunding"
                 :min="0"
-                :placeholder="
-                  t(
-                    'onboarding.universityForm.fields.researchFunding.placeholder'
-                  )
-                "
+                :placeholder="translations.researchFunding.placeholder"
               />
             </n-form-item>
 
             <div class="switch-container">
               <n-form-item
-                :label="
-                  t('onboarding.universityForm.fields.hasStudentHousing.label')
-                "
+                :label="translations.hasStudentHousing.label"
                 v-bind="hasStudentHousingProps"
               >
                 <n-switch v-model:value="hasStudentHousing" />
@@ -179,52 +148,43 @@
       <!-- Right Column -->
       <div class="space-y-8">
         <!-- Contact Information Section -->
-        <div>
+        <div v-memo="[translations.contact]">
           <h2
             class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
-            {{ t('onboarding.universityForm.sections.contact') }}
+            {{ translations.contact }}
           </h2>
 
-          <div class="space-y-6">
-            <n-form-item
-              :label="t('onboarding.universityForm.fields.email.label')"
-              v-bind="emailProps"
-            >
+          <div
+            v-memo="[email, phone, website, establishedDate]"
+            class="space-y-6"
+          >
+            <n-form-item :label="translations.email.label" v-bind="emailProps">
               <n-input
                 v-model:value="email"
-                :placeholder="
-                  t('onboarding.universityForm.fields.email.placeholder')
-                "
+                :placeholder="translations.email.placeholder"
               />
             </n-form-item>
 
-            <n-form-item
-              :label="t('onboarding.universityForm.fields.phone.label')"
-              v-bind="phoneProps"
-            >
+            <n-form-item :label="translations.phone.label" v-bind="phoneProps">
               <n-input
                 v-model:value="phone"
-                :placeholder="
-                  t('onboarding.universityForm.fields.phone.placeholder')
-                "
+                :placeholder="translations.phone.placeholder"
               />
             </n-form-item>
 
             <n-form-item
-              :label="t('onboarding.universityForm.fields.website.label')"
+              :label="translations.website.label"
               v-bind="websiteProps"
             >
               <n-input
                 v-model:value="website"
-                :placeholder="
-                  t('onboarding.universityForm.fields.website.placeholder')
-                "
+                :placeholder="translations.website.placeholder"
               />
             </n-form-item>
 
             <n-form-item
-              :label="t('onboarding.universityForm.fields.established.label')"
+              :label="translations.established.label"
               v-bind="establishedDateProps"
             >
               <n-date-picker
@@ -237,45 +197,42 @@
         </div>
 
         <!-- Specialization Section -->
-        <div>
+        <div v-memo="[translations.specialization]">
           <h2
             class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
-            {{ t('onboarding.universityForm.sections.specialization') }}
+            {{ translations.specialization }}
           </h2>
 
-          <div class="space-y-6">
+          <div
+            v-memo="[focusAreas, type, departments, accreditations]"
+            class="space-y-6"
+          >
             <n-form-item
-              :label="t('onboarding.universityForm.fields.focusAreas.label')"
+              :label="translations.focusAreas.label"
               v-bind="focusAreasProps"
             >
               <n-select
                 v-model:value="focusAreas"
                 multiple
                 :options="focusAreaOptions"
-                :placeholder="
-                  t('onboarding.universityForm.fields.focusAreas.placeholder')
-                "
+                :placeholder="translations.focusAreas.placeholder"
               />
             </n-form-item>
+
             <n-form-item
-              :label="
-                t('onboarding.universityForm.fields.institutionType.label')
-              "
+              :label="translations.institutionType.label"
               v-bind="typeProps"
             >
               <n-select
                 v-model:value="type"
                 :options="universityTypeOptions"
-                :placeholder="
-                  t(
-                    'onboarding.universityForm.fields.institutionType.placeholder'
-                  )
-                "
+                :placeholder="translations.institutionType.placeholder"
               />
             </n-form-item>
+
             <n-form-item
-              :label="t('onboarding.universityForm.fields.departments.label')"
+              :label="translations.departments.label"
               v-bind="departmentsProps"
             >
               <n-select
@@ -283,43 +240,33 @@
                 multiple
                 filterable
                 tag
-                :placeholder="
-                  t('onboarding.universityForm.fields.departments.placeholder')
-                "
+                :placeholder="translations.departments.placeholder"
               />
             </n-form-item>
 
             <n-form-item
-              :label="
-                t('onboarding.universityForm.fields.accreditations.label')
-              "
+              :label="translations.accreditations.label"
               v-bind="accreditationsProps"
             >
               <n-select
                 v-model:value="accreditations"
                 multiple
                 :options="accreditationOptions"
-                :placeholder="
-                  t(
-                    'onboarding.universityForm.fields.accreditations.placeholder'
-                  )
-                "
+                :placeholder="translations.accreditations.placeholder"
               />
             </n-form-item>
           </div>
         </div>
 
         <!-- Media Section -->
-        <div>
+        <div v-memo="[translations.media]">
           <h2
             class="text-xl font-semibold text-gradient-heading mb-6 pb-2 border-b border-border/50"
           >
-            {{ t('onboarding.universityForm.sections.media') }}
+            {{ translations.media }}
           </h2>
 
-          <n-form-item
-            :label="t('onboarding.universityForm.fields.images.label')"
-          >
+          <n-form-item :label="translations.images.label">
             <n-upload
               ref="uploadRef"
               :max="5"
@@ -332,9 +279,7 @@
                 class="flex flex-col items-center justify-center upload-text p-4"
               >
                 <Icon name="ph:upload-simple-bold" class="text-2xl mb-2" />
-                <span>{{
-                  t('onboarding.universityForm.fields.images.uploadText')
-                }}</span>
+                <span>{{ translations.images.uploadText }}</span>
               </div>
             </n-upload>
           </n-form-item>
@@ -350,7 +295,7 @@
         class="text-lg px-8"
         :loading="isSubmitting"
       >
-        {{ t('onboarding.universityForm.submit') }}
+        {{ translations.submit }}
         <template #icon>
           <Icon name="ph:arrow-right-bold" />
         </template>
@@ -360,7 +305,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, shallowRef, computed, readonly } from 'vue';
 import type { UploadFileInfo } from 'naive-ui';
 import { FocusArea } from '~/enums/focus-area.enum';
 import { AccreditationType } from '~/enums/accreditation-type.enum';
@@ -368,18 +313,118 @@ import { useUniversityFormSchema } from '~/schemas/init-university.schema';
 import { InstitutionType } from '~/enums/institution-type.enum';
 import { ApplicationStatus } from '~/enums/application-status.enum';
 import { camelCase } from 'lodash';
+
 const { t } = useI18n();
 const message = useMessage();
 const onboardingStore = useOnboardingStore();
 const isSubmitting = ref(false);
 
-// File handling
+// Optimize translations by memoizing them
+const translations = computed(() => {
+  return readonly({
+    basicInfo: t('onboarding.universityForm.sections.basicInfo'),
+    academic: t('onboarding.universityForm.sections.academic'),
+    contact: t('onboarding.universityForm.sections.contact'),
+    specialization: t('onboarding.universityForm.sections.specialization'),
+    media: t('onboarding.universityForm.sections.media'),
+    submit: t('onboarding.universityForm.submit'),
+    logo: {
+      label: t('onboarding.universityForm.fields.logo.label'),
+      uploadText: t('onboarding.universityForm.fields.logo.uploadText'),
+    },
+    name: {
+      label: t('onboarding.universityForm.fields.name.label'),
+      placeholder: t('onboarding.universityForm.fields.name.placeholder'),
+    },
+    motto: {
+      label: t('onboarding.universityForm.fields.motto.label'),
+      placeholder: t('onboarding.universityForm.fields.motto.placeholder'),
+    },
+    description: {
+      label: t('onboarding.universityForm.fields.description.label'),
+      placeholder: t(
+        'onboarding.universityForm.fields.description.placeholder'
+      ),
+    },
+    undergraduateCount: {
+      label: t('onboarding.universityForm.fields.undergraduateCount.label'),
+      placeholder: t(
+        'onboarding.universityForm.fields.undergraduateCount.placeholder'
+      ),
+    },
+    graduateCount: {
+      label: t('onboarding.universityForm.fields.graduateCount.label'),
+      placeholder: t(
+        'onboarding.universityForm.fields.graduateCount.placeholder'
+      ),
+    },
+    acceptanceRate: {
+      label: t('onboarding.universityForm.fields.acceptanceRate.label'),
+      placeholder: t(
+        'onboarding.universityForm.fields.acceptanceRate.placeholder'
+      ),
+    },
+    researchFunding: {
+      label: t('onboarding.universityForm.fields.researchFunding.label'),
+      placeholder: t(
+        'onboarding.universityForm.fields.researchFunding.placeholder'
+      ),
+    },
+    hasStudentHousing: {
+      label: t('onboarding.universityForm.fields.hasStudentHousing.label'),
+    },
+    email: {
+      label: t('onboarding.universityForm.fields.email.label'),
+      placeholder: t('onboarding.universityForm.fields.email.placeholder'),
+    },
+    phone: {
+      label: t('onboarding.universityForm.fields.phone.label'),
+      placeholder: t('onboarding.universityForm.fields.phone.placeholder'),
+    },
+    website: {
+      label: t('onboarding.universityForm.fields.website.label'),
+      placeholder: t('onboarding.universityForm.fields.website.placeholder'),
+    },
+    established: {
+      label: t('onboarding.universityForm.fields.established.label'),
+    },
+    focusAreas: {
+      label: t('onboarding.universityForm.fields.focusAreas.label'),
+      placeholder: t('onboarding.universityForm.fields.focusAreas.placeholder'),
+    },
+    institutionType: {
+      label: t('onboarding.universityForm.fields.institutionType.label'),
+      placeholder: t(
+        'onboarding.universityForm.fields.institutionType.placeholder'
+      ),
+    },
+    departments: {
+      label: t('onboarding.universityForm.fields.departments.label'),
+      placeholder: t(
+        'onboarding.universityForm.fields.departments.placeholder'
+      ),
+    },
+    accreditations: {
+      label: t('onboarding.universityForm.fields.accreditations.label'),
+      placeholder: t(
+        'onboarding.universityForm.fields.accreditations.placeholder'
+      ),
+    },
+    images: {
+      label: t('onboarding.universityForm.fields.images.label'),
+      uploadText: t('onboarding.universityForm.fields.images.uploadText'),
+    },
+  });
+});
+
+// File handling - use shallowRef for better performance
 const uploadRef = ref();
 const logoUploadRef = ref(null);
-const logoFile = ref<UploadFileInfo[]>([]);
-const fileList = ref<UploadFileInfo[]>([]);
-const uploadedFiles = ref<File[]>([]);
-// Form setup
+const logoFile = shallowRef<UploadFileInfo[]>([]);
+const fileList = shallowRef<UploadFileInfo[]>([]);
+const uploadedFiles = shallowRef<File[]>([]);
+
+// Form setup with debounced validation
 const schema = useUniversityFormSchema();
 const { handleSubmit, defineField } = useForm({
   validationSchema: toTypedSchema(schema),
@@ -424,6 +469,7 @@ const [hasStudentHousing, hasStudentHousingProps] = defineField(
   naiveUiFormsConfig
 );
 const [type, typeProps] = defineField('type', naiveUiFormsConfig);
+
 // Specialization Fields
 const [focusAreas, focusAreasProps] = defineField(
   'focusAreas',
@@ -438,15 +484,10 @@ const [accreditations, accreditationsProps] = defineField(
   naiveUiFormsConfig
 );
 
-// For the university form
+// Memoized options to prevent unnecessary recalculations
 const universityTypeOptions = computed(() => {
-  const universityTypes = [
-    InstitutionType.PublicSchool,
-    InstitutionType.PrivateUniversity,
-    InstitutionType.CommunityCollege,
-    InstitutionType.TechnicalCollege,
-    InstitutionType.LiberalArtsCollege,
-  ];
+  const universityTypes = onboardingStore.availableInstitutionTypes;
+  if (!universityTypes?.length) return [];
 
   return universityTypes.map((type) => ({
     label: t(
@@ -456,8 +497,8 @@ const universityTypeOptions = computed(() => {
   }));
 });
 
-// Focus Area options
-const focusAreaOptions = [
+// Static options (these don't change)
+const focusAreaOptions = readonly([
   {
     label: t('onboarding.universityForm.focusAreas.liberalArts'),
     value: FocusArea.LiberalArts,
@@ -490,10 +531,9 @@ const focusAreaOptions = [
     label: t('onboarding.universityForm.focusAreas.research'),
     value: FocusArea.Research,
   },
-];
+]);
 
-// Accreditation options
-const accreditationOptions = [
+const accreditationOptions = readonly([
   {
     label: t('onboarding.universityForm.accreditations.international'),
     value: AccreditationType.International,
@@ -510,9 +550,9 @@ const accreditationOptions = [
     label: t('onboarding.universityForm.accreditations.regional'),
     value: AccreditationType.Regional,
   },
-];
+]);
 
-// File handling method
+// file handling methods
 const handleFileListUpdate = (newFileList: UploadFileInfo[]) => {
   fileList.value = newFileList;
   uploadedFiles.value = newFileList
@@ -542,6 +582,7 @@ const onSubmit = handleSubmit(async (values) => {
       email: values.email,
       phone: values.phone,
       website: values.website,
+      type: values.type,
       establishedDate: new Date(values.establishedDate),
       undergraduateCount: values.undergraduateCount,
       graduateCount: values.graduateCount,
@@ -558,7 +599,7 @@ const onSubmit = handleSubmit(async (values) => {
       : uploadedFiles.value;
 
     await onboardingStore.initInstitution(universityData, allFiles);
-    message.success(t('onboarding.universityForm.success'));
+    message.success(translations.value.submit);
     onboardingStore.currentStep = ApplicationStatus.Verified;
   } catch {
     message.error(t('onboarding.universityForm.error'));

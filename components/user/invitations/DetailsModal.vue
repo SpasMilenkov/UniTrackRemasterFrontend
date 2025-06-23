@@ -21,7 +21,7 @@
             <h3 class="text-xl font-semibold text-text-primary">
               {{ invitation.role }}
             </h3>
-            <p class="text-text-secondary">{{ invitation.type }} Position</p>
+            <p class="text-text-secondary">{{ t('invitationDetailsModal.header.positionType', { type: invitation.type }) }}</p>
           </div>
         </div>
         <ProfileStatusBadge :status="invitation.status" size="medium" />
@@ -33,13 +33,13 @@
           class="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2"
         >
           <Icon name="mdi:school" class="w-5 h-5" />
-          Institution Details
+          {{ t('invitationDetailsModal.sections.institutionDetails') }}
         </h4>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-text-secondary mb-1">
-              Institution Name
+              {{ t('invitationDetailsModal.labels.institutionName') }}
             </label>
             <p class="text-text-primary font-medium">
               {{ invitation.institutionName }}
@@ -48,7 +48,7 @@
 
           <div>
             <label class="block text-sm font-medium text-text-secondary mb-1">
-              Institution ID
+              {{ t('invitationDetailsModal.labels.institutionId') }}
             </label>
             <p class="text-text-muted font-mono text-sm">
               {{ invitation.institutionId }}
@@ -63,14 +63,14 @@
           class="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2"
         >
           <Icon :name="typeIcon" class="w-5 h-5" />
-          Role Information
+          {{ t('invitationDetailsModal.sections.roleInformation') }}
         </h4>
 
         <div class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-text-secondary mb-1">
-                Position Title
+                {{ t('invitationDetailsModal.labels.positionTitle') }}
               </label>
               <p class="text-text-primary">
                 {{ invitation.role }}
@@ -79,7 +79,7 @@
 
             <div>
               <label class="block text-sm font-medium text-text-secondary mb-1">
-                Profile Type
+                {{ t('invitationDetailsModal.labels.profileType') }}
               </label>
               <p class="text-text-primary">
                 {{ invitation.type }}
@@ -93,7 +93,7 @@
           >
             <div>
               <label class="block text-sm font-medium text-text-secondary mb-1">
-                Grade/Class Assignment
+                {{ t('invitationDetailsModal.labels.gradeClassAssignment') }}
               </label>
               <p class="text-text-primary">
                 {{ invitation.gradeName }}
@@ -106,7 +106,7 @@
             class="pt-4 border-t border-border"
           >
             <label class="block text-sm font-medium text-text-secondary mb-2">
-              Additional Information
+              {{ t('invitationDetailsModal.labels.additionalInformation') }}
             </label>
             <div class="bg-background rounded-lg p-4">
               <p class="text-text-secondary text-sm whitespace-pre-wrap">
@@ -123,7 +123,7 @@
           class="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2"
         >
           <Icon name="mdi:timeline" class="w-5 h-5" />
-          Timeline
+          {{ t('invitationDetailsModal.sections.timeline') }}
         </h4>
 
         <div class="space-y-3">
@@ -134,7 +134,7 @@
               <Icon name="mdi:email-send" class="w-4 h-4 text-primary" />
             </div>
             <div>
-              <p class="text-text-primary font-medium">Invitation Sent</p>
+              <p class="text-text-primary font-medium">{{ t('invitationDetailsModal.timeline.invitationSent') }}</p>
               <p class="text-text-secondary text-sm">
                 {{ formatDateTime(invitation.invitedAt) }}
               </p>
@@ -161,7 +161,7 @@
               />
             </div>
             <div>
-              <p class="text-text-primary font-medium">Current Status</p>
+              <p class="text-text-primary font-medium">{{ t('invitationDetailsModal.timeline.currentStatus') }}</p>
               <p class="text-text-secondary text-sm">
                 {{ invitation.status }} -
                 {{ getStatusDescription(invitation.status) }}
@@ -180,23 +180,21 @@
           class="text-lg font-semibold text-text-primary mb-3 flex items-center gap-2"
         >
           <Icon name="mdi:lightbulb" class="w-5 h-5 text-primary" />
-          Next Steps
+          {{ t('invitationDetailsModal.sections.nextSteps') }}
         </h4>
 
         <div class="space-y-2 text-sm text-text-secondary">
-          <p>• Review the invitation details carefully</p>
-          <p>• Accept the invitation to gain access to the institution</p>
-          <p>• Contact the institution if you have any questions</p>
-          <p>
-            • Decline if you're not interested (this action cannot be undone)
-          </p>
+          <p>• {{ t('invitationDetailsModal.nextSteps.reviewDetails') }}</p>
+          <p>• {{ t('invitationDetailsModal.nextSteps.acceptInvitation') }}</p>
+          <p>• {{ t('invitationDetailsModal.nextSteps.contactInstitution') }}</p>
+          <p>• {{ t('invitationDetailsModal.nextSteps.declineWarning') }}</p>
         </div>
       </div>
     </div>
 
     <template #action>
       <div class="flex justify-end gap-3">
-        <NButton size="medium" @click="handleClose"> Close </NButton>
+        <NButton size="medium" @click="handleClose">{{ t('invitationDetailsModal.buttons.close') }}</NButton>
 
         <NButton
           v-if="invitation?.status === ProfileStatus.Pending"
@@ -207,7 +205,7 @@
           <template #icon>
             <Icon name="mdi:close" />
           </template>
-          Decline
+          {{ t('invitationDetailsModal.buttons.decline') }}
         </NButton>
 
         <NButton
@@ -219,7 +217,7 @@
           <template #icon>
             <Icon name="mdi:check" />
           </template>
-          Accept
+          {{ t('invitationDetailsModal.buttons.accept') }}
         </NButton>
       </div>
     </template>
@@ -231,6 +229,8 @@ import { NModal, NButton } from 'naive-ui';
 import type { PendingInvitationDto } from '~/interfaces/invitation';
 import { ProfileStatus } from '~/interfaces/invitation';
 import ProfileStatusBadge from './ProfileStatusBadge.vue';
+
+const { t, locale } = useI18n();
 
 interface Props {
   show: boolean;
@@ -246,17 +246,15 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-// Type icon mapping
 const typeIcons = {
   Student: 'mdi:account-school',
   Teacher: 'mdi:account-tie',
   Admin: 'mdi:account-supervisor',
 };
 
-// Computed properties
 const modalTitle = computed(() => {
-  if (!props.invitation) return 'Invitation Details';
-  return `${props.invitation.type} Invitation Details`;
+  if (!props.invitation) return t('invitationDetailsModal.titles.default');
+  return t('invitationDetailsModal.titles.withType', { type: props.invitation.type });
 });
 
 const typeIcon = computed(() => {
@@ -284,10 +282,11 @@ const iconClasses = computed(() => {
   ];
 });
 
-// Helper functions
 const formatDateTime = (dateString: string) => {
   const date = new Date(dateString);
-  return date.toLocaleString('en-US', {
+  const localeString = locale.value === 'bg' ? 'bg-BG' : 'en-US';
+  
+  return date.toLocaleString(localeString, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -297,17 +296,10 @@ const formatDateTime = (dateString: string) => {
 };
 
 const getStatusDescription = (status: ProfileStatus) => {
-  const descriptions = {
-    [ProfileStatus.Pending]: 'Waiting for your response',
-    [ProfileStatus.Active]: 'Invitation has been accepted',
-    [ProfileStatus.Rejected]: 'Invitation was declined',
-    [ProfileStatus.Inactive]: 'Profile is currently inactive',
-    [ProfileStatus.Suspended]: 'Profile has been suspended',
-  };
-  return descriptions[status] || 'Status unknown';
+  const statusKey = `invitationDetailsModal.statusDescriptions.${status.toLowerCase()}`;
+  return t(statusKey);
 };
 
-// Event handlers
 const handleShowUpdate = (value: boolean) => {
   emit('update:show', value);
 };
@@ -330,5 +322,4 @@ const handleDecline = () => {
 </script>
 
 <style scoped>
-/* Additional styling if needed */
 </style>
