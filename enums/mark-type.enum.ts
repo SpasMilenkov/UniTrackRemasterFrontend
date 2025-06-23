@@ -1,0 +1,21 @@
+export enum MarkType {
+  WrittenExamination = 'WrittenExamination',
+  OralExamination = 'OralExamination',
+  ActiveParticipation = 'ActiveParticipation',
+  Assignment = 'Assignment',
+  Quiz = 'Quiz',
+  Project = 'Project',
+  LabWork = 'LabWork',
+  Presentation = 'Presentation',
+  Homework = 'Homework',
+  QuarterGrade = 'QuarterGrade',
+  TrimesterGrade = 'TrimesterGrade',
+  SemesterGrade = 'SemesterGrade',
+  MidtermGrade = 'MidtermGrade',
+  FinalGrade = 'FinalGrade',
+  AnnualGrade = 'AnnualGrade',
+  MakeupExam = 'MakeupExam',
+  ExtraCredit = 'ExtraCredit',
+  Incomplete = 'Incomplete',
+  Other = 'Other', // Optional: add if you want a catch-all
+}

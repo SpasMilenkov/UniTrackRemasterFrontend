@@ -1,5 +1,5 @@
 export interface LoginResponseDto {
   id: string;
-  userRole: string;
+  role: string;
   avatarUrl: string;
 }

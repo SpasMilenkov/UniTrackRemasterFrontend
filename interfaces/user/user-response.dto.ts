@@ -1,13 +1,14 @@
 import type { UserRoleType } from "~/enums/user-role.enum";
 
-export interface UserDetails {
+export interface UserDetailsResponse {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  isLinked: boolean;
-  role?: UserRoleType;
   phone?: string;
   profileImageUrl?: string;
+  department?: string;
+  isLinked: boolean;
+  role?: UserRoleType;
   institutionId?: string;
 }
