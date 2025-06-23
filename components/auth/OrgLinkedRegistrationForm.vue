@@ -124,7 +124,7 @@
       <div
         class="col-span-1 md:col-span-2 flex flex-col md:flex-row justify-center gap-4 mt-6"
       >
-        <n-button quaternary @click="$emit('back')" class="back-btn">
+        <n-button quaternary class="back-btn" @click="$emit('back')">
           <template #icon>
             <Icon name="ph:arrow-left-bold" />
           </template>

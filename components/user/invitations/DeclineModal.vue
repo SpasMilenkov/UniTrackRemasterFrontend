@@ -3,8 +3,8 @@
     :show="show"
     preset="dialog"
     :title="modalTitle"
-    positive-text="Decline Invitation"
-    negative-text="Cancel"
+    :positive-text="t('declineModal.buttons.decline')"
+    :negative-text="t('declineModal.buttons.cancel')"
     :positive-button-props="{
       loading: isLoading,
       type: 'error',
@@ -28,33 +28,40 @@
           <Icon name="mdi:close-circle" class="w-8 h-8 text-red-600" />
         </div>
         <p class="text-lg text-text-primary">
-          You're about to decline the invitation from
-          <strong>{{ invitation.institutionName }}</strong>
+          {{
+            t('declineModal.confirmationText', {
+              institutionName: invitation.institutionName,
+            })
+          }}
         </p>
       </div>
 
       <!-- Role Information -->
       <div class="bg-background-secondary rounded-lg p-4 space-y-3">
-        <h4 class="font-semibold text-text-primary mb-3">Invitation Details</h4>
+        <h4 class="font-semibold text-text-primary mb-3">
+          {{ t('declineModal.invitationDetails.title') }}
+        </h4>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="text-sm font-medium text-text-secondary"
-              >Position</label
-            >
+            <label class="text-sm font-medium text-text-secondary">{{
+              t('declineModal.invitationDetails.position')
+            }}</label>
             <p class="text-text-primary">{{ invitation.role }}</p>
           </div>
 
           <div>
-            <label class="text-sm font-medium text-text-secondary">Type</label>
+            <label class="text-sm font-medium text-text-secondary">{{
+              t('declineModal.invitationDetails.type')
+            }}</label>
             <p class="text-text-primary">{{ invitation.type }}</p>
           </div>
         </div>
 
         <div v-if="invitation.gradeName">
-          <label class="text-sm font-medium text-text-secondary"
-            >Grade/Class</label
-          >
+          <label class="text-sm font-medium text-text-secondary">{{
+            t('declineModal.invitationDetails.gradeClass')
+          }}</label>
           <p class="text-text-primary">{{ invitation.gradeName }}</p>
         </div>
       </div>
@@ -63,12 +70,12 @@
       <div class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-text-primary mb-2">
-            Reason for declining (optional)
+            {{ t('declineModal.form.reasonLabel') }}
           </label>
           <NInput
             v-model:value="declineReason"
             type="textarea"
-            placeholder="Please let us know why you're declining this invitation..."
+            :placeholder="t('declineModal.form.reasonPlaceholder')"
             :rows="4"
             :maxlength="500"
             show-count
@@ -76,7 +83,7 @@
             clearable
           />
           <p class="text-xs text-text-muted mt-1">
-            This information helps improve our invitation process
+            {{ t('declineModal.form.reasonHelp') }}
           </p>
         </div>
       </div>
@@ -86,14 +93,12 @@
         <template #icon>
           <Icon name="mdi:alert" />
         </template>
-        <template #header> Please note </template>
+        <template #header>{{ t('declineModal.warning.title') }}</template>
         <ul class="list-disc list-inside space-y-1 text-sm">
-          <li>This action cannot be undone</li>
-          <li>The institution administrator will be notified</li>
-          <li>You may receive another invitation in the future</li>
-          <li>
-            You can still apply to join this institution through other means
-          </li>
+          <li>{{ t('declineModal.warning.cannotUndo') }}</li>
+          <li>{{ t('declineModal.warning.adminNotified') }}</li>
+          <li>{{ t('declineModal.warning.futureInvitation') }}</li>
+          <li>{{ t('declineModal.warning.otherMeans') }}</li>
         </ul>
       </NAlert>
 
@@ -118,6 +123,8 @@
 import { NModal, NAlert, NInput } from 'naive-ui';
 import type { PendingInvitationDto } from '~/interfaces/invitation';
 
+const { t } = useI18n();
+
 interface Props {
   show: boolean;
   invitation: PendingInvitationDto | null;
@@ -139,28 +146,22 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<Emits>();
 
-// Form state
 const declineReason = ref('');
 
-// Computed properties
 const isLoading = computed(() => props.loading);
 
 const modalTitle = computed(() => {
-  if (!props.invitation) return 'Decline Invitation';
-  return `Decline ${props.invitation.type} Invitation`;
+  if (!props.invitation) return t('declineModal.titles.default');
+  return t('declineModal.titles.withType', { type: props.invitation.type });
 });
 
 const isFormValid = computed(() => {
-  // Reason is optional, so form is always valid
-  // Could add validation rules here if needed
   return true;
 });
 
-// Event handlers
 const handleShowUpdate = (value: boolean) => {
   emit('update:show', value);
   if (!value) {
-    // Reset form when modal closes
     declineReason.value = '';
   }
 };
@@ -184,7 +185,6 @@ const clearError = () => {
   emit('clearError');
 };
 
-// Watch for invitation changes to reset form and error
 watch(
   () => props.invitation,
   () => {
@@ -195,7 +195,6 @@ watch(
   }
 );
 
-// Watch for show prop changes to reset form
 watch(
   () => props.show,
   (newValue) => {
@@ -206,6 +205,4 @@ watch(
 );
 </script>
 
-<style scoped>
-/* Additional styling if needed */
-</style>
+<style scoped></style>

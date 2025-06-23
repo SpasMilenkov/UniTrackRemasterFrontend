@@ -24,7 +24,7 @@
     <div
       class="w-full max-w-[80rem] min-h-screen mx-auto px-6 lg:px-8 relative z-10"
     >
-      <!-- Page Title with gradient styling -->
+      <!-- Page Title with gradient -->
       <h1
         v-motion
         class="text-3xl md:text-4xl font-bold text-center lg:text-left bg-gradient-primary mb-12"
@@ -35,7 +35,7 @@
         {{ t('onboarding.title') }}
       </h1>
 
-      <!-- Enhanced Steps Component -->
+      <!-- Steps Component -->
       <div
         v-motion
         class="mb-16 backdrop-blur-sm p-6 rounded-xl border border-primary-border"
@@ -77,8 +77,8 @@
 
       <!-- Form Components with Card Styling - preserving all original functionality -->
       <n-card
-        v-motion
         v-if="currentStep === 1"
+        v-motion
         class="feature-card backdrop-blur-sm mb-8"
         :bordered="false"
         :initial="{ opacity: 0, y: 50 }"
@@ -89,8 +89,8 @@
       </n-card>
 
       <n-card
-        v-motion
         v-if="currentStep === 2"
+        v-motion
         class="feature-card backdrop-blur-sm mb-8"
         :bordered="false"
         :initial="{ opacity: 0, y: 50 }"

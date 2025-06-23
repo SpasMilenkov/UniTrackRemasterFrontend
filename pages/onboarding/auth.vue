@@ -1,95 +1,146 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center bg-background relative"
+    class="min-h-screen flex flex-col items-center justify-between bg-background relative overflow-hidden"
   >
     <!-- Background overlay -->
-    <!-- Background overlay -->
     <div class="absolute inset-0 bg-black opacity-50" />
-
-    <!-- Floating Particles Background -->
-    <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-0">
       <div
-        v-for="n in 30"
-        :key="n"
-        class="absolute w-1 h-1 bg-primary opacity-20 rounded-full animate-float"
-        :style="{
-          left: Math.random() * 100 + '%',
-          top: Math.random() * 100 + '%',
-          '--tx': Math.random() * 200 - 100 + 'px',
-          '--ty': Math.random() * 200 - 100 + 'px',
-          '--scale': 0.5 + Math.random() * 1,
-          animationDelay: Math.random() * 10 + 's',
-          animationDuration: 10 + Math.random() * 20 + 's',
-        }"
+        class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5"
       />
+
+      <div
+        class="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full filter blur-3xl"
+      />
+      <div
+        class="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/5 rounded-full filter blur-3xl"
+      />
+
+      <div class="particles-container">
+        <div
+          v-for="n in 20"
+          :key="n"
+          class="particle"
+          :style="{
+            '--size': 0.25 + Math.random() * 0.5 + 'rem',
+            '--x': Math.random() * 100 + 'vw',
+            '--y': Math.random() * 100 + 'vh',
+            '--duration': 15 + Math.random() * 15 + 's',
+            '--delay': Math.random() * 5 + 's',
+            '--opacity': 0.1 + Math.random() * 0.1,
+          }"
+        />
+      </div>
     </div>
 
-    <!-- Background blobs (optional - remove if you prefer just particles) -->
+    <!-- Main content container using flex -->
     <div
-      class="absolute inset-0 bg-no-repeat bg-cover opacity-30"
-    />
-
-    <!-- Card Container -->
-    <n-card
-      v-motion
-      size="huge"
-      class="max-w-xl mx-auto p-6 bg-background-card border border-border/50 shadow-2xl relative z-10 rounded-xl backdrop-blur-sm feature-card"
-      :initial="{ opacity: 0, y: 20 }"
-      :enter="{ opacity: 1, y: 0 }"
-      :delay="300"
+      class="flex flex-col items-center justify-center w-full min-h-screen z-10"
     >
-      <n-divider>
-        <h2 class="text-2xl font-semibold text-gradient">Login with Code</h2>
-      </n-divider>
-
-      <n-form class="sm:min-w-72 mt-6" @submit.prevent="onSubmit">
-        <n-space vertical>
-          <n-form-item
-            label="Email"
-            v-bind="emailProps"
-            path="email"
-            label-style="color: var(--color-text-primary); font-weight: 600;"
+      <!-- Logo section - now using flex -->
+      <div
+        v-motion
+        class="flex flex-col items-center mb-8"
+        :initial="{ opacity: 0, y: -20 }"
+        :enter="{ opacity: 1, y: 0 }"
+        :delay="100"
+      >
+        <div class="flex items-center justify-center space-x-3">
+          <div
+            class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center"
           >
-            <n-input v-model:value="email" />
-          </n-form-item>
+            <Icon name="ph:graduation-cap-fill" class="text-primary text-2xl" />
+          </div>
+          <h1 class="text-2xl font-bold text-text-primary">UniTrack</h1>
+        </div>
+      </div>
 
-          <n-form-item
-            label="Code"
-            v-bind="codeProps"
-            path="code"
-            label-style="color: var(--color-text-primary); font-weight: 600;"
-          >
-            <div class="flex items-center gap-2 w-full">
+      <!-- Card Container -->
+      <n-card
+        v-motion
+        size="huge"
+        class="max-w-xl w-full mx-4 p-8 bg-background-card/90 border border-border/30 shadow-card relative rounded-xl backdrop-blur-md feature-card"
+        :initial="{ opacity: 0, y: 20 }"
+        :enter="{ opacity: 1, y: 0 }"
+        :delay="300"
+      >
+        <n-divider>
+          <h2 class="text-2xl font-semibold text-gradient">Login with Code</h2>
+        </n-divider>
+
+        <p class="text-text-secondary text-center mb-6">
+          Enter the verification code sent to your email to access your
+          institution's portal
+        </p>
+
+        <n-form class="sm:min-w-72 mt-6" @submit.prevent="onSubmit">
+          <n-space vertical>
+            <n-form-item
+              label="Email"
+              v-bind="emailProps"
+              path="email"
+              label-style="color: var(--color-text-primary); font-weight: 600;"
+            >
               <n-input
-                v-model:value="code"
-                type="text"
-                placeholder="Enter your code"
-                class="w-full grow-1 flex"
+                v-model:value="email"
+                placeholder="your.email@institution.edu"
+                :disabled="onboardingStore.isAuthenticating"
               />
-              <n-tooltip trigger="hover" placement="top">
-                <template #trigger>
-                  <Icon name="ph:question" size="40" class="text-primary" />
-                </template>
-                <span>The code should have been sent via email</span>
-              </n-tooltip>
-            </div>
-          </n-form-item>
-        </n-space>
+            </n-form-item>
 
-        <n-space justify="center" class="mt-6">
-          <n-button
-            type="primary"
-            native-type="submit"
-            attr-type="submit"
-            size="large"
-            class="px-8 py-3"
-            :loading="onboardingStore.processingSubmission"
-          >
-            Submit Code
-          </n-button>
-        </n-space>
-      </n-form>
-    </n-card>
+            <n-form-item
+              label="Code"
+              v-bind="codeProps"
+              path="code"
+              label-style="color: var(--color-text-primary); font-weight: 600;"
+            >
+              <div class="flex items-center gap-2 w-full">
+                <n-input
+                  v-model:value="code"
+                  type="text"
+                  placeholder="Enter your code"
+                  class="w-full grow-1 flex"
+                  :disabled="onboardingStore.isAuthenticating"
+                />
+                <n-tooltip trigger="hover" placement="top">
+                  <template #trigger>
+                    <Icon name="ph:question" size="40" class="text-primary" />
+                  </template>
+                  <span>The code should have been sent via email</span>
+                </n-tooltip>
+              </div>
+            </n-form-item>
+          </n-space>
+
+          <n-space justify="center" class="mt-8">
+            <n-button
+              type="primary"
+              native-type="submit"
+              attr-type="submit"
+              size="large"
+              class="px-10 py-3 w-full"
+              :loading="onboardingStore.isAuthenticating"
+              :disabled="onboardingStore.isAuthenticating"
+            >
+              <Icon name="ph:sign-in" class="mr-2" />
+              Submit Code
+            </n-button>
+          </n-space>
+        </n-form>
+
+        <!-- Additional options -->
+        <div class="mt-6 text-center">
+          <n-space vertical size="small">
+            <a href="#" class="text-primary hover:text-primary-hover text-sm"
+              >Didn't receive a code?</a
+            >
+            <a href="#" class="text-primary hover:text-primary-hover text-sm"
+              >Need help?</a
+            >
+          </n-space>
+        </div>
+      </n-card>
+    </div>
   </div>
 </template>
 
@@ -185,33 +236,56 @@ const onSubmit = handleSubmit(async (values) => {
 }
 
 .feature-card {
-  border: 1px solid rgba(var(--color-primary-rgb, 74, 222, 128), 0.15);
+  border: 1px solid rgba(var(--color-primary-rgb, 74, 222, 128), 0.1);
   transition: all 0.3s ease;
 }
 
 .feature-card:hover {
-  border-color: rgba(var(--color-primary-rgb, 74, 222, 128), 0.3);
-  box-shadow: 0 0 30px rgba(var(--color-primary-rgb, 74, 222, 128), 0.1);
+  border-color: rgba(var(--color-primary-rgb, 74, 222, 128), 0.2);
 }
 
-@keyframes float {
+.shadow-card {
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.1),
+    0 0 20px rgba(var(--color-primary-rgb, 74, 222, 128), 0.05);
+}
+
+/* Improved particles animation */
+.particles-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--size);
+  height: var(--size);
+  background-color: var(--color-primary, #4ade80);
+  border-radius: 50%;
+  opacity: var(--opacity);
+  transform: translate(var(--x), var(--y));
+  animation: float-up var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes float-up {
   0% {
-    transform: translate(0, 0) scale(var(--scale));
+    transform: translate(var(--x), calc(var(--y) + 10vh));
     opacity: 0;
   }
-  25% {
-    opacity: 1;
+  10% {
+    opacity: var(--opacity);
   }
-  75% {
-    opacity: 1;
+  90% {
+    opacity: var(--opacity);
   }
   100% {
-    transform: translate(var(--tx), var(--ty)) scale(var(--scale));
+    transform: translate(calc(var(--x) + 5vw), calc(var(--y) - 10vh));
     opacity: 0;
   }
-}
-
-.animate-float {
-  animation: float var(--duration, 15s) ease-in-out infinite alternate;
 }
 </style>

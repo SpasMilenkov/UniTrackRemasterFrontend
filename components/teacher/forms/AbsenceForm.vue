@@ -1,4 +1,4 @@
-<!-- components/teacher/forms/AbsenceForm.vue - SIMPLIFIED ALL-IN-ONE VERSION -->
+<!-- components/teacher/forms/AbsenceForm.vue - INTERNATIONALIZED VERSION -->
 <template>
   <div class="absence-form-container">
     <!-- Header Section -->
@@ -9,11 +9,10 @@
         </div>
         <div>
           <h2 class="form-title">
-            {{ isEditing ? 'Edit' : 'Record' }} Absence
+            {{ t(`absenceForm.header.${isEditing ? 'edit' : 'record'}Title`) }}
           </h2>
           <p class="form-subtitle">
-            Track student attendance with semester context and detailed absence
-            documentation
+            {{ t('absenceForm.header.subtitle') }}
           </p>
         </div>
       </div>
@@ -22,7 +21,7 @@
       <div class="absence-indicator">
         <n-tag type="warning" size="small">
           <Icon name="ph:clock" class="mr-1" />
-          Attendance Record
+          {{ t('absenceForm.header.indicator') }}
         </n-tag>
       </div>
     </div>
@@ -38,17 +37,23 @@
       @submit.prevent="onSubmit"
     >
       <!-- Semester Context Card (Auto-selected and locked) -->
-      <n-card title="Semester Context" class="form-card mb-6">
+      <n-card
+        :title="t('absenceForm.sections.semesterContext')"
+        class="form-card mb-6"
+      >
         <template #header-extra>
           <Icon name="ph:calendar" class="text-text-secondary" />
         </template>
 
         <div class="grid grid-cols-1 gap-6">
-          <n-form-item label="Academic Semester" path="semesterId">
+          <n-form-item
+            :label="t('absenceForm.labels.academicSemester')"
+            path="semesterId"
+          >
             <n-select
               v-model:value="formModel.semesterId"
               :options="semesterOptions"
-              placeholder="Current semester"
+              :placeholder="t('absenceForm.placeholders.currentSemester')"
               disabled
               size="large"
             >
@@ -58,7 +63,7 @@
             </n-select>
             <template #feedback>
               <div class="form-help-text">
-                Automatically selected current semester
+                {{ t('absenceForm.helpText.autoSelectedSemester') }}
               </div>
             </template>
           </n-form-item>
@@ -66,18 +71,25 @@
       </n-card>
 
       <!-- Student Assignment Card -->
-      <n-card title="Student & Subject Details" class="form-card mb-6">
+      <n-card
+        :title="t('absenceForm.sections.studentSubjectDetails')"
+        class="form-card mb-6"
+      >
         <template #header-extra>
           <Icon name="ph:user-check" class="text-text-secondary" />
         </template>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Student -->
-          <n-form-item label="Student" path="studentId" required>
+          <n-form-item
+            :label="t('absenceForm.labels.student')"
+            path="studentId"
+            required
+          >
             <n-select
               v-model:value="formModel.studentId"
               :options="studentOptions"
-              placeholder="Select student"
+              :placeholder="t('absenceForm.placeholders.selectStudent')"
               :disabled="loading || studentOptions.length === 0"
               :loading="loadingStudents"
               size="large"
@@ -92,23 +104,28 @@
                     name="ph:user-x"
                     class="text-2xl text-text-secondary mb-2"
                   />
-                  <p class="text-text-secondary">No students available</p>
+                  <p class="text-text-secondary">
+                    {{ t('absenceForm.emptyStates.noStudents') }}
+                  </p>
                 </div>
               </template>
             </n-select>
             <template #feedback>
               <div class="form-help-text">
-                Select the student for this attendance record
+                {{ t('absenceForm.helpText.selectStudent') }}
               </div>
             </template>
           </n-form-item>
 
           <!-- Subject (Optional) -->
-          <n-form-item label="Subject (Optional)" path="subjectId">
+          <n-form-item
+            :label="t('absenceForm.labels.subjectOptional')"
+            path="subjectId"
+          >
             <n-select
               v-model:value="formModel.subjectId"
               :options="subjectOptions"
-              placeholder="Select subject (optional)"
+              :placeholder="t('absenceForm.placeholders.selectSubject')"
               :disabled="loading || subjectOptions.length === 0"
               :loading="loadingSubjects"
               size="large"
@@ -124,26 +141,30 @@
                     name="ph:book-x"
                     class="text-2xl text-text-secondary mb-2"
                   />
-                  <p class="text-text-secondary">No subjects available</p>
+                  <p class="text-text-secondary">
+                    {{ t('absenceForm.emptyStates.noSubjects') }}
+                  </p>
                 </div>
               </template>
             </n-select>
             <template #feedback>
               <div class="form-help-text">
-                Link absence to a specific subject (leave empty for general
-                absence)
+                {{ t('absenceForm.helpText.selectSubject') }}
               </div>
             </template>
           </n-form-item>
 
           <!-- Teacher (Read-only) -->
-          <n-form-item label="Teacher" class="md:col-span-2">
+          <n-form-item
+            :label="t('absenceForm.labels.teacher')"
+            class="md:col-span-2"
+          >
             <n-select
               :value="teacherId"
               :options="[teacherOption]"
               disabled
               size="large"
-              placeholder="Teacher assignment"
+              :placeholder="t('absenceForm.placeholders.teacherAssignment')"
             >
               <template #arrow>
                 <Icon name="ph:lock" class="text-text-muted" />
@@ -151,7 +172,7 @@
             </n-select>
             <template #feedback>
               <div class="form-help-text">
-                Automatically assigned to current teacher
+                {{ t('absenceForm.helpText.autoAssignedTeacher') }}
               </div>
             </template>
           </n-form-item>
@@ -159,18 +180,25 @@
       </n-card>
 
       <!-- Attendance Information Card -->
-      <n-card title="Attendance Details" class="form-card mb-6">
+      <n-card
+        :title="t('absenceForm.sections.attendanceDetails')"
+        class="form-card mb-6"
+      >
         <template #header-extra>
           <Icon name="ph:calendar-check" class="text-text-secondary" />
         </template>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Date -->
-          <n-form-item label="Absence Date" path="date" required>
+          <n-form-item
+            :label="t('absenceForm.labels.absenceDate')"
+            path="date"
+            required
+          >
             <n-date-picker
               v-model:value="formModel.date"
               type="date"
-              placeholder="Select absence date"
+              :placeholder="t('absenceForm.placeholders.selectAbsenceDate')"
               :disabled="loading"
               size="large"
               style="width: 100%"
@@ -178,16 +206,24 @@
               :is-date-disabled="isDateDisabled"
             />
             <template #feedback>
-              <div class="form-help-text">Date when the student was absent</div>
+              <div class="form-help-text">
+                {{ t('absenceForm.helpText.absenceDate') }}
+              </div>
             </template>
           </n-form-item>
 
           <!-- Status -->
-          <n-form-item label="Attendance Status" path="status" required>
+          <n-form-item
+            :label="t('absenceForm.labels.attendanceStatus')"
+            path="status"
+            required
+          >
             <n-select
               v-model:value="formModel.status"
               :options="absenceStatusOptions"
-              placeholder="Select attendance status"
+              :placeholder="
+                t('absenceForm.placeholders.selectAttendanceStatus')
+              "
               :disabled="loading"
               size="large"
             >
@@ -197,14 +233,14 @@
             </n-select>
             <template #feedback>
               <div class="form-help-text">
-                Choose the appropriate attendance status
+                {{ t('absenceForm.helpText.attendanceStatus') }}
               </div>
             </template>
           </n-form-item>
 
           <!-- Is Excused -->
           <n-form-item
-            label="Excused Absence"
+            :label="t('absenceForm.labels.excusedAbsence')"
             path="isExcused"
             class="md:col-span-2"
           >
@@ -224,37 +260,37 @@
               <div class="flex-1">
                 <div class="font-medium text-text-primary">
                   {{
-                    formModel.isExcused
-                      ? 'Excused Absence'
-                      : 'Unexcused Absence'
+                    t(
+                      `absenceForm.excusedStatus.${formModel.isExcused ? 'excused' : 'unexcused'}Title`
+                    )
                   }}
                 </div>
                 <div class="text-sm text-text-secondary">
                   {{
-                    formModel.isExcused
-                      ? 'This absence has a valid reason and documentation'
-                      : 'This absence is unexcused and may affect academic standing'
+                    t(
+                      `absenceForm.excusedStatus.${formModel.isExcused ? 'excused' : 'unexcused'}Description`
+                    )
                   }}
                 </div>
               </div>
             </div>
             <template #feedback>
               <div class="form-help-text">
-                Mark whether this absence is officially excused
+                {{ t('absenceForm.helpText.excusedAbsence') }}
               </div>
             </template>
           </n-form-item>
 
           <!-- Reason -->
           <n-form-item
-            label="Reason for Absence"
+            :label="t('absenceForm.labels.reasonForAbsence')"
             path="reason"
             class="md:col-span-2"
           >
             <n-input
               v-model:value="formModel.reason"
               type="textarea"
-              placeholder="Enter reason for absence (optional)"
+              :placeholder="t('absenceForm.placeholders.enterReason')"
               :disabled="loading"
               :rows="4"
               :maxlength="500"
@@ -262,8 +298,7 @@
             />
             <template #feedback>
               <div class="form-help-text">
-                Optional: Provide additional context or documentation for the
-                absence
+                {{ t('absenceForm.helpText.reasonForAbsence') }}
               </div>
             </template>
           </n-form-item>
@@ -273,7 +308,7 @@
       <!-- Semester Date Warning -->
       <n-card
         v-if="semesterDateWarning"
-        title="Date Range Notice"
+        :title="t('absenceForm.sections.dateRangeNotice')"
         class="form-card mb-6"
       >
         <template #header-extra>
@@ -292,7 +327,10 @@
       </n-card>
 
       <!-- Attendance Status Guide -->
-      <n-card title="Attendance Status Guide" class="form-card mb-6">
+      <n-card
+        :title="t('absenceForm.sections.attendanceStatusGuide')"
+        class="form-card mb-6"
+      >
         <template #header-extra>
           <Icon name="ph:info" class="text-text-secondary" />
         </template>
@@ -306,19 +344,18 @@
             <div class="flex items-center gap-2 mb-2">
               <Icon :name="statusInfo.icon" :class="statusInfo.color" />
               <div class="font-medium text-text-primary">
-                {{ statusInfo.label }}
+                {{ t(`absenceForm.statusGuide.${statusInfo.value}.label`) }}
               </div>
             </div>
             <div class="text-sm text-text-secondary">
-              {{ statusInfo.description }}
+              {{ t(`absenceForm.statusGuide.${statusInfo.value}.description`) }}
             </div>
           </div>
         </div>
 
         <n-alert type="warning" class="mt-4">
           <Icon name="ph:warning" class="mr-2" />
-          Consistent unexcused absences may affect the student's academic
-          standing and progression.
+          {{ t('absenceForm.warnings.unexcusedAbsencesWarning') }}
         </n-alert>
       </n-card>
 
@@ -326,29 +363,72 @@
       <div class="form-actions">
         <!-- Debug Info -->
         <div class="mb-4 p-3 rounded bg-gray-800 text-xs text-white">
-          <p><strong>Debug Info:</strong></p>
-          <p>Date: "{{ formModel.date || 'null' }}"</p>
-          <p>Status: "{{ formModel.status || 'null' }}"</p>
-          <p>Is Excused: {{ formModel.isExcused }}</p>
-          <p>Reason: "{{ formModel.reason || 'null' }}"</p>
-          <p>Student ID: "{{ formModel.studentId || 'null' }}"</p>
-          <p>Subject ID: "{{ formModel.subjectId || 'null' }}"</p>
-          <p>Semester ID: "{{ formModel.semesterId || 'null' }}"</p>
-          <p>Teacher ID: "{{ formModel.teacherId || 'null' }}"</p>
-          <p>Validation Errors: {{ JSON.stringify(validationErrors) }}</p>
-          <p>Semester Options: {{ semesterOptions.length }}</p>
-          <p>Selected Semester: {{ selectedSemesterName || 'null' }}</p>
-          <p>Props Semester ID: "{{ props.semesterId || 'null' }}"</p>
           <p>
-            Props Semester Options Length:
+            <strong>{{ t('absenceForm.debug.title') }}:</strong>
+          </p>
+          <p>
+            {{ t('absenceForm.debug.date') }}: "{{ formModel.date || 'null' }}"
+          </p>
+          <p>
+            {{ t('absenceForm.debug.status') }}: "{{
+              formModel.status || 'null'
+            }}"
+          </p>
+          <p>
+            {{ t('absenceForm.debug.isExcused') }}: {{ formModel.isExcused }}
+          </p>
+          <p>
+            {{ t('absenceForm.debug.reason') }}: "{{
+              formModel.reason || 'null'
+            }}"
+          </p>
+          <p>
+            {{ t('absenceForm.debug.studentId') }}: "{{
+              formModel.studentId || 'null'
+            }}"
+          </p>
+          <p>
+            {{ t('absenceForm.debug.subjectId') }}: "{{
+              formModel.subjectId || 'null'
+            }}"
+          </p>
+          <p>
+            {{ t('absenceForm.debug.semesterId') }}: "{{
+              formModel.semesterId || 'null'
+            }}"
+          </p>
+          <p>
+            {{ t('absenceForm.debug.teacherId') }}: "{{
+              formModel.teacherId || 'null'
+            }}"
+          </p>
+          <p>
+            {{ t('absenceForm.debug.validationErrors') }}:
+            {{ JSON.stringify(validationErrors) }}
+          </p>
+          <p>
+            {{ t('absenceForm.debug.semesterOptions') }}:
+            {{ semesterOptions.length }}
+          </p>
+          <p>
+            {{ t('absenceForm.debug.selectedSemester') }}:
+            {{ selectedSemesterName || 'null' }}
+          </p>
+          <p>
+            {{ t('absenceForm.debug.propsSemesterId') }}: "{{
+              props.semesterId || 'null'
+            }}"
+          </p>
+          <p>
+            {{ t('absenceForm.debug.propsSemesterOptionsLength') }}:
             {{ props.semesterOptions?.length || 0 }}
           </p>
           <p>
-            Validation Clear Test:
+            {{ t('absenceForm.debug.validationClearTest') }}:
             {{
               Object.keys(validationErrors).length === 0
-                ? 'CLEAN'
-                : 'HAS ERRORS'
+                ? t('absenceForm.debug.clean')
+                : t('absenceForm.debug.hasErrors')
             }}
           </p>
         </div>
@@ -364,7 +444,7 @@
               console.log('Validation errors manually cleared');
             "
           >
-            Clear Validation
+            {{ t('absenceForm.actions.clearValidation') }}
           </n-button>
 
           <n-button
@@ -376,7 +456,7 @@
             <template #icon>
               <Icon name="ph:x" />
             </template>
-            Cancel
+            {{ t('absenceForm.actions.cancel') }}
           </n-button>
           <n-button
             type="primary"
@@ -388,7 +468,9 @@
             <template #icon>
               <Icon :name="isEditing ? 'ph:pencil' : 'ph:plus'" />
             </template>
-            {{ isEditing ? 'Update' : 'Record' }} Absence
+            {{
+              t(`absenceForm.actions.${isEditing ? 'update' : 'record'}Absence`)
+            }}
           </n-button>
         </n-space>
       </div>
@@ -399,6 +481,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { useNotification } from 'naive-ui';
+import { useI18n } from 'vue-i18n';
 import type { SelectOption } from 'naive-ui';
 import { useAuthStore } from '@/stores/auth';
 import type { CreateAbsenceDto, UpdateAbsenceDto } from '@/stores/teacher';
@@ -437,6 +520,7 @@ const emit = defineEmits<{
 // Utilities
 const notification = useNotification();
 const authStore = useAuthStore();
+const { t, locale } = useI18n();
 
 // Form reference
 const formRef = ref();
@@ -470,40 +554,34 @@ const selectedSemesterName = computed(() => {
 });
 
 const teacherOption = computed(() => ({
-  label: props.teacherName || 'Current Teacher',
+  label: props.teacherName || t('absenceForm.defaultValues.currentTeacher'),
   value: props.teacherId || '',
   disabled: true,
 }));
 
 // Absence status options
 const absenceStatusOptions = computed<SelectOption[]>(() => [
-  { label: 'Absent', value: 'absent' },
-  { label: 'Late arrival', value: 'late' },
-  { label: 'Left Early', value: 'left_early' },
-  { label: 'Sick Leave', value: 'sick' },
-  { label: 'Emergency', value: 'emergency' },
+  { label: t('absenceForm.statusOptions.absent'), value: 'absent' },
+  { label: t('absenceForm.statusOptions.late'), value: 'late' },
+  { label: t('absenceForm.statusOptions.leftEarly'), value: 'left_early' },
+  { label: t('absenceForm.statusOptions.sick'), value: 'sick' },
+  { label: t('absenceForm.statusOptions.emergency'), value: 'emergency' },
 ]);
 
 // Status guide for reference
 const statusGuide = [
   {
     value: 'absent',
-    label: 'Absent',
-    description: 'Student was not present for the entire period/day',
     icon: 'ph:x-circle',
     color: 'text-red-500',
   },
   {
     value: 'late',
-    label: 'Late',
-    description: 'Student arrived after the official start time',
     icon: 'ph:clock',
     color: 'text-orange-500',
   },
   {
     value: 'excused',
-    label: 'Excused',
-    description: 'Absence with valid documentation and approval',
     icon: 'ph:check-circle',
     color: 'text-primary',
   },
@@ -520,16 +598,20 @@ const semesterDateWarning = computed(() => {
   if (absenceDate < semesterStart) {
     return {
       type: 'warning' as const,
-      title: 'Date Before Semester',
-      message: `The selected date is before the semester start date (${formatDate(props.currentSemester.startDate)}).`,
+      title: t('absenceForm.warnings.dateBeforeSemester.title'),
+      message: t('absenceForm.warnings.dateBeforeSemester.message', {
+        date: formatDate(props.currentSemester.startDate),
+      }),
     };
   }
 
   if (absenceDate > semesterEnd) {
     return {
       type: 'warning' as const,
-      title: 'Date After Semester',
-      message: `The selected date is after the semester end date (${formatDate(props.currentSemester.endDate)}).`,
+      title: t('absenceForm.warnings.dateAfterSemester.title'),
+      message: t('absenceForm.warnings.dateAfterSemester.message', {
+        date: formatDate(props.currentSemester.endDate),
+      }),
     };
   }
 
@@ -553,7 +635,8 @@ const isDateDisabled = (date: number) => {
 };
 
 const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleDateString('en-US', {
+  const localeCode = locale.value === 'bg' ? 'bg-BG' : 'en-US';
+  return new Date(dateString).toLocaleDateString(localeCode, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -565,13 +648,15 @@ const validateForm = (): boolean => {
 
   // Validate required fields
   if (!formModel.value.studentId) {
-    validationErrors.value.studentId = 'Student is required';
+    validationErrors.value.studentId = t(
+      'absenceForm.validation.studentRequired'
+    );
   }
   if (!formModel.value.status) {
-    validationErrors.value.status = 'Status is required';
+    validationErrors.value.status = t('absenceForm.validation.statusRequired');
   }
   if (!formModel.value.date) {
-    validationErrors.value.date = 'Date is required';
+    validationErrors.value.date = t('absenceForm.validation.dateRequired');
   }
 
   return Object.keys(validationErrors.value).length === 0;
@@ -587,8 +672,8 @@ const clearValidationError = (field: string) => {
 const onSubmit = () => {
   if (!validateForm()) {
     notification.error({
-      title: 'Validation Error',
-      content: 'Please check the form for errors',
+      title: t('absenceForm.notifications.validationError.title'),
+      content: t('absenceForm.notifications.validationError.content'),
       duration: 5000,
     });
     return;
@@ -616,8 +701,10 @@ const onSubmit = () => {
     emit('submit', submissionData);
   } catch (error: any) {
     notification.error({
-      title: 'Validation Error',
-      content: error.message || 'Please check your form inputs',
+      title: t('absenceForm.notifications.validationError.title'),
+      content:
+        error.message ||
+        t('absenceForm.notifications.validationError.fallback'),
       duration: 5000,
     });
   }

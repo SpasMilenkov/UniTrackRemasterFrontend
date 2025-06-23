@@ -3,8 +3,8 @@
     :show="show"
     preset="dialog"
     :title="modalTitle"
-    positive-text="Accept Invitation"
-    negative-text="Cancel"
+    :positive-text="t('invitationModal.buttons.accept')"
+    :negative-text="t('invitationModal.buttons.cancel')"
     :positive-button-props="{ loading: isLoading, type: 'primary' }"
     :negative-button-props="{ disabled: isLoading }"
     :mask-closable="!isLoading"
@@ -24,34 +24,41 @@
           <Icon name="mdi:check-circle" class="w-8 h-8 text-primary" />
         </div>
         <p class="text-lg text-text-primary">
-          You're about to accept an invitation to join
-          <strong>{{ invitation.institutionName }}</strong>
+          {{
+            t('invitationModal.confirmationText', {
+              institutionName: invitation.institutionName,
+            })
+          }}
         </p>
       </div>
 
       <!-- Role Information -->
       <div class="bg-background-secondary rounded-lg p-4 space-y-3">
-        <h4 class="font-semibold text-text-primary mb-3">Role Details</h4>
+        <h4 class="font-semibold text-text-primary mb-3">
+          {{ t('invitationModal.roleDetails.title') }}
+        </h4>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="text-sm font-medium text-text-secondary"
-              >Position</label
-            >
+            <label class="text-sm font-medium text-text-secondary">{{
+              t('invitationModal.roleDetails.position')
+            }}</label>
             <p class="text-text-primary">{{ invitation.role }}</p>
           </div>
 
           <div>
-            <label class="text-sm font-medium text-text-secondary">Type</label>
+            <label class="text-sm font-medium text-text-secondary">{{
+              t('invitationModal.roleDetails.type')
+            }}</label>
             <p class="text-text-primary">{{ invitation.type }}</p>
           </div>
         </div>
 
         <div v-if="invitation.gradeName" class="grid grid-cols-2 gap-4">
           <div>
-            <label class="text-sm font-medium text-text-secondary"
-              >Grade/Class</label
-            >
+            <label class="text-sm font-medium text-text-secondary">{{
+              t('invitationModal.roleDetails.gradeClass')
+            }}</label>
             <p class="text-text-primary">{{ invitation.gradeName }}</p>
           </div>
         </div>
@@ -60,9 +67,9 @@
           v-if="invitation.additionalInfo"
           class="pt-2 border-t border-border"
         >
-          <label class="text-sm font-medium text-text-secondary"
-            >Additional Information</label
-          >
+          <label class="text-sm font-medium text-text-secondary">{{
+            t('invitationModal.roleDetails.additionalInfo')
+          }}</label>
           <p class="text-text-secondary text-sm mt-1">
             {{ invitation.additionalInfo }}
           </p>
@@ -74,19 +81,19 @@
         <template #icon>
           <Icon name="mdi:information" />
         </template>
-        <template #header> What happens next? </template>
+        <template #header>{{ t('invitationModal.notice.title') }}</template>
         <ul class="list-disc list-inside space-y-1 text-sm">
-          <li>You'll gain access to the institution's systems</li>
-          <li>Your account will be linked to this role</li>
-          <li>You'll be redirected to your new dashboard</li>
+          <li>{{ t('invitationModal.notice.general.systemAccess') }}</li>
+          <li>{{ t('invitationModal.notice.general.accountLinked') }}</li>
+          <li>{{ t('invitationModal.notice.general.redirectDashboard') }}</li>
           <li v-if="invitation.type === 'Student'">
-            You can access your grades, assignments, and class information
+            {{ t('invitationModal.notice.student.access') }}
           </li>
           <li v-else-if="invitation.type === 'Teacher'">
-            You can manage your classes, students, and course materials
+            {{ t('invitationModal.notice.teacher.access') }}
           </li>
           <li v-else-if="invitation.type === 'Admin'">
-            You'll have administrative access to manage the institution
+            {{ t('invitationModal.notice.admin.access') }}
           </li>
         </ul>
       </NAlert>
@@ -112,6 +119,8 @@
 import { NModal, NAlert } from 'naive-ui';
 import type { PendingInvitationDto } from '~/interfaces/invitation';
 
+const { t } = useI18n();
+
 interface Props {
   show: boolean;
   invitation: PendingInvitationDto | null;
@@ -133,15 +142,13 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<Emits>();
 
-// Computed properties
 const isLoading = computed(() => props.loading);
 
 const modalTitle = computed(() => {
-  if (!props.invitation) return 'Accept Invitation';
-  return `Accept ${props.invitation.type} Invitation`;
+  if (!props.invitation) return t('invitationModal.titles.default');
+  return t('invitationModal.titles.withType', { type: props.invitation.type });
 });
 
-// Event handlers
 const handleShowUpdate = (value: boolean) => {
   emit('update:show', value);
 };
@@ -164,7 +171,6 @@ const clearError = () => {
   emit('clearError');
 };
 
-// Watch for invitation changes to reset error
 watch(
   () => props.invitation,
   () => {
@@ -175,6 +181,4 @@ watch(
 );
 </script>
 
-<style scoped>
-/* Additional styling if needed */
-</style>
+<style scoped></style>

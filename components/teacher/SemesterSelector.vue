@@ -2,7 +2,9 @@
   <div class="semester-selector">
     <div v-if="showLabel" class="flex items-center gap-2 mb-2">
       <Icon name="ph:calendar" class="text-lg text-primary" />
-      <span class="text-sm font-medium text-text-primary">{{ label }}</span>
+      <span class="text-sm font-medium text-text-primary">{{
+        label || t('semesterSelector.defaultLabel')
+      }}</span>
       <span v-if="required" class="text-red-500">*</span>
     </div>
 
@@ -10,7 +12,7 @@
       <n-select
         v-model:value="selectedSemesterId"
         :options="semesterOptions"
-        :placeholder="placeholder"
+        :placeholder="placeholder || t('semesterSelector.placeholder')"
         :loading="loading"
         :disabled="disabled || autoSelectCurrent"
         :size="size"
@@ -21,7 +23,9 @@
         <template #empty>
           <div class="text-center py-4 text-text-secondary">
             <Icon name="ph:calendar" class="text-2xl mb-2" />
-            <p class="text-sm">No semesters available</p>
+            <p class="text-sm">
+              {{ t('semesterSelector.noSemestersAvailable') }}
+            </p>
           </div>
         </template>
 
@@ -48,7 +52,7 @@
           <template #icon>
             <Icon name="ph:calendar-check" />
           </template>
-          Use Current Semester
+          {{ t('semesterSelector.useCurrentSemester') }}
         </n-button>
       </div>
 
@@ -59,25 +63,33 @@
       >
         <div class="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <p class="text-text-muted">Semester</p>
+            <p class="text-text-muted">
+              {{ t('semesterSelector.info.semester') }}
+            </p>
             <p class="font-medium text-text-primary">
               {{ selectedSemesterData.name }}
             </p>
           </div>
           <div>
-            <p class="text-text-muted">Academic Year</p>
+            <p class="text-text-muted">
+              {{ t('semesterSelector.info.academicYear') }}
+            </p>
             <p class="font-medium text-text-primary">
               {{ selectedSemesterData.academicYearName }}
             </p>
           </div>
           <div>
-            <p class="text-text-muted">Start Date</p>
+            <p class="text-text-muted">
+              {{ t('semesterSelector.info.startDate') }}
+            </p>
             <p class="font-medium text-text-primary">
               {{ formatDate(selectedSemesterData.startDate) }}
             </p>
           </div>
           <div>
-            <p class="text-text-muted">End Date</p>
+            <p class="text-text-muted">
+              {{ t('semesterSelector.info.endDate') }}
+            </p>
             <p class="font-medium text-text-primary">
               {{ formatDate(selectedSemesterData.endDate) }}
             </p>
@@ -86,7 +98,7 @@
         <div v-if="selectedSemesterData.isCurrent" class="mt-2">
           <n-tag type="success" size="small">
             <Icon name="ph:check-circle" class="mr-1" />
-            Current Semester
+            {{ t('semesterSelector.currentSemesterTag') }}
           </n-tag>
         </div>
       </div>
@@ -98,10 +110,11 @@
       >
         <div class="flex items-center gap-2 text-sm text-primary">
           <Icon name="ph:info" />
-          <span
-            >Automatically using current semester:
-            {{ currentSemester.name }}</span
-          >
+          <span>{{
+            t('semesterSelector.autoSelectInfo', {
+              semesterName: currentSemester.name,
+            })
+          }}</span>
         </div>
       </div>
     </div>
@@ -123,6 +136,8 @@ import { ref, computed, watch, onMounted } from 'vue';
 import { NSelect, NButton, NTag } from 'naive-ui';
 import { useTeacherStore } from '@/stores/teacher';
 import type { SemesterResponseDto } from '@/stores/teacher';
+
+const { t, locale } = useI18n();
 
 interface Props {
   modelValue?: string | null;
@@ -147,8 +162,6 @@ interface Emits {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  label: 'Academic Semester',
-  placeholder: 'Select semester',
   required: false,
   disabled: false,
   loading: false,
@@ -248,7 +261,12 @@ const selectCurrentSemester = () => {
 };
 
 const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleDateString('en-US', {
+  const date = new Date(dateString);
+
+  // Use locale-aware formatting based on current i18n locale
+  const localeString = locale.value === 'bg' ? 'bg-BG' : 'en-US';
+
+  return date.toLocaleDateString(localeString, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

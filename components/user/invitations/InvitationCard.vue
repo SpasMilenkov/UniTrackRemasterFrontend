@@ -11,7 +11,8 @@
               {{ invitation.role }}
             </h3>
             <p class="text-sm text-text-secondary">
-              {{ invitation.type }} Role
+              {{ t(`invitationCard.roleTypes.${invitation.type}`) }}
+              {{ t('invitationCard.labels.role') }}
             </p>
           </div>
         </div>
@@ -24,7 +25,9 @@
       <div class="bg-background-secondary rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
           <Icon name="mdi:school" class="w-5 h-5 text-text-secondary" />
-          <span class="font-medium text-text-primary">Institution</span>
+          <span class="font-medium text-text-primary">{{
+            t('invitationCard.labels.institution')
+          }}</span>
         </div>
         <p class="text-text-primary">{{ invitation.institutionName }}</p>
       </div>
@@ -36,7 +39,9 @@
       >
         <div class="flex items-center gap-2 mb-2">
           <Icon name="mdi:bookmark" class="w-5 h-5 text-text-secondary" />
-          <span class="font-medium text-text-primary">Grade/Class</span>
+          <span class="font-medium text-text-primary">{{
+            t('invitationCard.labels.gradeClass')
+          }}</span>
         </div>
         <p class="text-text-primary">{{ invitation.gradeName }}</p>
       </div>
@@ -48,9 +53,9 @@
       >
         <div class="flex items-center gap-2 mb-2">
           <Icon name="mdi:information" class="w-5 h-5 text-text-secondary" />
-          <span class="font-medium text-text-primary"
-            >Additional Information</span
-          >
+          <span class="font-medium text-text-primary">{{
+            t('invitationCard.labels.additionalInfo')
+          }}</span>
         </div>
         <p class="text-text-secondary text-sm">
           {{ invitation.additionalInfo }}
@@ -60,7 +65,9 @@
       <!-- Invitation Date -->
       <div class="flex items-center gap-2 text-sm text-text-muted">
         <Icon name="mdi:calendar" class="w-4 h-4" />
-        <span>Invited {{ formattedDate }}</span>
+        <span
+          >{{ t('invitationCard.labels.invited') }} {{ formattedDate }}</span
+        >
       </div>
     </div>
 
@@ -76,7 +83,7 @@
           <template #icon>
             <Icon name="mdi:check" />
           </template>
-          Accept
+          {{ t('invitationCard.actions.accept') }}
         </NButton>
 
         <NButton
@@ -89,14 +96,14 @@
           <template #icon>
             <Icon name="mdi:close" />
           </template>
-          Decline
+          {{ t('invitationCard.actions.decline') }}
         </NButton>
 
         <NButton type="tertiary" size="medium" @click.stop="handleViewDetails">
           <template #icon>
             <Icon name="mdi:eye" />
           </template>
-          Details
+          {{ t('invitationCard.actions.details') }}
         </NButton>
       </div>
     </template>
@@ -105,6 +112,7 @@
 
 <script setup lang="ts">
 import { NCard, NButton } from 'naive-ui';
+import { useI18n } from 'vue-i18n';
 import type { PendingInvitationDto } from '~/interfaces/invitation';
 import ProfileStatusBadge from './ProfileStatusBadge.vue';
 
@@ -129,6 +137,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<Emits>();
+const { t, locale } = useI18n();
 
 // Type icon mapping
 const typeIcons = {
@@ -181,13 +190,19 @@ const formattedDate = computed(() => {
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   if (diffDays === 0) {
-    return 'today';
+    return t('invitationCard.timeAgo.today');
   } else if (diffDays === 1) {
-    return 'yesterday';
+    return t('invitationCard.timeAgo.yesterday');
   } else if (diffDays < 7) {
-    return `${diffDays} days ago`;
+    return t('invitationCard.timeAgo.daysAgo', { count: diffDays });
   } else {
-    return date.toLocaleDateString();
+    // Use locale-aware date formatting
+    const localeCode = locale.value === 'bg' ? 'bg-BG' : 'en-US';
+    return date.toLocaleDateString(localeCode, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   }
 });
 

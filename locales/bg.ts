@@ -4,6 +4,15 @@ export default {
     emailVerificationFailed: 'Потвърждението на имейла не бе успешно',
     passwordResetFailed: 'Нулирането на паролата не бе успешно',
     defaultError: 'Възникна неочаквана грешка. Моля, опитайте отново.',
+    failedToLoadData: 'Грешка при зареждане на данни',
+    failedToLoadAcademicYears: 'Грешка при зареждане на учебни години',
+    failedToLoadSemesters: 'Грешка при зареждане на срокове',
+    failedToLoadClasses: 'Грешка при зареждане на класове',
+    failedToLoadSubjects: 'Грешка при зареждане на предмети',
+    failedToLoadStudents: 'Грешка при зареждане на ученици',
+    unknownError: 'Възникна неизвестна грешка',
+    validation: 'Грешка при валидация',
+    missingData: 'Липсват необходими данни',
   },
   navigation: {
     home: 'Начало',
@@ -17,15 +26,19 @@ export default {
     subtitle:
       'Революция в управлението на образованието с мощни анализи и прозрения',
     getStarted: 'Започнете сега',
+    learnMore: 'Научете повече',
+    scrollDown: 'Превъртете надолу',
+    videoBackground: 'Фоново видео на платформата UniTrack',
     featuresTitle: 'Мощни функции',
     featuresSubtitle:
       'Всичко необходимо за ефективно управление на вашата образователна институция',
+    viewDemo: 'Вижте демо',
+
     features: [
       {
         title: 'Проследяване на оценки',
         description:
           'Наблюдавайте академичното представяне с подробни прозрения и сравнения',
-        badge: 'Най-популярно',
         subFeatures: [
           'Актуализации на оценки в реално време',
           'Анализ на представянето',
@@ -48,7 +61,6 @@ export default {
         title: 'Училищни анализи',
         description:
           'Цялостни анализи и прозрения за образователните институции',
-        badge: 'Ново',
         subFeatures: [
           'Метрики на представянето',
           'Анализ на тенденциите',
@@ -67,6 +79,13 @@ export default {
         ],
       },
     ],
+
+    cta: {
+      title: 'Готови ли сте да започнете?',
+      description:
+        'Присъединете се към хиляди образователни институции, които вече използват UniTrack за подобряване на управлението си.',
+    },
+
     roadmap: {
       title: 'План за развитие',
       subtitle:
@@ -774,6 +793,224 @@ export default {
     needHelp: 'Нуждаете се от помощ? ',
     contactSupport: 'Свържете се с поддръжката',
   },
+  dashboard: {
+    teacher: {
+      title: 'Учителско Табло',
+      selectClassPrompt: 'Моля, изберете клас, за да започнете',
+      selectSubjectPrompt: 'Моля, изберете предмет, за да продължите',
+      noStudentsFound: 'Няма намерени ученици в този клас',
+    },
+    welcome: 'Добре дошли',
+    selectAcademicYear: 'Изберете учебна година',
+    selectSemester: 'Изберете срок',
+    selectClass: 'Изберете клас',
+    selectSubject: 'Изберете предмет',
+    tabs: {
+      students: 'Ученици',
+      attendance: 'Присъствие',
+      marks: 'Оценки',
+      comments: 'Коментари',
+    },
+    stats: {
+      students: 'Ученици',
+      subjects: 'Предмети',
+      classes: 'Класове',
+      todaysClasses: 'Днешни часове',
+    },
+  },
+  student: {
+    name: 'Име',
+    grade: 'Клас',
+    absencesCount: 'Отсъствия',
+    averageMark: 'Средна оценка',
+    lastComment: 'Последен коментар',
+    noComments: 'Все още няма коментари',
+    addComment: 'Добави коментар',
+    addMark: 'Добави оценка',
+    recordAbsence: 'Регистрирай отсъствие',
+    history: 'История',
+  },
+  marks: {
+    management: 'Управление на оценки',
+    addCategory: 'Добави категория',
+    createCategory: 'Създай категория оценки',
+    categoryName: 'Име на категория',
+    weight: 'Тежест (%)',
+    color: 'Цвят',
+    scale: 'Скала на оценяване',
+    gradeScale: 'Скала на оценяване',
+    value: 'Стойност',
+    description: 'Описание',
+    date: 'Дата',
+    comment: 'Коментар',
+    addComment: 'Добави коментар...',
+    noCategories: 'Все още няма категории за оценки',
+    selectCategory: 'Избери категория',
+    selectDate: 'Избери дата',
+    descriptionPlaceholder: 'Описание (напр. Тест Глава 1)',
+    commentPlaceholder: 'Добавете коментар към оценката...',
+    save: 'Запази оценки',
+    saveSuccess: 'Оценките са запазени',
+    saveSuccessMessage: 'Оценките на учениците са запазени успешно',
+    saveError: 'Грешка при запазване на оценки',
+    loadError: 'Грешка при зареждане на оценки',
+    loadCategoriesError: 'Грешка при зареждане на категории',
+    saveCategoryError: 'Грешка при добавяне на категория',
+    categoryAdded: 'Категорията е добавена',
+    confirmRemoveCategory:
+      'Сигурни ли сте, че искате да премахнете тази категория? Всички оценки в тази категория ще бъдат загубени.',
+    studentHistoryTitle: 'История на оценките',
+    categoryNotFound: 'Категорията не е намерена',
+    pass: 'Издържал',
+    fail: 'Неиздържал',
+    history: 'Преглед на история',
+    types: {
+      general: 'Обща',
+      behavior: 'Поведение',
+      academic: 'Академична',
+      positive: 'Положителна',
+      improvement: 'Подобрение',
+      attendance: 'Присъствие',
+    },
+  },
+  comments: {
+    management: 'Управление на коментари',
+    add: 'Добави коментар',
+    batchAdd: 'Добави към няколко ученика',
+    editComment: 'Редактирай коментар',
+    addComment: 'Добави коментар',
+    commentType: 'Тип коментар',
+    selectType: 'Избери тип',
+    content: 'Съдържание',
+    contentPlaceholder: 'Въведете вашия коментар тук...',
+    visibilityLabel: 'Видимост',
+    selectStudents: 'Избери ученици',
+    date: 'Дата',
+    noComments: 'Няма коментари',
+    confirmDelete: 'Сигурни ли сте, че искате да изтриете този коментар?',
+    contentRequired: 'Съдържанието на коментара е задължително',
+    noStudentsSelected: 'Моля, изберете поне един ученик',
+    saveSuccess: 'Коментарът е запазен',
+    saveSuccessMessage: 'Коментарът е запазен успешно',
+    saveError: 'Грешка при запазване на коментар',
+    loadError: 'Грешка при зареждане на коментари',
+    types: {
+      general: 'Общ',
+      behavior: 'Поведение',
+      academic: 'Академичен',
+      positive: 'Положителен',
+      improvement: 'Подобрение',
+      attendance: 'Присъствие',
+    },
+    visibility: {
+      teacher: 'Само учители',
+      student: 'Ученик и учители',
+      parent: 'Родители и учители',
+      all: 'Всички (Публичен)',
+    },
+  },
+  attendance: {
+    save: 'Запази присъствия',
+    selectDate: 'Моля, изберете дата',
+    studentList: 'Списък с ученици',
+    markAllPresent: 'Маркирай всички присъстващи',
+    import: 'Импортирай',
+    status: 'Статус',
+    statuses: {
+      present: 'Присъства',
+      absent: 'Отсъства',
+      late: 'Закъснял',
+      excused: 'Извинен',
+    },
+    note: 'Бележка',
+    addNote: 'Добави бележка...',
+    totalStudents: 'Общо ученици',
+    present: 'Присъстващи',
+    absent: 'Отсъстващи',
+    attendance: 'Посещаемост',
+    saveSuccess: 'Присъствията са запазени',
+    saveSuccessMessage: 'Данните за присъствие са запазени успешно',
+    saveError: 'Грешка при запазване на присъствията',
+    loadError: 'Грешка при зареждане на присъствията',
+    importTitle: 'Импортиране на присъствия',
+    importNotImplemented:
+      'Функцията за импортиране на присъствия все още не е реализирана',
+    date: 'Дата',
+    type: 'Тип',
+    lesson: 'Урок',
+    reason: 'Причина',
+    excused: 'Извинено',
+    excusedNote:
+      'Това отсъствие е извинено и няма да влияе на статистиката за присъствие',
+    unexcusedNote:
+      'Това отсъствие не е извинено и ще влияе на статистиката за присъствие',
+    notesPlaceholder: 'Добавете подробности за това отсъствие...',
+    notification: 'Известие',
+    notifyParent: 'Уведоми родителя за това отсъствие',
+    absenceHistory: 'История на отсъствията',
+    duration: 'Продължителност',
+    selectReason: 'Избери причина',
+    selectType: 'Избери тип',
+    modes: {
+      manual: 'Ръчно въвеждане',
+      qr: 'QR код сканиране',
+    },
+    types: {
+      full: 'Цял ден',
+      late: 'Закъснение',
+      lesson: 'Конкретен час',
+    },
+    reasons: {
+      illness: 'Болест',
+      family: 'Семейни причини',
+      medical: 'Медицински преглед',
+      transport: 'Транспортни проблеми',
+      school: 'Училищно мероприятие',
+      other: 'Друго',
+    },
+  },
+  actions: {
+    refresh: 'Обнови',
+    quickActions: 'Бързи действия',
+    title: 'Действия',
+    filter: 'Филтър',
+    export: 'Експорт',
+    mark: 'Оценка',
+    comment: 'Коментар',
+    absence: 'Отсъствие',
+    takeAttendance: 'Отбележи присъствия',
+    addMarks: 'Добави оценки',
+    scheduleEvent: 'Планирай събитие',
+    viewTimetable: 'Виж програма',
+  },
+  common: {
+    save: 'Запази',
+    cancel: 'Отказ',
+    teacher: 'Учител',
+    institution: 'Институция',
+    yes: 'Да',
+    no: 'Не',
+    notes: 'Бележки',
+    showing: 'Показване на',
+    of: 'от',
+  },
+  validation: {
+    required: 'Това поле е задължително',
+    weightRange: 'Тежестта трябва да бъде между 1 и 100',
+    error: 'Грешка при валидация',
+    checkFields: 'Моля, проверете всички задължителни полета',
+  },
+  success: {
+    attendanceSaved: 'Присъствията са запазени успешно',
+    marksSaved: 'Оценките са запазени успешно',
+    commentsSaved: 'Коментарите са запазени успешно',
+  },
+  filters: {
+    all: 'Всички ученици',
+    withAbsences: 'С отсъствия',
+    withComments: 'С коментари',
+    withLowMarks: 'С ниски оценки',
+  },
   settings: {
     title: 'Управление на акаунта',
     tryAgain: 'Опитайте отново',
@@ -791,7 +1028,7 @@ export default {
       profile: 'Профил',
       security: 'Сигурност',
       appearance: 'Външен вид',
-      privacy: 'Поверителност'
+      privacy: 'Поверителност',
     },
     appearance: {
       title: 'Външен вид',
@@ -933,26 +1170,390 @@ export default {
     companyInfo: {
       description:
         'Подпомагане на образователните институции с инструменти за анализ и управление от ново поколение.',
+      subscribeSuccess: 'Успешно се абонирахте за нашия бюлетин!',
+      subscribeError: 'Възникна грешка при абонирането. Моля, опитайте отново.',
     },
-    quickLinks: {
-      title: 'Бързи връзки',
+    platform: {
+      title: 'Платформа',
       features: 'Функции',
-      roadmap: 'План',
+      getStarted: 'Започнете',
+      demo: 'Демо',
+    },
+    resources: {
+      title: 'Ресурси',
       documentation: 'Документация',
+      api: 'API',
+      status: 'Статус',
     },
-    contact: {
-      title: 'Контакт',
-      email: "{'contact@unitrack.edu'}",
-      phone: '+1 (555) 123-4567',
-    },
-    social: {
-      title: 'Последвайте ни',
+    support: {
+      followUs: 'Последвайте ни',
+      linkedin: 'LinkedIn профил',
+      github: 'GitHub профил',
     },
     bottomBar: {
       copyright: '© {year} UniTrack. Всички права запазени.',
-      privacyPolicy: 'Политика за поверителност',
-      termsOfService: 'Условия за ползване',
-      cookiePolicy: 'Политика за бисквитки',
+      privacy: 'Политика за поверителност',
+      selectLanguage: 'Изберете език',
+      toggleTheme: 'Превключване на темата',
+    },
+  },
+  institutionCard: {
+    defaultDescription:
+      'Институция от тип {category}, отдадена на академичното съвършенство и успеха на студентите.',
+    features: {
+      programs: '{count} програми | {count} програма | {count} програми',
+      students: '{count} студенти | {count} студент | {count} студенти',
+      departments:
+        '{count} департаменти | {count} департамент | {count} департаменти',
+      acceptanceRate: '{rate}% приемност',
+      websiteAvailable: 'Наличен уебсайт',
+      established: 'Осн. {year}',
+      contactAvailable: 'Наличен контакт',
+    },
+    actions: {
+      exploreSchool: 'Разгледай училището',
+      exploreUniversity: 'Разгледай университета',
+      share: 'Сподели {type}',
+      contact: 'Свържи се с институцията',
+    },
+    share: {
+      defaultText: 'Научи повече за {name}',
+      urlCopied: 'URL адресът е копиран в клипборда',
+      copyFailed: 'Неуспешно копиране на URL адреса',
+    },
+  },
+  semesterSelector: {
+    defaultLabel: 'Академичен семестър',
+    placeholder: 'Изберете семестър',
+    noSemestersAvailable: 'Няма налични семестри',
+    useCurrentSemester: 'Използвай текущия семестър',
+    currentSemesterTag: 'Текущ семестър',
+    autoSelectInfo: 'Автоматично се използва текущият семестър: {semesterName}',
+    info: {
+      semester: 'Семестър',
+      academicYear: 'Учебна година',
+      startDate: 'Начална дата',
+      endDate: 'Крайна дата',
+    },
+  },
+  invitationModal: {
+    titles: {
+      default: 'Приеми поканата',
+      withType: 'Приеми поканата за {type}',
+    },
+    buttons: {
+      accept: 'Приеми поканата',
+      cancel: 'Отказ',
+    },
+    confirmationText:
+      'На път сте да приемете покана за присъединяване към <strong>{institutionName}</strong>',
+    roleDetails: {
+      title: 'Детайли за ролята',
+      position: 'Позиция',
+      type: 'Тип',
+      gradeClass: 'Клас/Степен',
+      additionalInfo: 'Допълнителна информация',
+    },
+    notice: {
+      title: 'Какво следва?',
+      general: {
+        systemAccess: 'Ще получите достъп до системите на институцията',
+        accountLinked: 'Вашият акаунт ще бъде свързан с тази роля',
+        redirectDashboard: 'Ще бъдете пренасочени към новото си табло',
+      },
+      student: {
+        access:
+          'Можете да достъпвате оценките, заданията и информацията за класа си',
+      },
+      teacher: {
+        access:
+          'Можете да управлявате класовете, студентите и учебните материали',
+      },
+      admin: {
+        access: 'Ще имате административен достъп за управление на институцията',
+      },
+    },
+  },
+  declineModal: {
+    titles: {
+      default: 'Откажи поканата',
+      withType: 'Откажи поканата за {type}',
+    },
+    buttons: {
+      decline: 'Откажи поканата',
+      cancel: 'Отказ',
+    },
+    confirmationText:
+      'На път сте да откажете поканата от <strong>{institutionName}</strong>',
+    invitationDetails: {
+      title: 'Детайли за поканата',
+      position: 'Позиция',
+      type: 'Тип',
+      gradeClass: 'Клас/Степен',
+    },
+    form: {
+      reasonLabel: 'Причина за отказване (по избор)',
+      reasonPlaceholder: 'Моля, споделете защо отказвате тази покана...',
+      reasonHelp: 'Тази информация помага за подобряване на процеса на покани',
+    },
+    warning: {
+      title: 'Моля, имайте предвид',
+      cannotUndo: 'Това действие не може да бъде отменено',
+      adminNotified: 'Администраторът на институцията ще бъде уведомен',
+      futureInvitation: 'Можете да получите друга покана в бъдеще',
+      otherMeans:
+        'Все още можете да кандидатствате за присъединяване към тази институция по други начини',
+    },
+  },
+  invitationDetailsModal: {
+    titles: {
+      default: 'Детайли за поканата',
+      withType: 'Детайли за поканата за {type}',
+    },
+    header: {
+      positionType: 'Позиция {type}',
+    },
+    sections: {
+      institutionDetails: 'Детайли за институцията',
+      roleInformation: 'Информация за ролята',
+      timeline: 'Времева линия',
+      nextSteps: 'Следващи стъпки',
+    },
+    labels: {
+      institutionName: 'Име на институцията',
+      institutionId: 'ID на институцията',
+      positionTitle: 'Заглавие на позицията',
+      profileType: 'Тип профил',
+      gradeClassAssignment: 'Разпределение клас/степен',
+      additionalInformation: 'Допълнителна информация',
+    },
+    timeline: {
+      invitationSent: 'Изпратена покана',
+      currentStatus: 'Текущ статус',
+    },
+    nextSteps: {
+      reviewDetails: 'Прегледайте внимателно детайлите на поканата',
+      acceptInvitation:
+        'Приемете поканата, за да получите достъп до институцията',
+      contactInstitution: 'Свържете се с институцията, ако имате въпроси',
+      declineWarning:
+        'Откажете, ако не сте заинтересовани (това действие не може да бъде отменено)',
+    },
+    buttons: {
+      close: 'Затвори',
+      decline: 'Откажи',
+      accept: 'Приеми',
+    },
+    statusDescriptions: {
+      pending: 'Очаква вашия отговор',
+      active: 'Поканата е приета',
+      rejected: 'Поканата е отказана',
+      inactive: 'Профилът в момента е неактивен',
+      suspended: 'Профилът е временно спрян',
+    },
+  },
+  institutions: {
+    header: {
+      title: 'Моите Институции',
+    },
+    search: {
+      placeholder: 'Търсене на институции...',
+    },
+    views: {
+      list: 'Списък',
+      grid: 'Мрежа',
+    },
+    states: {
+      empty: {
+        title: 'Няма Намерени Институции',
+        description: 'Започнете като добавите вашата първа институция',
+      },
+    },
+    actions: {
+      dashboard: 'Табло',
+      goToDashboard: 'Отиди към Таблото',
+    },
+    tabs: {
+      details: 'Детайли',
+      gallery: 'Галерия',
+    },
+    details: {
+      description: 'Описание',
+      type: 'Тип',
+      motto: 'Мото',
+      established: 'Основана',
+      contact: 'Контакт',
+      location: 'Местоположение',
+      accreditations: 'Акредитации',
+      visitWebsite: 'Посетете Уебсайта',
+    },
+    types: {
+      PublicSchool: 'Държавно Училище',
+      PrivateSchool: 'Частно Училище',
+      CharterSchool: 'Чартърно Училище',
+      InternationalSchool: 'Международно Училище',
+      PublicUniversity: 'Държавен Университет',
+      PrivateUniversity: 'Частен Университет',
+      CommunityCollege: 'Общински Колеж',
+      TechnicalCollege: 'Технически Колеж',
+      LiberalArtsCollege: 'Хуманитарен Колеж',
+      PrimarySchool: 'Начално Училище',
+      SecondarySchool: 'Средно Училище',
+      HighSchool: 'Гимназия',
+      VocationalSchool: 'Професионално Училище',
+      SpecialEducationSchool: 'Специално Образование',
+      LanguageSchool: 'Езиково Училище',
+      Other: 'Друго',
+    },
+    accreditations: {
+      Regional: 'Регионална',
+      National: 'Национална',
+      International: 'Международна',
+      Professional: 'Професионална',
+      Specialized: 'Специализирана',
+      Religious: 'Религиозна',
+      Distance: 'Дистанционна',
+      Online: 'Онлайн',
+      Hybrid: 'Хибридна',
+      Programmatic: 'Програмна',
+      Institutional: 'Институционална',
+      Other: 'Друга',
+    },
+    errors: {
+      noUserId: 'Няма достъпен потребителски идентификатор',
+      fetchFailed: 'Неуспешно зареждане на институциите',
+    },
+  },
+  absenceForm: {
+    header: {
+      recordTitle: 'Записване на Отсъствие',
+      editTitle: 'Редактиране на Отсъствие',
+      subtitle:
+        'Следене на посещаемостта на учениците с контекст на семестъра и подробна документация на отсъствията',
+      indicator: 'Запис за Посещаемост',
+    },
+    sections: {
+      semesterContext: 'Контекст на Семестъра',
+      studentSubjectDetails: 'Данни за Ученик и Предмет',
+      attendanceDetails: 'Детайли за Посещаемост',
+      dateRangeNotice: 'Забележка за Период от Време',
+      attendanceStatusGuide: 'Справочник за Статус на Посещаемост',
+    },
+    labels: {
+      academicSemester: 'Учебен Семестър',
+      student: 'Ученик',
+      subjectOptional: 'Предмет (Незадължително)',
+      teacher: 'Учител',
+      absenceDate: 'Дата на Отсъствие',
+      attendanceStatus: 'Статус на Посещаемост',
+      excusedAbsence: 'Извинено Отсъствие',
+      reasonForAbsence: 'Причина за Отсъствие',
+    },
+    placeholders: {
+      currentSemester: 'Текущ семестър',
+      selectStudent: 'Изберете ученик',
+      selectSubject: 'Изберете предмет (незадължително)',
+      teacherAssignment: 'Назначение на учител',
+      selectAbsenceDate: 'Изберете дата на отсъствие',
+      selectAttendanceStatus: 'Изберете статус на посещаемост',
+      enterReason: 'Въведете причина за отсъствие (незадължително)',
+    },
+    helpText: {
+      autoSelectedSemester: 'Автоматично избран текущ семестър',
+      selectStudent: 'Изберете ученика за този запис на посещаемост',
+      selectSubject:
+        'Свържете отсъствието с конкретен предмет (оставете празно за общо отсъствие)',
+      autoAssignedTeacher: 'Автоматично назначен на текущия учител',
+      absenceDate: 'Дата, когато ученикът е отсъствал',
+      attendanceStatus: 'Изберете подходящия статус на посещаемост',
+      excusedAbsence: 'Отбележете дали това отсъствие е официално извинено',
+      reasonForAbsence:
+        'Незадължително: Предоставете допълнителен контекст или документация за отсъствието',
+    },
+    statusOptions: {
+      absent: 'Отсъстващ',
+      late: 'Закъснение',
+      leftEarly: 'Напуснал Рано',
+      sick: 'Болничен',
+      emergency: 'Спешност',
+    },
+    statusGuide: {
+      absent: {
+        label: 'Отсъстващ',
+        description: 'Ученикът не е присъствал през целия период/ден',
+      },
+      late: {
+        label: 'Закъснение',
+        description:
+          'Ученикът е пристигнал след официалното време за започване',
+      },
+      excused: {
+        label: 'Извинен',
+        description: 'Отсъствие с валидна документация и одобрение',
+      },
+    },
+    excusedStatus: {
+      excusedTitle: 'Извинено Отсъствие',
+      excusedDescription: 'Това отсъствие има валидна причина и документация',
+      unexcusedTitle: 'Неизвинено Отсъствие',
+      unexcusedDescription:
+        'Това отсъствие е неизвинено и може да засегне академичния статус',
+    },
+    warnings: {
+      unexcusedAbsencesWarning:
+        'Постоянните неизвинени отсъствия могат да засегнат академичния статус и напредъка на ученика.',
+      dateBeforeSemester: {
+        title: 'Дата Преди Семестъра',
+        message: 'Избраната дата е преди началната дата на семестъра ({date}).',
+      },
+      dateAfterSemester: {
+        title: 'Дата След Семестъра',
+        message: 'Избраната дата е след крайната дата на семестъра ({date}).',
+      },
+    },
+    actions: {
+      cancel: 'Отказ',
+      recordAbsence: 'Записване на Отсъствие',
+      updateAbsence: 'Актуализиране на Отсъствие',
+      clearValidation: 'Изчистване на Валидацията',
+    },
+    emptyStates: {
+      noStudents: 'Няма налични ученици',
+      noSubjects: 'Няма налични предмети',
+    },
+    validation: {
+      studentRequired: 'Ученикът е задължителен',
+      statusRequired: 'Статусът е задължителен',
+      dateRequired: 'Датата е задължителна',
+    },
+    notifications: {
+      validationError: {
+        title: 'Грешка при Валидация',
+        content: 'Моля, проверете формуляра за грешки',
+        fallback: 'Моля, проверете въвежданията във формуляра',
+      },
+    },
+    defaultValues: {
+      currentTeacher: 'Текущ Учител',
+    },
+    debug: {
+      title: 'Информация за Дебъгване',
+      date: 'Дата',
+      status: 'Статус',
+      isExcused: 'Е Извинен',
+      reason: 'Причина',
+      studentId: 'ID на Ученик',
+      subjectId: 'ID на Предмет',
+      semesterId: 'ID на Семестър',
+      teacherId: 'ID на Учител',
+      validationErrors: 'Грешки при Валидация',
+      semesterOptions: 'Опции за Семестър',
+      selectedSemester: 'Избран Семестър',
+      propsSemesterId: 'Props ID на Семестър',
+      propsSemesterOptionsLength: 'Props Дължина на Опции за Семестър',
+      validationClearTest: 'Тест за Изчистване на Валидация',
+      clean: 'ЧИСТО',
+      hasErrors: 'ИМА ГРЕШКИ',
     },
   },
 };
