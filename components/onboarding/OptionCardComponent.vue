@@ -1,7 +1,7 @@
 <template>
   <div
     v-motion
-    class="bg-background-card/80 backdrop-blur-sm rounded-xl border border-border/50 p-8 group hover:border-primary/50 transition-all duration-300 flex flex-col h-full"
+    class="bg-background-card backdrop-blur-sm rounded-xl p-8 group shadow-[0_0_0_1px_rgba(var(--color-primary-rgb,74,222,128),0.1),0_8px_28px_rgba(var(--color-primary-rgb,74,222,128),0.15)] hover:shadow-[0_0_0_1px_rgba(var(--color-primary-rgb,74,222,128),0.2),0_12px_36px_rgba(var(--color-primary-rgb,74,222,128),0.25)] transition-all duration-300"
     :initial="{ opacity: 0, y: 20 }"
     :enter="{ opacity: 1, y: 0 }"
     :delay="300"
