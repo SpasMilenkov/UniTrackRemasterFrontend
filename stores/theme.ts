@@ -12,49 +12,18 @@ import {
   type AccentColorType,
   type ColorSet,
 } from '../utils/theme-utils';
+import type { ThemeState } from '~/interfaces/theme/theme-state';
 
-// Utility function to safely access localStorage (for SSR compatibility)
-const getFromStorage = (key: string, defaultValue: string): string => {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    return localStorage.getItem(key) || defaultValue;
-  }
-  return defaultValue;
-};
 
-interface ThemeState {
-  currentTheme: ThemeType;
-  systemTheme: 'dark' | 'light';
-  accentColor: AccentColorType;
-}
 
 export const useThemeStore = defineStore('theme', {
-  state: (): ThemeState => {
-    // Try to get saved theme from localStorage safely (for SSR compatibility)
-    const savedTheme = getFromStorage('theme', 'dark') as ThemeType;
-    const savedAccentColor = getFromStorage(
-      'accentColor',
-      'green'
-    ) as AccentColorType;
-
-    return {
-      // Default to dark instead of system if nothing is saved or invalid
-      currentTheme: ['dark', 'light', 'system'].includes(savedTheme)
-        ? (savedTheme as ThemeType)
-        : 'dark',
-      systemTheme: 'dark',
-      accentColor: [
-        'green',
-        'blue',
-        'purple',
-        'pink',
-        'red',
-        'amber',
-        'teal',
-      ].includes(savedAccentColor)
-        ? (savedAccentColor as AccentColorType)
-        : 'green',
-    };
-  },
+  state: (): ThemeState => ({
+    // Always start with defaults - we'll load from localStorage in initTheme
+    currentTheme: 'dark',
+    systemTheme: 'dark',
+    accentColor: 'green',
+    isInitialized: false,
+  }),
 
   getters: {
     // Get the actual theme - resolves 'system' to either 'dark' or 'light'
@@ -112,6 +81,44 @@ export const useThemeStore = defineStore('theme', {
   },
 
   actions: {
+    // Load values from localStorage (client-side only)
+    loadFromLocalStorage(): void {
+      if (
+        typeof window === 'undefined' ||
+        typeof localStorage === 'undefined'
+      ) {
+        return;
+      }
+
+      try {
+        // Load theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme && ['dark', 'light', 'system'].includes(savedTheme)) {
+          this.currentTheme = savedTheme as ThemeType;
+        }
+
+        // Load accent color
+        const savedAccentColor = localStorage.getItem('accentColor');
+        const validColors: AccentColorType[] = [
+          'green',
+          'blue',
+          'purple',
+          'pink',
+          'red',
+          'amber',
+          'teal',
+        ];
+        if (
+          savedAccentColor &&
+          validColors.includes(savedAccentColor as AccentColorType)
+        ) {
+          this.accentColor = savedAccentColor as AccentColorType;
+        }
+      } catch (error) {
+        console.warn('Failed to load theme from localStorage:', error);
+      }
+    },
+
     // Set the theme explicitly
     setTheme(theme: ThemeType): void {
       // Validate theme option
@@ -268,8 +275,10 @@ export const useThemeStore = defineStore('theme', {
 
     // Initialize theme from localStorage or system preference
     initTheme(): void {
-      // Note: We already initialized the state with the saved theme in the state function
-      // This is kept for compatibility and to handle additional initialization tasks
+      if (this.isInitialized) return;
+
+      // First load from localStorage
+      this.loadFromLocalStorage();
 
       // Detect system theme preference
       this.detectSystemTheme();
@@ -279,9 +288,9 @@ export const useThemeStore = defineStore('theme', {
 
       // Apply CSS variables
       this.applyCssVariables();
+
+      this.isInitialized = true;
     },
   },
-
-  // Configure persistence
-  persist: true,
 });
+  
