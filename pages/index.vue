@@ -1,277 +1,419 @@
 <template>
   <div class="min-h-screen bg-background text-text-primary scroll-smooth">
-    <!-- Enhanced Hero Section (adjusted for navbar) -->
-    <div class="relative h-[calc(100vh-4rem)] overflow-hidden">
+    <!-- Hero Section -->
+    <section class="relative h-screen overflow-hidden">
       <!-- Video Background with Fallback -->
       <div class="absolute inset-0 z-0">
         <video
-          class="absolute w-full h-full object-cover opacity-15"
+          class="absolute w-full h-full object-cover opacity-20"
           autoplay
           loop
           muted
           playsinline
+          preload="metadata"
+          :aria-label="t('indexPage.videoBackground')"
         >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-          <!-- <source src="/videos/hero.webm" type="video/webm" /> -->
+          <source src="/videos/hero.mp4" type="video/mp4" >
+          <!-- Fallback background for when video fails to load -->
         </video>
+        <!-- Gradient overlay for better text readability -->
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/80"
+        />
       </div>
 
       <!-- Hero Content -->
       <div
         v-motion
-        class="relative z-10 h-full flex items-center justify-center"
-        :initial="{ opacity: 0, y: 100 }"
-        :enter="{ opacity: 1, y: 0 }"
-        :delay="200"
+        class="relative z-10 h-full flex items-center justify-center px-4"
+        :initial="{ opacity: 0, y: 50 }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: { duration: 800, ease: 'easeOut' },
+        }"
       >
-        <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+        <div class="max-w-5xl mx-auto text-center">
           <h1
             v-motion
-            class="text-6xl md:text-7xl font-bold tracking-tight bg-gradient-primary mb-6"
-            :initial="{ opacity: 0, y: 50 }"
-            :enter="{ opacity: 1, y: 0 }"
-            :delay="400"
+            class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
+            :initial="{ opacity: 0, y: 30 }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 800, delay: 200 },
+            }"
           >
-            {{ t('indexPage.title') }}
+            <span
+              class="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent"
+            >
+              {{ t('indexPage.title') }}
+            </span>
           </h1>
+
           <p
             v-motion
-            class="text-xl md:text-2xl text-text-secondary mb-8"
-            :initial="{ opacity: 0, y: 50 }"
-            :enter="{ opacity: 1, y: 0 }"
-            :delay="600"
+            class="text-xl md:text-2xl lg:text-3xl text-text-secondary mb-12 leading-relaxed max-w-4xl mx-auto"
+            :initial="{ opacity: 0, y: 30 }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 800, delay: 400 },
+            }"
           >
             {{ t('indexPage.subtitle') }}
           </p>
-          <n-button
+
+          <div
             v-motion
-            type="primary"
-            class="text-lg transform hover:scale-105 transition-all duration-300"
-            :initial="{ opacity: 0, y: 50 }"
-            :enter="{ opacity: 1, y: 0 }"
-            :delay="800"
-            @click="navigateTo(localePath('/get-started'))"
+            class="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            :initial="{ opacity: 0, y: 30 }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 800, delay: 600 },
+            }"
           >
-            {{ t('indexPage.getStarted') }}
-            <template #icon>
-              <Icon name="ph:arrow-right-bold" />
-            </template>
-          </n-button>
+            <button
+              class="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl shadow-lg flex items-center gap-3 group"
+              :aria-label="t('indexPage.getStarted')"
+              @click="navigateTo(localePath('/get-started'))"
+            >
+              {{ t('indexPage.getStarted') }}
+              <Icon
+                name="ph:arrow-right-bold"
+                class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </button>
+
+            <button
+              class="bg-background-secondary hover:bg-border text-text-primary px-8 py-4 rounded-xl font-semibold text-lg border border-border hover:border-primary/30 transition-all duration-300 flex items-center gap-3 group"
+              :aria-label="t('indexPage.learnMore')"
+              @click="scrollToFeatures"
+            >
+              {{ t('indexPage.learnMore') }}
+              <Icon
+                name="ph:arrow-down-bold"
+                class="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1"
+              />
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Animated Scroll Indicator -->
+      <!-- Scroll Indicator -->
       <div
         v-motion
-        class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
+        class="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
         :initial="{ opacity: 0 }"
-        :enter="{ opacity: 1 }"
-        :delay="1200"
+        :enter="{ opacity: 1, transition: { duration: 800, delay: 1000 } }"
+        @click="scrollToFeatures"
       >
-        <Icon
-          name="ph:arrow-down-bold"
-          class="text-4xl text-primary cursor-pointer"
-          @click="scrollToFeatures"
-        />
+        <div class="animate-bounce">
+          <Icon
+            name="ph:caret-down-bold"
+            class="text-3xl text-primary/70 hover:text-primary transition-colors duration-300"
+            :aria-label="t('indexPage.scrollDown')"
+          />
+        </div>
       </div>
-    </div>
+    </section>
 
     <!-- Features Section -->
-    <div id="features" class="py-24 bg-background relative overflow-hidden">
-      <!-- Enhanced Floating Particles -->
-      <div v-if="isClient" class="absolute inset-0 overflow-hidden">
-        <div
-          v-for="n in 50"
-          :key="n"
-          class="absolute w-1 h-1 bg-primary opacity-20 rounded-full animate-float"
-          :style="getParticleStyle()"
-        />
-      </div>
-      <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
-        <!-- Section Title -->
-        <div class="text-center mb-16">
-          <h2 class="text-4xl font-bold mb-4 bg-gradient-primary">
-            {{ t('indexPage.featuresTitle') }}
+    <section id="features" class="py-24 bg-background relative">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <!-- Section Header -->
+        <header class="text-center mb-20">
+          <h2
+            v-motion
+            class="text-4xl md:text-5xl font-bold mb-6"
+            :initial="{ opacity: 0, y: 30 }"
+            :enter="{ opacity: 1, y: 0, transition: { duration: 600 } }"
+          >
+            <span
+              class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+            >
+              {{ t('indexPage.featuresTitle') }}
+            </span>
           </h2>
-          <p class="text-text-secondary text-lg max-w-2xl mx-auto">
+          <p
+            v-motion
+            class="text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed"
+            :initial="{ opacity: 0, y: 30 }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 600, delay: 200 },
+            }"
+          >
             {{ t('indexPage.featuresSubtitle') }}
           </p>
-        </div>
+        </header>
 
         <!-- Features Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          <n-card
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <article
             v-for="(feature, index) in features"
-            :key="t(feature.title)"
+            :key="feature.title"
             v-motion
-            class="feature-card backdrop-blur-sm relative overflow-hidden"
-            :bordered="false"
+            class="feature-card bg-background-card border border-border rounded-2xl p-8 hover:border-primary/30 transition-all duration-500 group hover:shadow-xl hover:shadow-primary/5"
             :initial="{ opacity: 0, y: 50 }"
-            :enter="{ opacity: 1, y: 0 }"
-            :delay="index * 200"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 600, delay: index * 150 },
+            }"
           >
-            <!-- Card content remains the same -->
-            <div class="flex flex-col items-center text-center">
-              <!-- Icon Container -->
-              <div class="relative mb-8">
+            <!-- Feature Header -->
+            <div class="flex items-start gap-6 mb-8">
+              <!-- Icon -->
+              <div class="flex-shrink-0">
                 <div
-                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary opacity-10 rounded-full blur-xl"
-                />
-                <div
-                  class="relative w-16 h-16 bg-background-card rounded-full flex items-center justify-center"
-                >
-                  <Icon :name="feature.icon" class="text-primary w-7 h-7" />
-                </div>
-              </div>
-
-              <!-- Rest of the card content -->
-              <h3 class="text-2xl font-semibold text-text-primary mb-4">
-                {{ t(feature.title) }}
-              </h3>
-              <p class="text-text-secondary text-lg mb-8">
-                {{ t(feature.description) }}
-              </p>
-              <div class="space-y-4 w-full text-left">
-                <div
-                  v-for="(subFeature, subIndex) in feature.subFeatures"
-                  :key="subFeature"
-                  v-motion
-                  class="flex items-center gap-3 text-text-secondary"
-                  :initial="{ opacity: 0, x: -20 }"
-                  :enter="{ opacity: 1, x: 0 }"
-                  :delay="index * 100 + subIndex * 100"
+                  class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300"
                 >
                   <Icon
-                    name="ph:check-circle-fill"
-                    class="text-primary flex-shrink-0"
-                    size="22"
+                    :name="feature.icon"
+                    class="w-7 h-7 text-primary"
+                    :aria-hidden="true"
                   />
-                  <span class="text-base">{{ t(subFeature) }}</span>
                 </div>
               </div>
-            </div>
-          </n-card>
-        </div>
-      </div>
-    </div>
-    <div class="py-24 bg-background relative overflow-hidden">
-      <!-- Continued Floating Particles -->
-      <div class="absolute inset-0 overflow-hidden">
-        <div
-          v-for="n in 50"
-          :key="n"
-          class="absolute w-1 h-1 bg-primary opacity-20 rounded-full animate-float"
-          :style="{
-            left: Math.random() * 100 + '%',
-            top: Math.random() * 100 + '%',
-            '--tx': Math.random() * 200 - 100 + 'px',
-            '--ty': Math.random() * 200 - 100 + 'px',
-            '--scale': 0.5 + Math.random() * 1,
-            animationDelay: Math.random() * 10 + 's',
-            animationDuration: 10 + Math.random() * 20 + 's',
-          }"
-        />
-      </div>
 
-      <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
-        <!-- Section Title -->
-        <div class="text-center mb-16">
-          <h2 class="text-4xl font-bold mb-4 bg-gradient-primary">
-            {{ t('indexPage.contacts.title') }}
-          </h2>
-          <p class="text-text-secondary text-lg max-w-2xl mx-auto">
-            {{ t('indexPage.contacts.subtitle') }}
-          </p>
-        </div>
-
-        <!-- Contact Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          <n-card
-            v-for="(card, index) in cards"
-            :key="index"
-            v-motion
-            class="feature-card backdrop-blur-sm relative overflow-hidden"
-            :bordered="false"
-            :initial="{ opacity: 0, y: 50 }"
-            :enter="{ opacity: 1, y: 0 }"
-            :delay="index * 200"
-          >
-            <div class="flex flex-col items-center text-center h-full">
-              <!-- Icon Container -->
-              <div class="relative mb-8">
-                <div
-                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary opacity-10 rounded-full blur-xl"
-                />
-                <div
-                  class="relative w-16 h-16 bg-background-card rounded-full flex items-center justify-center"
+              <!-- Title and Description -->
+              <div class="flex-grow">
+                <h3
+                  class="text-2xl font-semibold text-text-primary mb-3 group-hover:text-primary transition-colors duration-300"
                 >
-                  <Icon :name="card.icon" class="text-primary w-7 h-7" />
-                </div>
+                  {{ t(feature.title) }}
+                </h3>
+                <p class="text-text-secondary leading-relaxed">
+                  {{ t(feature.description) }}
+                </p>
               </div>
-
-              <!-- Content -->
-              <h3 class="text-2xl font-semibold text-text-primary mb-4">
-                {{ t(card.title) }}
-              </h3>
-              <p class="text-text-secondary text-lg mb-8 flex-grow">
-                {{ t(card.description) }}
-              </p>
-
-              <!-- Button -->
-              <n-button
-                type="primary"
-                class="w-full text-base transform hover:scale-105 transition-all duration-300"
-                @click="navigateTo(card.link)"
-              >
-                {{ t(card.buttonText) }}
-                <template #icon>
-                  <Icon name="ph:arrow-right-bold" />
-                </template>
-              </n-button>
             </div>
-          </n-card>
+
+            <!-- Feature List -->
+            <ul class="space-y-3" role="list">
+              <li
+                v-for="(subFeature, subIndex) in feature.subFeatures"
+                :key="subFeature"
+                v-motion
+                class="flex items-center gap-3 text-text-secondary group-hover:text-text-primary transition-colors duration-300"
+                :initial="{ opacity: 0, x: -20 }"
+                :enter="{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    duration: 400,
+                    delay: index * 100 + subIndex * 50,
+                  },
+                }"
+              >
+                <Icon
+                  name="ph:check-circle-fill"
+                  class="text-primary flex-shrink-0 w-5 h-5"
+                  :aria-hidden="true"
+                />
+                <span>{{ t(subFeature) }}</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- Call to Action -->
+        <div
+          v-motion
+          class="text-center mt-20"
+          :initial="{ opacity: 0, y: 30 }"
+          :enter="{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 600, delay: 800 },
+          }"
+        >
+          <div
+            class="bg-background-card border border-border rounded-2xl p-12 max-w-4xl mx-auto"
+          >
+            <h3 class="text-3xl font-bold mb-4">
+              <span
+                class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+              >
+                {{ t('indexPage.cta.title') }}
+              </span>
+            </h3>
+            <p class="text-xl text-text-secondary mb-8 leading-relaxed">
+              {{ t('indexPage.cta.description') }}
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                class="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 group"
+                :aria-label="t('indexPage.getStarted')"
+                @click="navigateTo(localePath('/get-started'))"
+              >
+                {{ t('indexPage.getStarted') }}
+                <Icon
+                  name="ph:arrow-right-bold"
+                  class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </button>
+
+              <button
+                class="bg-background-secondary hover:bg-border text-text-primary px-8 py-4 rounded-xl font-semibold text-lg border border-border hover:border-primary/30 transition-all duration-300 flex items-center justify-center gap-3 group"
+                :aria-label="t('indexPage.viewDemo')"
+                @click="navigateTo(localePath('/demo'))"
+              >
+                {{ t('indexPage.viewDemo') }}
+                <Icon
+                  name="ph:play-circle-bold"
+                  class="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+                />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
+// Enhanced SEO and accessibility
+definePageMeta({
+  layout: 'default',
+  title: 'UniTrack | Unified Education Management Platform',
+  description:
+    'Transform educational management with UniTrack - the comprehensive platform for student tracking, academic analytics, and institutional efficiency.',
+});
+
+// Enhanced meta tags for better SEO
+useHead({
+  title: 'UniTrack | Unified Education Management Platform',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'UniTrack revolutionizes educational management with advanced student tracking, real-time analytics, automated workflows, and comprehensive institutional tools. Perfect for schools and universities.',
+    },
+    {
+      name: 'keywords',
+      content:
+        'education management, student tracking, academic analytics, school administration, university platform, education technology, student information system, academic planning, educational workflow',
+    },
+    { name: 'author', content: 'UniTrack Team' },
+    { name: 'robots', content: 'index, follow' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+    { name: 'theme-color', content: '#4ade80' },
+
+    // Open Graph tags
+    { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: 'UniTrack' },
+    {
+      property: 'og:title',
+      content: 'UniTrack | Unified Education Management Platform',
+    },
+    {
+      property: 'og:description',
+      content:
+        'Transform educational management with UniTrack - comprehensive platform for student tracking, analytics, and institutional efficiency.',
+    },
+    { property: 'og:image', content: '/images/uni-track-og-image.png' },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+    {
+      property: 'og:image:alt',
+      content: 'UniTrack Education Management Platform',
+    },
+    { property: 'og:url', content: 'https://yourdomain.com' },
+    { property: 'og:locale', content: 'en_US' },
+
+    // Twitter Card tags
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:site', content: '@UniTrack' },
+    {
+      name: 'twitter:title',
+      content: 'UniTrack | Education Management Simplified',
+    },
+    {
+      name: 'twitter:description',
+      content:
+        'Advanced education platform with student tracking, analytics, and workflow automation for modern institutions.',
+    },
+    { name: 'twitter:image', content: '/images/uni-track-twitter-image.png' },
+    {
+      name: 'twitter:image:alt',
+      content: 'UniTrack Education Platform Interface',
+    },
+  ],
+  link: [
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      href: '/apple-touch-icon.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      href: '/favicon-32x32.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      href: '/favicon-16x16.png',
+    },
+    { rel: 'manifest', href: '/site.webmanifest' },
+    { rel: 'canonical', href: 'https://yourdomain.com' },
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'UniTrack',
+        description:
+          'Comprehensive education management platform for schools and universities',
+        applicationCategory: 'BusinessApplication',
+        operatingSystem: 'Web',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+        author: {
+          '@type': 'Organization',
+          name: 'UniTrack Team',
+        },
+      }),
+    },
+  ],
+});
+
 const { t } = useI18n();
 const localePath = useLocalePath();
 
-// Smooth scroll to features
+// Smooth scroll to features with better UX
 const scrollToFeatures = () => {
-  document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+  const element = document.getElementById('features');
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }
 };
 
-const isClient = ref(false);
-
-// Function to generate particle styles
-// prevents hydration issues!!!
-const getParticleStyle = () => {
-  return {
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    '--tx': `${Math.random() * 200 - 100}px`,
-    '--ty': `${Math.random() * 200 - 100}px`,
-    '--scale': 0.5 + Math.random() * 1,
-    'animation-delay': `${Math.random() * 10}s`,
-    'animation-duration': `${10 + Math.random() * 20}s`,
-  };
-};
-
-onMounted(() => {
-  isClient.value = true;
-});
-
-// Features data
+// Enhanced features data with better structure
 const features = [
   {
     title: 'indexPage.features[0].title',
     description: 'indexPage.features[0].description',
-    badge: 'indexPage.features[0].badge',
-    icon: 'ph:medal-bold',
+    icon: 'ph:trophy-bold',
     subFeatures: [
       'indexPage.features[0].subFeatures[0]',
       'indexPage.features[0].subFeatures[1]',
@@ -282,7 +424,7 @@ const features = [
   {
     title: 'indexPage.features[1].title',
     description: 'indexPage.features[1].description',
-    icon: 'ph:calendar-bold',
+    icon: 'ph:calendar-check-bold',
     subFeatures: [
       'indexPage.features[1].subFeatures[0]',
       'indexPage.features[1].subFeatures[1]',
@@ -293,7 +435,6 @@ const features = [
   {
     title: 'indexPage.features[2].title',
     description: 'indexPage.features[2].description',
-    badge: 'indexPage.features[2].badge',
     icon: 'ph:chart-line-up-bold',
     subFeatures: [
       'indexPage.features[2].subFeatures[0]',
@@ -315,101 +456,169 @@ const features = [
   },
 ];
 
-const cards = [
-  {
-    icon: 'ph:headset-bold',
-    title: 'indexPage.contacts.cards[0].title',
-    description: 'indexPage.contacts.cards[0].description',
-    buttonText: 'indexPage.contacts.cards[0].buttonText',
-    link: localePath('/support'),
-  },
-  {
-    icon: 'ph:currency-circle-dollar-bold',
-    title: 'indexPage.contacts.cards[1].title',
-    description: 'indexPage.contacts.cards[1].description',
-    buttonText: 'indexPage.contacts.cards[1].buttonText',
-    link: localePath('/sales'),
-  },
-  {
-    icon: 'ph:handshake-bold',
-    title: 'indexPage.contacts.cards[2].title',
-    description: 'indexPage.contacts.cards[2].description',
-    buttonText: 'indexPage.contacts.cards[2].buttonText',
-    link: localePath('/partnerships'),
-  },
-];
+// Enhanced keyboard navigation
+onMounted(() => {
+  const handleKeyDown = (event: KeyboardEvent) => {
+    // Quick navigation shortcuts
+    if (event.altKey) {
+      switch (event.key) {
+        case 'f':
+          event.preventDefault();
+          scrollToFeatures();
+          break;
+        case 'g':
+          event.preventDefault();
+          navigateTo(localePath('/get-started'));
+          break;
+      }
+    }
+
+    // Escape to scroll to top
+    if (event.key === 'Escape') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  document.addEventListener('keydown', handleKeyDown);
+
+  onUnmounted(() => {
+    document.removeEventListener('keydown', handleKeyDown);
+  });
+});
+
 </script>
 
 <style scoped>
+/* Enhanced feature card styling inspired by the 404 page */
 .feature-card {
-  border-radius: 12px;
-  border: 1px solid rgba(var(--color-primary-rgb, 74, 222, 128), 0.15);
-}
-
-.bg-gradient-primary {
-  background-image: linear-gradient(
-    to right,
-    var(--color-primary),
-    var(--color-secondary)
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  display: inline-block;
-}
-
-:deep(.n-card) {
-  background-color: var(--color-background-card, #18181c) !important;
-  border: 1px solid rgba(var(--color-primary-rgb, 74, 222, 128), 0.15);
+  background: var(--color-background-card);
   backdrop-filter: blur(12px);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-:deep(.n-card:hover) {
-  transform: translateY(-4px);
-  border-color: rgba(var(--color-primary-rgb), 0.3);
-  box-shadow:
-    0 0 30px rgba(var(--color-primary-rgb), 0.1),
-    0 0 2px rgba(var(--color-primary-rgb), 0.3);
-}
-
-:deep(.n-card-header) {
-  padding: 1.5rem !important;
-}
-
-:deep(.n-card__content) {
-  padding: 1.5rem 2rem 2rem !important;
-}
-
-:deep(.n-card__content-inner) {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--color-primary-rgb), 0.03) 0%,
+    transparent 50%,
+    rgba(var(--color-secondary-rgb), 0.03) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
 }
 
 .feature-card:hover::before {
   opacity: 1;
 }
 
-@keyframes float {
-  0% {
-    transform: translate(0, 0) scale(var(--scale));
-    opacity: 0;
-  }
-  25% {
-    opacity: 1;
-  }
-  75% {
-    opacity: 1;
-  }
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(var(--color-primary-rgb), 0.1),
+    0 0 20px rgba(var(--color-primary-rgb), 0.05);
+}
+
+/* Enhanced gradient text styling */
+/* .bg-gradient-to-r {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 50%,
+    var(--color-primary) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease-in-out infinite;
+} */
+
+@keyframes gradientShift {
+  0%,
   100% {
-    transform: translate(var(--tx), var(--ty)) scale(var(--scale));
-    opacity: 0;
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
-.animate-float {
-  animation: float var(--duration, 15s) ease-in-out infinite alternate;
+/* Improved button hover effects */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition:
+    width 0.6s,
+    height 0.6s;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+button:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card,
+  button,
+  .bg-gradient-to-r {
+    animation: none;
+    transition: none;
+  }
+
+  .feature-card:hover {
+    transform: none;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+button:focus-visible,
+.feature-card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .feature-card {
+    border-width: 2px;
+  }
+
+  .bg-gradient-to-r {
+    background: var(--color-primary);
+  }
+}
+
+/* Print styles */
+@media print {
+  .feature-card {
+    break-inside: avoid;
+    border: 1px solid #000;
+  }
+
+  video,
+  .animate-bounce {
+    display: none;
+  }
 }
 </style>

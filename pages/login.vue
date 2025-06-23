@@ -16,7 +16,7 @@
             {{ t('loginPage.welcomeDescription') }}
           </p>
         </div>
-
+ 
         <!-- Footer -->
         <div class="pt-4 lg:pt-8 border-t theme-aware-border">
           <p class="theme-aware-text-muted text-sm">
@@ -80,12 +80,19 @@
               >
                 <n-input
                   v-model:value="password"
+                  :type="showPassword ? 'text' : 'password'"
                   :placeholder="t('loginPage.passwordPlaceholder')"
-                  type="password"
                   class="themed-input"
                 >
                   <template #prefix>
                     <Icon name="ph:lock-simple" />
+                  </template>
+                  <template #suffix>
+                    <Icon
+                      :name="showPassword ? 'ph:eye' : 'ph:eye-slash'"
+                      class="cursor-pointer"
+                      @click="showPassword = !showPassword"
+                    />
                   </template>
                 </n-input>
               </n-form-item>
@@ -134,7 +141,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useForm } from 'vee-validate';
-import { NButton, NForm, NInput, NSpace, NCard, NFormItem } from 'naive-ui';
+import {
+  NButton,
+  NForm,
+  NInput,
+  NSpace,
+  NCard,
+  NFormItem,
+  useNotification,
+} from 'naive-ui';
 import { loginSchema } from '~/schemas/login.schema';
 import { useAuthStore } from '@/stores/auth';
 
@@ -146,7 +161,8 @@ const authStore = useAuthStore();
 
 // Loading state
 const isLoading = ref(false);
-
+const notification = useNotification();
+const showPassword = ref(false);
 // Form Handling
 const { handleSubmit, defineField } = useForm({
   validationSchema: toTypedSchema(loginSchema),
@@ -158,8 +174,60 @@ const [password, passwordProps] = defineField('password', naiveUiFormsConfig);
 // Submit Handler
 const onSubmit = handleSubmit(async (values) => {
   isLoading.value = true;
+
+  // Clear any previous errors
+  authStore.clearError();
   try {
+    // Attempt login
     await authStore.login(values);
+
+    // Check if there's an error in the store after the operation
+    if (authStore.error) {
+      console.log(
+        '❌ Found error in store, showing error notification:',
+        authStore.error
+      );
+
+      notification.create({
+        title: t('loginPage.errorTitle') || 'Login Failed',
+        content: authStore.error,
+        type: 'error',
+        duration: 5000,
+      });
+    } else {
+      console.log('✅ No errors found, showing success notification');
+
+      notification.create({
+        title: t('loginPage.successTitle') || 'Success',
+        content:
+          t('loginPage.successMessage') || 'You have logged in successfully.',
+        type: 'success',
+        duration: 4000,
+      });
+    }
+  } catch (err: any) {
+    console.log('🚨 Caught error in submit handler:', err);
+    console.log('🚨 Error type:', typeof err);
+    console.log('🚨 Error message:', err?.message);
+    console.log('🚨 Error data:', err?.data);
+    console.log('🚨 Store error at catch time:', authStore.error);
+
+    // Fallback error handling
+    const errorMessage =
+      authStore.error ||
+      err?.data?.message ||
+      err?.message ||
+      t('loginPage.errorMessage') ||
+      'Something went wrong during login.';
+
+    console.log('🚨 Final error message to show:', errorMessage);
+
+    notification.create({
+      title: t('loginPage.errorTitle') || 'Login Failed',
+      content: errorMessage,
+      type: 'error',
+      duration: 5000,
+    });
   } finally {
     isLoading.value = false;
   }
