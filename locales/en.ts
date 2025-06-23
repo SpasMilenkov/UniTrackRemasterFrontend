@@ -4,6 +4,15 @@ export default {
     emailVerificationFailed: 'Email Verification Failed',
     passwordResetFailed: 'Password Reset Failed',
     defaultError: 'An unexpected error occurred. Please try again.',
+    failedToLoadData: 'Failed to load data',
+    failedToLoadAcademicYears: 'Failed to load academic years',
+    failedToLoadSemesters: 'Failed to load semesters',
+    failedToLoadClasses: 'Failed to load classes',
+    failedToLoadSubjects: 'Failed to load subjects',
+    failedToLoadStudents: 'Failed to load students',
+    unknownError: 'An unknown error occurred',
+    validation: 'Validation Error',
+    missingData: 'Required data is missing',
   },
   navigation: {
     home: 'Home',
@@ -11,50 +20,53 @@ export default {
     support: 'Support',
     login: 'Login',
     register: 'Register',
+    institutions: 'Institutions',
+    dashboard: 'Dashboard',
+    profile: 'Profile',
+    settings: 'Settings',
+    logout: 'Logout',
   },
   indexPage: {
     title: 'UniTrack',
-    subtitle:
-      'Revolutionizing education management with powerful analytics and insights',
+    subtitle: 'Revolutionizing education management with powerful analytics and insights',
     getStarted: 'Get Started',
+    learnMore: 'Learn More',
+    scrollDown: 'Scroll Down',
+    videoBackground: 'UniTrack platform background video',
     featuresTitle: 'Powerful Features',
-    featuresSubtitle:
-      'Everything you need to manage your educational institution effectively',
+    featuresSubtitle: 'Everything you need to manage your educational institution effectively',
+    viewDemo: 'View Demo',
+    
     features: [
       {
         title: 'Grade Tracking',
-        description:
-          'Monitor academic performance with detailed insights and comparisons',
-        badge: 'Most Popular',
+        description: 'Monitor academic performance with detailed insights and comparisons',
         subFeatures: [
           'Real-time grade updates',
           'Performance analytics',
           'Custom grading scales',
-          'Progress reports',
-        ],
+          'Progress reports'
+        ]
       },
       {
         title: 'Attendance Management',
-        description:
-          'Track and analyze attendance patterns for better academic planning',
+        description: 'Track and analyze attendance patterns for better academic planning',
         subFeatures: [
           'Automated tracking',
           'Absence notifications',
           'Attendance reports',
-          'Pattern analysis',
-        ],
+          'Pattern analysis'
+        ]
       },
       {
         title: 'School Analytics',
-        description:
-          'Comprehensive analytics and insights for educational institutions',
-        badge: 'New',
+        description: 'Comprehensive analytics and insights for educational institutions',
         subFeatures: [
           'Performance metrics',
           'Trend analysis',
           'Custom dashboards',
-          'Data visualization',
-        ],
+          'Data visualization'
+        ]
       },
       {
         title: 'Multi-Institution Support',
@@ -63,106 +75,103 @@ export default {
           'Centralized management',
           'Role-based access',
           'Cross-campus insights',
-          'Unified reporting',
-        ],
-      },
+          'Unified reporting'
+        ]
+      }
     ],
+
+    cta: {
+      title: 'Ready to Get Started?',
+      description: 'Join thousands of educational institutions already using UniTrack to improve their management.'
+    },
+
     roadmap: {
-      title: 'Our Roadmap',
-      subtitle:
-        'Follow our journey as we build the future of education management',
+      title: 'Development Roadmap',
+      subtitle: 'Follow our journey as we build the future of education management',
       roadmapSteps: [
         {
           title: 'Q2 2025',
           description: 'Mobile App Launch',
           icon: 'ph:rocket-launch-bold',
-          heading: 'Mobile First Approach',
-          details:
-            'Launch Android app with offline capabilities, real-time synchronization, and push notifications for important updates.',
+          heading: 'Mobile-First Approach',
+          details: 'Launch Android app with offline capabilities, real-time sync, and push notifications for important updates.',
           status: 'In Progress',
           keyFeatures: [
-            'Native Apps',
-            'Offline Mode',
-            'Push Notifications',
-            'Real-time Sync',
-          ],
+            'Native applications',
+            'Offline mode',
+            'Push notifications',
+            'Real-time sync'
+          ]
         },
         {
           title: 'Q3 2025',
-          description: 'AI-Powered Insights',
+          description: 'Smart Analytics',
           icon: 'ph:brain-bold',
-          heading: 'Intelligent Analytics',
-          details:
-            'Implement machine learning algorithms to provide predictive analytics, personalized learning paths, and early warning systems for academic performance.',
+          heading: 'AI-Powered Analytics',
+          details: 'Implement machine learning algorithms to provide predictive analytics, personalized learning paths, and early academic performance warnings.',
           status: 'Planning',
           keyFeatures: [
-            'ML Algorithms',
-            'Predictive Analytics',
-            'Learning Paths',
-            'Early Warnings',
-          ],
+            'Machine learning algorithms',
+            'Predictive analytics',
+            'Learning pathways',
+            'Early warnings'
+          ]
         },
         {
           title: 'Q4 2025',
           description: 'Parent Portal',
           icon: 'ph:users-bold',
           heading: 'Enhanced Parent Engagement',
-          details:
-            'Dedicated portal for parents with real-time updates, direct communication channels, and comprehensive progress tracking.',
+          details: 'Dedicated parent portal with real-time updates, direct communication channels, and comprehensive progress tracking.',
           status: 'Upcoming',
           keyFeatures: [
-            'Real-time Updates',
-            'Direct Messaging',
-            'Progress Tracking',
-            'Mobile Access',
-          ],
+            'Real-time updates',
+            'Direct messaging',
+            'Progress tracking',
+            'Mobile access'
+          ]
         },
         {
           title: 'Q1 2026',
-          description: 'International Expansion',
+          description: 'Global Expansion',
           icon: 'ph:globe-bold',
           heading: 'Global Education Network',
-          details:
-            'Multi-language support, region-specific compliance features, and integration with international education standards.',
+          details: 'Multi-language support, region-specific compliance features, and integration with international education standards.',
           status: 'Planned',
           keyFeatures: [
-            'Multi-language',
-            'Compliance',
-            'Integration',
-            'Global Standards',
-          ],
-        },
-      ],
+            'Multi-language support',
+            'Compliance features',
+            'International integration',
+            'Global standards'
+          ]
+        }
+      ]
     },
 
     contacts: {
       title: 'Get in Touch',
-      subtitle:
-        "Have questions about UniTrack? We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+      subtitle: 'Have questions about UniTrack? We\'d love to hear from you. Send us a message and we\'ll respond as soon as possible.',
       cards: [
         {
           icon: 'ph:headset-bold',
           title: 'Support',
           description: '24/7 support for all your technical needs',
-          buttonText: 'Contact Support',
-          link: '/support',
+          buttonText: 'Contact Support'
         },
         {
           icon: 'ph:currency-circle-dollar-bold',
           title: 'Sales',
           description: 'Learn about pricing and enterprise solutions',
-          buttonText: 'Talk to Sales',
-          link: '/sales',
+          buttonText: 'Talk to Sales'
         },
         {
           icon: 'ph:handshake-bold',
           title: 'Partnerships',
           description: 'Explore collaboration opportunities',
-          buttonText: 'Partner with Us',
-          link: '/partnerships',
-        },
-      ],
-    },
+          buttonText: 'Become a Partner'
+        }
+      ]
+    }
   },
   errorPage: {
     title: 'Oops! Something went wrong',
@@ -860,26 +869,223 @@ export default {
     needHelp: 'Need help? ',
     contactSupport: 'Contact Support',
   },
-  institutions: {
-    linkedInstitutions: 'Linked Institutions',
-    linkNew: 'Link New Institution',
-    linkFirst: 'Link Your First Institution',
-    noInstitutions: "You haven't linked any institutions yet",
-    viewDetails: 'View Details',
-    unlink: 'Unlink',
-    status: {
-      active: 'Active',
-      pending: 'Pending',
-    },
-    unlinkConfirmTitle: 'Unlink Institution',
-    unlinkConfirmMessage:
-      'Are you sure you want to unlink this institution? This action cannot be undone.',
-    unlinkSuccess: 'Institution has been successfully unlinked',
-    unlinkError: 'Failed to unlink institution. Please try again.',
-  },
   common: {
     confirm: 'Confirm',
     cancel: 'Cancel',
+    save: 'Save',
+    teacher: 'Teacher',
+    institution: 'Institution',
+    yes: 'Yes',
+    no: 'No',
+    notes: 'Notes',
+    showing: 'Showing',
+    of: 'of',
+  },
+  dashboard: {
+    teacher: {
+      title: 'Teacher Dashboard',
+      selectClassPrompt: 'Please select a class to begin',
+      selectSubjectPrompt: 'Please select a subject to continue',
+      noStudentsFound: 'No students found in this class',
+    },
+    welcome: 'Welcome',
+    selectAcademicYear: 'Select Academic Year',
+    selectSemester: 'Select Semester',
+    selectClass: 'Select Class',
+    selectSubject: 'Select Subject',
+    tabs: {
+      students: 'Students',
+      attendance: 'Attendance',
+      marks: 'Marks',
+      comments: 'Comments',
+    },
+    stats: {
+      students: 'Students',
+      subjects: 'Subjects',
+      classes: 'Classes',
+      todaysClasses: "Today's Classes",
+    },
+  },
+  student: {
+    name: 'Name',
+    grade: 'Grade',
+    absencesCount: 'Absences',
+    averageMark: 'Average Mark',
+    lastComment: 'Last Comment',
+    noComments: 'No comments yet',
+    addComment: 'Add Comment',
+    addMark: 'Add Mark',
+    recordAbsence: 'Record Absence',
+    history: 'History',
+  },
+  marks: {
+    management: 'Marks Management',
+    addCategory: 'Add Category',
+    createCategory: 'Create Mark Category',
+    categoryName: 'Category Name',
+    weight: 'Weight (%)',
+    color: 'Color',
+    scale: 'Grade Scale',
+    gradeScale: 'Grade Scale',
+    value: 'Value',
+    description: 'Description',
+    date: 'Date',
+    comment: 'Comment',
+    addComment: 'Add a comment...',
+    noCategories: 'No mark categories yet',
+    selectCategory: 'Select Category',
+    selectDate: 'Select Date',
+    descriptionPlaceholder: 'Description (e.g. Test Chapter 1)',
+    commentPlaceholder: 'Add a comment about this mark...',
+    save: 'Save Marks',
+    saveSuccess: 'Marks Saved',
+    saveSuccessMessage: 'Student marks have been saved successfully',
+    saveError: 'Failed to Save Marks',
+    loadError: 'Failed to Load Marks',
+    loadCategoriesError: 'Failed to Load Categories',
+    saveCategoryError: 'Failed to Add Category',
+    categoryAdded: 'Category Added',
+    confirmRemoveCategory:
+      'Are you sure you want to remove this category? All marks in this category will be lost.',
+    studentHistoryTitle: 'Mark History',
+    categoryNotFound: 'Mark category not found',
+    pass: 'Pass',
+    fail: 'Fail',
+    history: 'View History',
+    types: {
+      general: 'General',
+      behavior: 'Behavior',
+      academic: 'Academic',
+      positive: 'Positive',
+      improvement: 'Improvement',
+      attendance: 'Attendance',
+    },
+  },
+  comments: {
+    management: 'Comments Management',
+    add: 'Add Comment',
+    batchAdd: 'Batch Add Comment',
+    editComment: 'Edit Comment',
+    addComment: 'Add Comment',
+    commentType: 'Comment Type',
+    selectType: 'Select Type',
+    content: 'Content',
+    contentPlaceholder: 'Enter your comment here...',
+    visibilityLabel: 'Visibility',
+    selectStudents: 'Select Students',
+    date: 'Date',
+    noComments: 'No comments yet',
+    confirmDelete: 'Are you sure you want to delete this comment?',
+    contentRequired: 'Comment content is required',
+    noStudentsSelected: 'Please select at least one student',
+    saveSuccess: 'Comment Saved',
+    saveSuccessMessage: 'Comment has been saved successfully',
+    saveError: 'Failed to Save Comment',
+    loadError: 'Failed to Load Comments',
+    types: {
+      general: 'General',
+      behavior: 'Behavior',
+      academic: 'Academic',
+      positive: 'Positive',
+      improvement: 'Improvement',
+      attendance: 'Attendance',
+    },
+    visibility: {
+      teacher: 'Teachers Only',
+      student: 'Student & Teachers',
+      parent: 'Parents & Teachers',
+      all: 'All (Public)',
+    },
+  },
+  attendance: {
+    save: 'Save Attendance',
+    selectDate: 'Please select a date',
+    studentList: 'Student List',
+    markAllPresent: 'Mark All Present',
+    import: 'Import',
+    status: 'Status',
+    statuses: {
+      present: 'Present',
+      absent: 'Absent',
+      late: 'Late',
+      excused: 'Excused',
+    },
+    note: 'Note',
+    addNote: 'Add a note...',
+    totalStudents: 'Total Students',
+    present: 'Present',
+    absent: 'Absent',
+    attendance: 'Attendance',
+    saveSuccess: 'Attendance Saved',
+    saveSuccessMessage: 'Attendance records have been saved successfully',
+    saveError: 'Failed to Save Attendance',
+    loadError: 'Failed to Load Attendance',
+    importTitle: 'Import Attendance',
+    importNotImplemented: 'Attendance import feature is not yet implemented',
+    date: 'Date',
+    type: 'Type',
+    lesson: 'Lesson',
+    reason: 'Reason',
+    excused: 'Excused',
+    excusedNote:
+      "This absence is excused and won't affect attendance statistics",
+    unexcusedNote:
+      'This absence is not excused and will affect attendance statistics',
+    notesPlaceholder: 'Add any details about this absence...',
+    notification: 'Notification',
+    notifyParent: 'Notify parent about this absence',
+    absenceHistory: 'Absence History',
+    duration: 'Duration',
+    selectReason: 'Select Reason',
+    selectType: 'Select Type',
+    modes: {
+      manual: 'Manual Entry',
+      qr: 'QR Code Scan',
+    },
+    types: {
+      full: 'Full Day',
+      late: 'Late',
+      lesson: 'Specific Lesson',
+    },
+    reasons: {
+      illness: 'Illness',
+      family: 'Family Reasons',
+      medical: 'Medical Appointment',
+      transport: 'Transportation Issues',
+      school: 'School Activity',
+      other: 'Other',
+    },
+  },
+  actions: {
+    refresh: 'Refresh',
+    quickActions: 'Quick Actions',
+    title: 'Actions',
+    filter: 'Filter',
+    export: 'Export',
+    mark: 'Mark',
+    comment: 'Comment',
+    absence: 'Absence',
+    takeAttendance: 'Take Attendance',
+    addMarks: 'Add Marks',
+    scheduleEvent: 'Schedule Event',
+    viewTimetable: 'View Timetable',
+  },
+  validation: {
+    required: 'This field is required',
+    weightRange: 'Weight must be between 1 and 100',
+    error: 'Validation Error',
+    checkFields: 'Please check all required fields',
+  },
+  success: {
+    attendanceSaved: 'Attendance has been saved successfully',
+    marksSaved: 'Marks have been saved successfully',
+    commentsSaved: 'Comments have been saved successfully',
+  },
+  filters: {
+    all: 'All Students',
+    withAbsences: 'With Absences',
+    withComments: 'With Comments',
+    withLowMarks: 'With Low Marks',
   },
   settings: {
     title: 'Account Management',
@@ -1038,26 +1244,383 @@ export default {
     companyInfo: {
       description:
         'Empowering educational institutions with next-generation analytics and management tools.',
+      subscribeSuccess: 'Successfully subscribed to our newsletter!',
+      subscribeError: 'An error occurred while subscribing. Please try again.',
     },
-    quickLinks: {
-      title: 'Quick Links',
+    platform: {
+      title: 'Platform',
       features: 'Features',
-      roadmap: 'Roadmap',
+      getStarted: 'Get Started',
+      demo: 'Demo',
+    },
+    resources: {
+      title: 'Resources',
       documentation: 'Documentation',
+      api: 'API',
+      status: 'Status',
     },
-    contact: {
-      title: 'Contact',
-      email: "{'contact@unitrack.edu'}",
-      phone: '+1 (555) 123-4567',
-    },
-    social: {
-      title: 'Follow Us',
+    support: {
+      followUs: 'Follow Us',
+      linkedin: 'LinkedIn Profile',
+      github: 'GitHub Profile',
     },
     bottomBar: {
       copyright: '© {year} UniTrack. All rights reserved.',
-      privacyPolicy: 'Privacy Policy',
-      termsOfService: 'Terms of Service',
-      cookiePolicy: 'Cookie Policy',
+      privacy: 'Privacy Policy',
+      selectLanguage: 'Select Language',
+      toggleTheme: 'Toggle Theme',
     },
   },
+  institutionCard: {
+    defaultDescription:
+      'A {category} institution dedicated to academic excellence and student success.',
+    features: {
+      programs: '{count} Programs',
+      students: '{count} Students',
+      departments: '{count} Departments',
+      acceptanceRate: '{rate}% Acceptance',
+      websiteAvailable: 'Website Available',
+      established: 'Est. {year}',
+      contactAvailable: 'Contact Available',
+    },
+    actions: {
+      exploreSchool: 'Explore School',
+      exploreUniversity: 'Explore University',
+      share: 'Share {type}',
+      contact: 'Contact institution',
+    },
+    share: {
+      defaultText: 'Learn about {name}',
+      urlCopied: 'URL copied to clipboard',
+      copyFailed: 'Failed to copy URL',
+    },
+  },
+  semesterSelector: {
+    defaultLabel: 'Academic Semester',
+    placeholder: 'Select semester',
+    noSemestersAvailable: 'No semesters available',
+    useCurrentSemester: 'Use Current Semester',
+    currentSemesterTag: 'Current Semester',
+    autoSelectInfo: 'Automatically using current semester: {semesterName}',
+    info: {
+      semester: 'Semester',
+      academicYear: 'Academic Year',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+    },
+  },
+  invitationModal: {
+    titles: {
+      default: 'Accept Invitation',
+      withType: 'Accept {type} Invitation',
+    },
+    buttons: {
+      accept: 'Accept Invitation',
+      cancel: 'Cancel',
+    },
+    confirmationText:
+      "You're about to accept an invitation to join <strong>{institutionName}</strong>",
+    roleDetails: {
+      title: 'Role Details',
+      position: 'Position',
+      type: 'Type',
+      gradeClass: 'Grade/Class',
+      additionalInfo: 'Additional Information',
+    },
+    notice: {
+      title: 'What happens next?',
+      general: {
+        systemAccess: "You'll gain access to the institution's systems",
+        accountLinked: 'Your account will be linked to this role',
+        redirectDashboard: "You'll be redirected to your new dashboard",
+      },
+      student: {
+        access:
+          'You can access your grades, assignments, and class information',
+      },
+      teacher: {
+        access: 'You can manage your classes, students, and course materials',
+      },
+      admin: {
+        access: "You'll have administrative access to manage the institution",
+      },
+    },
+  },
+  declineModal: {
+    titles: {
+      default: 'Decline Invitation',
+      withType: 'Decline {type} Invitation',
+    },
+    buttons: {
+      decline: 'Decline Invitation',
+      cancel: 'Cancel',
+    },
+    confirmationText:
+      "You're about to decline the invitation from <strong>{institutionName}</strong>",
+    invitationDetails: {
+      title: 'Invitation Details',
+      position: 'Position',
+      type: 'Type',
+      gradeClass: 'Grade/Class',
+    },
+    form: {
+      reasonLabel: 'Reason for declining (optional)',
+      reasonPlaceholder:
+        "Please let us know why you're declining this invitation...",
+      reasonHelp: 'This information helps improve our invitation process',
+    },
+    warning: {
+      title: 'Please note',
+      cannotUndo: 'This action cannot be undone',
+      adminNotified: 'The institution administrator will be notified',
+      futureInvitation: 'You may receive another invitation in the future',
+      otherMeans:
+        'You can still apply to join this institution through other means',
+    },
+  },
+  invitationDetailsModal: {
+    titles: {
+      default: 'Invitation Details',
+      withType: '{type} Invitation Details',
+    },
+    header: {
+      positionType: '{type} Position',
+    },
+    sections: {
+      institutionDetails: 'Institution Details',
+      roleInformation: 'Role Information',
+      timeline: 'Timeline',
+      nextSteps: 'Next Steps',
+    },
+    labels: {
+      institutionName: 'Institution Name',
+      institutionId: 'Institution ID',
+      positionTitle: 'Position Title',
+      profileType: 'Profile Type',
+      gradeClassAssignment: 'Grade/Class Assignment',
+      additionalInformation: 'Additional Information',
+    },
+    timeline: {
+      invitationSent: 'Invitation Sent',
+      currentStatus: 'Current Status',
+    },
+    nextSteps: {
+      reviewDetails: 'Review the invitation details carefully',
+      acceptInvitation:
+        'Accept the invitation to gain access to the institution',
+      contactInstitution: 'Contact the institution if you have any questions',
+      declineWarning:
+        "Decline if you're not interested (this action cannot be undone)",
+    },
+    buttons: {
+      close: 'Close',
+      decline: 'Decline',
+      accept: 'Accept',
+    },
+    statusDescriptions: {
+      pending: 'Waiting for your response',
+      active: 'Invitation has been accepted',
+      rejected: 'Invitation was declined',
+      inactive: 'Profile is currently inactive',
+      suspended: 'Profile has been suspended',
+    },
+  },
+    institutions: {
+    header: {
+      title: 'My Institutions'
+    },
+    search: {
+      placeholder: 'Search institutions...'
+    },
+    views: {
+      list: 'List',
+      grid: 'Grid'
+    },
+    states: {
+      empty: {
+        title: 'No Institutions Found',
+        description: 'Get started by adding your first institution'
+      }
+    },
+    actions: {
+      dashboard: 'Dashboard',
+      goToDashboard: 'Go to Dashboard'
+    },
+    tabs: {
+      details: 'Details',
+      gallery: 'Gallery'
+    },
+    details: {
+      description: 'Description',
+      type: 'Type',
+      motto: 'Motto',
+      established: 'Established',
+      contact: 'Contact',
+      location: 'Location',
+      accreditations: 'Accreditations',
+      visitWebsite: 'Visit Website'
+    },
+    types: {
+      PublicSchool: 'Public School',
+      PrivateSchool: 'Private School',
+      CharterSchool: 'Charter School',
+      InternationalSchool: 'International School',
+      PublicUniversity: 'Public University',
+      PrivateUniversity: 'Private University',
+      CommunityCollege: 'Community College',
+      TechnicalCollege: 'Technical College',
+      LiberalArtsCollege: 'Liberal Arts College',
+      PrimarySchool: 'Primary School',
+      SecondarySchool: 'Secondary School',
+      HighSchool: 'High School',
+      VocationalSchool: 'Vocational School',
+      SpecialEducationSchool: 'Special Education',
+      LanguageSchool: 'Language School',
+      Other: 'Other'
+    },
+    accreditations: {
+      Regional: 'Regional',
+      National: 'National',
+      International: 'International',
+      Professional: 'Professional',
+      Specialized: 'Specialized',
+      Religious: 'Religious',
+      Distance: 'Distance Learning',
+      Online: 'Online',
+      Hybrid: 'Hybrid',
+      Programmatic: 'Programmatic',
+      Institutional: 'Institutional',
+      Other: 'Other'
+    },
+    errors: {
+      noUserId: 'No user ID available',
+      fetchFailed: 'Failed to fetch institutions'
+    }
+  },
+    absenceForm: {
+    header: {
+      recordTitle: 'Record Absence',
+      editTitle: 'Edit Absence',
+      subtitle: 'Track student attendance with semester context and detailed absence documentation',
+      indicator: 'Attendance Record'
+    },
+    sections: {
+      semesterContext: 'Semester Context',
+      studentSubjectDetails: 'Student & Subject Details',
+      attendanceDetails: 'Attendance Details',
+      dateRangeNotice: 'Date Range Notice',
+      attendanceStatusGuide: 'Attendance Status Guide'
+    },
+    labels: {
+      academicSemester: 'Academic Semester',
+      student: 'Student',
+      subjectOptional: 'Subject (Optional)',
+      teacher: 'Teacher',
+      absenceDate: 'Absence Date',
+      attendanceStatus: 'Attendance Status',
+      excusedAbsence: 'Excused Absence',
+      reasonForAbsence: 'Reason for Absence'
+    },
+    placeholders: {
+      currentSemester: 'Current semester',
+      selectStudent: 'Select student',
+      selectSubject: 'Select subject (optional)',
+      teacherAssignment: 'Teacher assignment',
+      selectAbsenceDate: 'Select absence date',
+      selectAttendanceStatus: 'Select attendance status',
+      enterReason: 'Enter reason for absence (optional)'
+    },
+    helpText: {
+      autoSelectedSemester: 'Automatically selected current semester',
+      selectStudent: 'Select the student for this attendance record',
+      selectSubject: 'Link absence to a specific subject (leave empty for general absence)',
+      autoAssignedTeacher: 'Automatically assigned to current teacher',
+      absenceDate: 'Date when the student was absent',
+      attendanceStatus: 'Choose the appropriate attendance status',
+      excusedAbsence: 'Mark whether this absence is officially excused',
+      reasonForAbsence: 'Optional: Provide additional context or documentation for the absence'
+    },
+    statusOptions: {
+      absent: 'Absent',
+      late: 'Late arrival',
+      leftEarly: 'Left Early',
+      sick: 'Sick Leave',
+      emergency: 'Emergency'
+    },
+    statusGuide: {
+      absent: {
+        label: 'Absent',
+        description: 'Student was not present for the entire period/day'
+      },
+      late: {
+        label: 'Late',
+        description: 'Student arrived after the official start time'
+      },
+      excused: {
+        label: 'Excused',
+        description: 'Absence with valid documentation and approval'
+      }
+    },
+    excusedStatus: {
+      excusedTitle: 'Excused Absence',
+      excusedDescription: 'This absence has a valid reason and documentation',
+      unexcusedTitle: 'Unexcused Absence',
+      unexcusedDescription: 'This absence is unexcused and may affect academic standing'
+    },
+    warnings: {
+      unexcusedAbsencesWarning: 'Consistent unexcused absences may affect the student\'s academic standing and progression.',
+      dateBeforeSemester: {
+        title: 'Date Before Semester',
+        message: 'The selected date is before the semester start date ({date}).'
+      },
+      dateAfterSemester: {
+        title: 'Date After Semester',
+        message: 'The selected date is after the semester end date ({date}).'
+      }
+    },
+    actions: {
+      cancel: 'Cancel',
+      recordAbsence: 'Record Absence',
+      updateAbsence: 'Update Absence',
+      clearValidation: 'Clear Validation'
+    },
+    emptyStates: {
+      noStudents: 'No students available',
+      noSubjects: 'No subjects available'
+    },
+    validation: {
+      studentRequired: 'Student is required',
+      statusRequired: 'Status is required',
+      dateRequired: 'Date is required'
+    },
+    notifications: {
+      validationError: {
+        title: 'Validation Error',
+        content: 'Please check the form for errors',
+        fallback: 'Please check your form inputs'
+      }
+    },
+    defaultValues: {
+      currentTeacher: 'Current Teacher'
+    },
+    debug: {
+      title: 'Debug Info',
+      date: 'Date',
+      status: 'Status',
+      isExcused: 'Is Excused',
+      reason: 'Reason',
+      studentId: 'Student ID',
+      subjectId: 'Subject ID',
+      semesterId: 'Semester ID',
+      teacherId: 'Teacher ID',
+      validationErrors: 'Validation Errors',
+      semesterOptions: 'Semester Options',
+      selectedSemester: 'Selected Semester',
+      propsSemesterId: 'Props Semester ID',
+      propsSemesterOptionsLength: 'Props Semester Options Length',
+      validationClearTest: 'Validation Clear Test',
+      clean: 'CLEAN',
+      hasErrors: 'HAS ERRORS'
+    }
+  }
 };
