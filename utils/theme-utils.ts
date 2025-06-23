@@ -229,3 +229,4 @@ export function getCssVariables(
     '--color-secondary-hover': colorSet['secondary-hover'],
   };
 }
+
