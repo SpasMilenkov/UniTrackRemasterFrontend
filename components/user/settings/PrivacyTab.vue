@@ -8,15 +8,15 @@
         {{ t('settings.privacy.subtitle') }}
       </p>
     </div>
-    <div class="space-y-6">
+    <div v-if="privacyStore" class="space-y-6">
       <div>
         <h3 class="text-lg font-medium mb-3">
           {{ t('settings.privacy.dataUsage.title') }}
         </h3>
         <n-form-item>
           <n-switch
-            :value="privacySettings.dataAnalytics"
-            @update:value="updatePrivacySetting('dataAnalytics', $event)"
+            :value="privacyStore.dataAnalytics"
+            @update:value="handleUpdateSetting('dataAnalytics', $event)"
           />
           <template #label>
             <div class="ml-2">
@@ -37,8 +37,8 @@
         <n-space vertical>
           <n-form-item>
             <n-switch
-              :value="privacySettings.emailUpdates"
-              @update:value="updatePrivacySetting('emailUpdates', $event)"
+              :value="privacyStore.emailUpdates"
+              @update:value="handleUpdateSetting('emailUpdates', $event)"
             />
             <template #label>
               <div class="ml-2">
@@ -57,8 +57,8 @@
           </n-form-item>
           <n-form-item>
             <n-switch
-              :value="privacySettings.marketingEmails"
-              @update:value="updatePrivacySetting('marketingEmails', $event)"
+              :value="privacyStore.marketingEmails"
+              @update:value="handleUpdateSetting('marketingEmails', $event)"
             />
             <template #label>
               <div class="ml-2">
@@ -83,9 +83,9 @@
         </h3>
         <n-form-item>
           <n-select
-            :value="privacySettings.profileVisibility"
-            :options="visibilityOptions"
-            @update:value="updatePrivacySetting('profileVisibility', $event)"
+            :value="privacyStore.profileVisibility"
+            :options="userStore.visibilityOptions"
+            @update:value="handleUpdateSetting('profileVisibility', $event)"
           />
           <template #label>
             <span>{{
@@ -94,42 +94,51 @@
           </template>
         </n-form-item>
       </div>
-      <div class="flex justify-end mt-6">
-        <n-button
-          type="primary"
-          :loading="isSaving.privacy"
-          class="transform hover:scale-105 transition-all duration-300"
-          @click="$emit('savePrivacySettings')"
-        >
-          {{ t('settings.privacy.saveButton') }}
-        </n-button>
-      </div>
+    </div>
+    <div v-else class="flex justify-center items-center py-8">
+      <n-spin size="large" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-
-defineProps({
-  privacySettings: {
-    type: Object,
-    required: true,
-  },
-  visibilityOptions: {
-    type: Array,
-    required: true,
-  },
-  isSaving: {
-    type: Object,
-    required: true,
-  },
-});
+import { useUserStore } from '@/stores/user';
+import { computed, onMounted } from 'vue';
+import { useNotification } from 'naive-ui';
 
 const { t } = useI18n();
-const emit = defineEmits(['savePrivacySettings', 'updatePrivacySetting']);
+const userStore = useUserStore();
+const notification = useNotification();
 
-function updatePrivacySetting(field, value) {
-  emit('updatePrivacySetting', { field, value });
+// Compute privacy settings from the store
+const privacyStore = computed(() => userStore.privacySettings);
+
+// Handle immediate updates for individual settings
+async function handleUpdateSetting(field, value) {
+  try {
+    await userStore.updatePrivacySetting(field, value);
+    notification.success({
+      title: t('settings.privacy.notifications.settingUpdated'),
+      content: t('settings.privacy.notifications.settingUpdatedMessage', {
+        field,
+      }),
+      duration: 3000,
+    });
+  } catch (error) {
+    notification.error({
+      title: t('settings.privacy.notifications.error'),
+      content:
+        error.message || t('settings.privacy.notifications.genericError'),
+      duration: 5000,
+    });
+  }
 }
+
+// Fetch privacy settings on component mount if not already loaded
+onMounted(async () => {
+  if (!privacyStore.value) {
+    await userStore.fetchPrivacySettings();
+  }
+});
 </script>
