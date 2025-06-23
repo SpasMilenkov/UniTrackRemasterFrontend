@@ -3,6 +3,7 @@
     class="min-h-screen flex items-center justify-center bg-background relative"
   >
     <!-- Background overlay -->
+    <!-- Background overlay -->
     <div class="absolute inset-0 bg-black opacity-50" />
 
     <!-- Floating Particles Background -->
@@ -96,7 +97,7 @@
 import { codeAuthSchema } from '~/schemas/code-auth.schema';
 
 const onboardingStore = useOnboardingStore();
-const message = useMessage();
+const notification = useNotification();
 
 const { handleSubmit, defineField } = useForm({
   validationSchema: toTypedSchema(codeAuthSchema),
@@ -107,12 +108,65 @@ const [code, codeProps] = defineField('code', naiveUiFormsConfig);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    onboardingStore.processingSubmission = true;
     await onboardingStore.authenticateViaCode(values);
-  } catch {
-    message.error('Invalid code or email');
-  } finally {
-    onboardingStore.processingSubmission = false;
+
+    notification.success({
+      title: 'Verification Successful',
+      description:
+        'Code verified successfully! Redirecting to your institution portal...',
+      duration: 3000,
+    });
+  } catch (error: any) {
+    console.error('Authentication error:', error);
+
+    // Extract meaningful error message
+    const errorMessage = onboardingStore.extractErrorMessage(error);
+
+    // Show specific error notifications based on status codes
+    if (error?.status === 404) {
+      notification.error({
+        title: 'Application Not Found',
+        description:
+          'No application found for this email address. Please check your email and try again.',
+        duration: 5000,
+      });
+    } else if (error?.status === 401) {
+      notification.error({
+        title: 'Invalid Verification Code',
+        description:
+          'The verification code you entered is incorrect. Please check your email and try again.',
+        duration: 5000,
+      });
+    } else if (error?.status === 410) {
+      notification.error({
+        title: 'Code Expired',
+        description:
+          'Your verification code has expired. Please request a new code.',
+        duration: 5000,
+      });
+    } else if (error?.status === 422) {
+      notification.error({
+        title: 'Verification Error',
+        description:
+          errorMessage ||
+          'There was an issue with your application data. Please contact support.',
+        duration: 5000,
+      });
+    } else if (error?.status >= 500) {
+      notification.error({
+        title: 'Server Error',
+        description:
+          'Our servers are experiencing issues. Please try again in a few moments.',
+        duration: 5000,
+      });
+    } else {
+      notification.error({
+        title: 'Verification Failed',
+        description:
+          errorMessage || 'Failed to verify your code. Please try again.',
+        duration: 5000,
+      });
+    }
   }
 });
 </script>

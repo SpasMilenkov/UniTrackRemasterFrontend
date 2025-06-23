@@ -218,14 +218,15 @@ const statusToStep = (status: ApplicationStatus | null) => {
 
 onMounted(async () => {
   const id = route.params.id as string;
-  if (!onboardingStore.checkAuthStatus()) {
-    return navigateTo('/onboarding/auth');
-  }
+  // if (!onboardingStore.checkAuthStatus()) {
+  //   // return navigateTo('/onboarding/auth');
+  // }
 
   if (id) {
     try {
       await onboardingStore.getApplicationById(id);
     } catch (error) {
+      console.log('I AM FAILING TO FETCH');
       console.error('Failed to fetch application:', error);
       return navigateTo('/onboarding/auth');
     }
