@@ -13,59 +13,55 @@
         {{ t('settings.security.password.title') }}
       </h3>
       <div class="max-w-md">
-        <n-form
-          ref="passwordFormRef"
-          :model="passwordForm"
-          :rules="passwordRules"
-        >
+        <n-form @submit.prevent="submitPasswordChange">
           <n-form-item
-            path="currentPassword"
             :label="t('settings.security.password.currentPassword')"
+            v-bind="currentPasswordProps"
+            path="currentPassword"
           >
             <n-input
-              :value="passwordForm.currentPassword"
+              v-model:value="currentPassword"
               type="password"
               :placeholder="
                 t('settings.security.password.currentPasswordPlaceholder')
               "
-              :disabled="isSaving.password"
-              @update:value="updatePasswordField('currentPassword', $event)"
+              :disabled="isSubmitting"
             />
           </n-form-item>
           <n-form-item
-            path="newPassword"
             :label="t('settings.security.password.newPassword')"
+            v-bind="newPasswordProps"
+            path="newPassword"
           >
             <n-input
-              :value="passwordForm.newPassword"
+              v-model:value="newPassword"
               type="password"
               :placeholder="
                 t('settings.security.password.newPasswordPlaceholder')
               "
-              :disabled="isSaving.password"
-              @update:value="updatePasswordField('newPassword', $event)"
+              :disabled="isSubmitting"
             />
           </n-form-item>
           <n-form-item
-            path="confirmPassword"
             :label="t('settings.security.password.confirmPassword')"
+            v-bind="confirmPasswordProps"
+            path="confirmPassword"
           >
             <n-input
-              :value="passwordForm.confirmPassword"
+              v-model:value="confirmPassword"
               type="password"
               :placeholder="
                 t('settings.security.password.confirmPasswordPlaceholder')
               "
-              :disabled="isSaving.password"
-              @update:value="updatePasswordField('confirmPassword', $event)"
+              :disabled="isSubmitting"
             />
           </n-form-item>
           <div class="flex justify-end mt-4">
             <n-button
               type="primary"
-              :loading="isSaving.password"
+              attr-type="submit"
+              :loading="isSubmitting"
               class="transform hover:scale-105 transition-all duration-300"
-              @click="$emit('changePassword')"
             >
               {{ t('settings.security.password.updateButton') }}
             </n-button>
@@ -73,54 +69,53 @@
         </n-form>
       </div>
     </div>
-    <div>
-      <h3 class="text-lg font-medium mb-4">
-        {{ t('settings.security.twoFactor.title') }}
-      </h3>
-      <p class="text-text-secondary mb-4">
-        {{ t('settings.security.twoFactor.description') }}
-      </p>
-      <n-button
-        type="primary"
-        class="transform hover:scale-105 transition-all duration-300"
-      >
-        <template #icon>
-          <Icon name="mdi:shield-lock-outline" class="mr-1" />
-        </template>
-        {{ t('settings.security.twoFactor.enableButton') }}
-      </n-button>
-    </div>
   </div>
 </template>
 
-<script setup>
-import { Icon } from '#components';
+<script setup lang="ts">
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAuthStore } from '~/stores/auth';
+import { useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import { changePasswordSchema } from '~/schemas/change-password.schema';
+import { useMessage } from 'naive-ui';
 
 const { t } = useI18n();
+const authStore = useAuthStore();
+const message = useMessage();
 
-defineProps({
-  passwordForm: {
-    type: Object,
-    required: true,
-  },
-  passwordFormRef: {
-    type: Object,
-    required: true,
-  },
-  passwordRules: {
-    type: Object,
-    required: true,
-  },
-  isSaving: {
-    type: Object,
-    required: true,
-  },
+const isSubmitting = ref(false);
+
+const { handleSubmit, resetForm, defineField } = useForm({
+  validationSchema: toTypedSchema(changePasswordSchema()),
 });
 
-const emit = defineEmits(['changePassword', 'updatePasswordField']);
+const [currentPassword, currentPasswordProps] = defineField(
+  'currentPassword',
+  naiveUiFormsConfig
+);
+const [newPassword, newPasswordProps] = defineField(
+  'newPassword',
+  naiveUiFormsConfig
+);
+const [confirmPassword, confirmPasswordProps] = defineField(
+  'confirmPassword',
+  naiveUiFormsConfig
+);
 
-function updatePasswordField(field, value) {
-  emit('updatePasswordField', { field, value });
-}
+const submitPasswordChange = handleSubmit(async (values) => {
+  try {
+    isSubmitting.value = true;
+    await authStore.changePassword(values);
+    // Reset form
+    resetForm();
+    message.success(t('settings.security.passwordChangeSuccess'));
+  } catch (err: any) {
+    console.error(err);
+    message.error(err.message || t('settings.security.passwordChangeError'));
+  } finally {
+    isSubmitting.value = false;
+  }
+});
 </script>

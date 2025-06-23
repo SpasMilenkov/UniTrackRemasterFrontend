@@ -125,13 +125,13 @@
                 :src="profileImagePreview"
                 :alt="t('settings.profileImage.previewAlt')"
                 class="h-full w-full object-cover"
-              />
+              >
               <img
                 v-else-if="profileImageUrl"
                 :src="profileImageUrl"
                 :alt="t('settings.profileImage.currentAlt')"
                 class="h-full w-full object-cover"
-              />
+              >
               <span v-else class="text-4xl font-bold text-primary">{{
                 userInitials
               }}</span>
@@ -184,6 +184,7 @@ import ProfileTab from '~/components/user/settings/ProfileTab.vue';
 import SecurityTab from '~/components/user/settings/SecurityTab.vue';
 import AppearanceTab from '~/components/user/settings/AppearanceTab.vue';
 import PrivacyTab from '~/components/user/settings/PrivacyTab.vue';
+
 // Get i18n translations
 const { t } = useI18n();
 
@@ -201,7 +202,6 @@ const error = ref(null);
 const isLoading = ref(true);
 const showImageUpload = ref(false);
 const newProfileImage = ref(null);
-const profileImageUrl = ref(null);
 const profileImagePreview = ref(null);
 const isUploading = ref(false);
 const loading = computed(() => isLoading.value || userStore.loading);
@@ -345,13 +345,17 @@ const userInitials = computed(() => {
   return `${firstName.charAt(0)}${lastName.charAt(0)}`;
 });
 
+const profileImageUrl = computed(() => {
+  return userStore.userDetails?.profileImageUrl || null;
+});
+
 const isAdminUser = computed(() => {
   return userStore.userDetails?.role === 'admin';
 });
 
-const isStudentUser = computed(() => {
-  return userStore.userDetails?.role === 'student';
-});
+// const isStudentUser = computed(() => {
+//   return userStore.userDetails?.role === 'student';
+// });
 
 // Methods
 function toggleEditing(section) {
@@ -363,9 +367,9 @@ function toggleEditing(section) {
     formData.lastName = userStore.userDetails?.lastName || '';
     formData.displayName = userStore.displayName || '';
     formData.email = userStore.userDetails?.email || '';
-    formData.phone = adminData.value?.phone || '';
+    formData.phone = userStore.userDetails?.phone || '';
   } else if (section === 'organization') {
-    formData.department = adminData.value?.department || '';
+    formData.department = userStore.userDetails?.department || '';
   }
 }
 
@@ -423,23 +427,8 @@ async function uploadProfileImage() {
   try {
     isUploading.value = true;
 
-    const userId = authStore.user.id;
-    const formData = new FormData();
-    formData.append('avatar', newProfileImage.value);
-
-    // Upload the image
-    const result = await useNuxtApp().$api.post(
-      `/User/${userId}/avatar`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
-
-    // Update UI
-    profileImageUrl.value = result.url || profileImagePreview.value;
+    // Use the user store to upload the profile image
+    await userStore.uploadProfileImage(newProfileImage.value);
 
     // Close modal
     closeImageUpload();
@@ -454,36 +443,9 @@ async function uploadProfileImage() {
   }
 }
 
-async function updateAdminProfile(userId, data) {
-  // Update the admin profile using API client
-  await useNuxtApp().$api.put(`/Admin/${adminData.value.id}`, {
-    ...data,
-    id: adminData.value.id,
-  });
-}
-
-async function updateStudentProfile(userId, data) {
-  // Update the student profile using API client
-  await useNuxtApp().$api.put(`/Students/${studentData.value.id}`, {
-    ...data,
-    id: studentData.value.id,
-  });
-}
-
-async function updateUserProfile(userId, data) {
-  // Generic user update
-  await useNuxtApp().$api.put(`/User/${userId}`, data);
-}
-
 async function saveProfile() {
   try {
     isSaving.profile = true;
-
-    const userId = authStore.user.id;
-
-    if (!userId) {
-      throw new Error(t('settings.profile.errors.userIdNotFound'));
-    }
 
     // Prepare updated data
     const updatedData = {
@@ -493,18 +455,8 @@ async function saveProfile() {
       phone: formData.phone,
     };
 
-    // Call the appropriate API endpoint based on user role
-    if (isAdminUser.value && adminData.value) {
-      await updateAdminProfile(userId, updatedData);
-    } else if (isStudentUser.value && studentData.value) {
-      await updateStudentProfile(userId, updatedData);
-    } else {
-      // Generic user update
-      await updateUserProfile(userId, updatedData);
-    }
-
-    // Refresh user data
-    await fetchData();
+    // Use the user store to update the profile
+    await userStore.updateUserProfile(updatedData);
 
     // Reset state
     isEditing.profile = false;
@@ -523,18 +475,14 @@ async function saveOrganization() {
   try {
     isSaving.organization = true;
 
-    if (!isAdminUser.value || !adminData.value) {
+    if (!isAdminUser.value) {
       throw new Error(t('settings.organization.errors.adminOnly'));
     }
 
-    // Update admin organization info
-    await useNuxtApp().$api.put(`/Admin/${adminData.value.id}`, {
-      id: adminData.value.id,
+    // Use the user store to update organization data
+    await userStore.updateUserOrganization({
       department: formData.department,
     });
-
-    // Refresh data
-    await fetchData();
 
     // Reset state
     isEditing.organization = false;
@@ -555,8 +503,8 @@ async function changePassword() {
 
     isSaving.password = true;
 
-    // Call API to change password
-    await useNuxtApp().$api.post('/Auth/reset-password', {
+    // Call the auth store to change password
+    await authStore.resetPassword({
       email: userStore.userDetails?.email,
       token: passwordForm.currentPassword, // This depends on your API requirements
       newPassword: passwordForm.newPassword,
@@ -601,8 +549,6 @@ function setAccentColor(colorName) {
 async function savePrivacySettings() {
   try {
     isSaving.privacy = true;
-
-    // Call API to update privacy settings
     await useNuxtApp().$api.post('/User/privacy-settings', privacySettings);
 
     // Show success message
@@ -614,7 +560,6 @@ async function savePrivacySettings() {
     isSaving.privacy = false;
   }
 }
-
 async function fetchData() {
   try {
     error.value = null;
@@ -632,55 +577,23 @@ async function fetchData() {
       await userStore.fetchUserDetails(userId);
     }
 
-    // Initialize form data
+    // Initialize form data from the store
     formData.firstName = userStore.userDetails?.firstName || '';
     formData.lastName = userStore.userDetails?.lastName || '';
-    formData.displayName = userStore.displayName || '';
+    formData.displayName = userStore.userDetails?.displayName || '';
     formData.email = userStore.userDetails?.email || '';
+    formData.phone = userStore.userDetails?.phone || '';
+    formData.department = userStore.userDetails?.department || '';
 
-    // Fetch additional user data based on role
-    if (userStore.userDetails?.role === 'admin') {
+    // If we need institution data, we can fetch it once based on the institutionId from userDetails
+    if (userStore.userDetails?.institutionId && !institutionData.value) {
       try {
-        adminData.value = await useNuxtApp().$api.get(`/Admin/user/${userId}`);
-        formData.department = adminData.value.department || '';
-        formData.phone = adminData.value.phone || '';
-
-        if (adminData.value.institutionId) {
-          institutionData.value = await useNuxtApp().$api.get(
-            `/Institutions/${adminData.value.institutionId}`
-          );
-        }
-      } catch (adminError) {
-        console.error('Error fetching admin data:', adminError);
+        institutionData.value = await useNuxtApp().$api.get(
+          `/Institutions/${userStore.userDetails.institutionId}`
+        );
+      } catch (instError) {
+        console.error('Error fetching institution data:', instError);
       }
-    } else if (userStore.userDetails?.role === 'student') {
-      try {
-        studentData.value = await useNuxtApp().$api.get(`/Students/${userId}`);
-
-        // Get institution data (school or university)
-        const institutionId =
-          studentData.value.schoolId || studentData.value.universityId;
-        if (institutionId) {
-          institutionData.value = await useNuxtApp().$api.get(
-            `/Institutions/${institutionId}`
-          );
-        }
-      } catch (studentError) {
-        console.error('Error fetching student data:', studentError);
-      }
-    }
-
-    // Try to get profile image if available
-    try {
-      const imageResponse = await useNuxtApp().$api.get(
-        `/User/${userId}/avatar`
-      );
-      if (imageResponse && imageResponse.url) {
-        profileImageUrl.value = imageResponse.url;
-      }
-    } catch (imageError) {
-      // Just ignore if profile image isn't available
-      console.log('No profile image available', imageError);
     }
   } catch (err) {
     error.value = err.message || t('settings.errors.loadError');
