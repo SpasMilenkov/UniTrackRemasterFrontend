@@ -6,7 +6,6 @@
   --color-secondary: theme('colors.secondary.DEFAULT');
   --color-secondary-light: theme('colors.secondary.light');
   --color-secondary-dark: theme('colors.secondary.dark');
-
   /* Background Colors */
   --color-background: theme('colors.background.DEFAULT');
   --color-background-secondary: theme('colors.background.secondary');
@@ -62,6 +61,9 @@
   --color-text-primary-rgb: 31, 41, 55;
   --color-text-secondary-rgb: 75, 85, 99;
   --color-border-rgb: 229, 231, 235;
+}
+* {
+  border-color: var(--color-border);
 }
 
 /* Animation Keyframes */
@@ -173,9 +175,9 @@ body {
   border-color: var(--color-border) !important;
 }
 
-.n-select {
+/* .n-select {
   border-color: var(--color-border) !important;
-}
+} */
 
 .upload-container {
   background-color: var(--color-background-secondary) !important;
@@ -470,18 +472,6 @@ body {
   color: var(--color-text-tertiary) !important;
 }
 
-/* Select styling */
-.n-select {
-  border: 1px solid rgba(var(--color-primary-rgb), 0.1) !important;
-}
-
-.n-select:hover,
-.n-select:focus,
-.n-select--focus {
-  border-color: rgba(var(--color-primary-rgb), 0.5) !important;
-  box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1) !important;
-}
-
 .n-select-menu {
   background-color: var(--color-background-card) !important;
   border: 1px solid rgba(var(--color-primary-rgb), 0.1) !important;
@@ -615,4 +605,10 @@ body {
 
 .n-switch.n-switch--loading .n-switch__button {
   border-color: var(--color-primary) !important;
+}
+
+.n-base-selection .n-base-selection-tags {
+  background-color: var(--color-background-secondary) !important;
+  border: 1px solid rgba(var(--color-border-rgb), 0.1) !important;
+  color: var(--color-text-primary) !important;
 }
